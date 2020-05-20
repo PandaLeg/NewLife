@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Life</title>
+    <meta charset="UTF-8">
+    <script th:inline="javascript">
+        var dataClinic = [[${dataClinic}]];
+    </script>
+</head>
+<body>
+<div id="main"></div>
+<script th:src="${isDevMode} ? 'http://localhost:8000/main.js' : '/js/main.js'"></script>
+</body>
+</html>

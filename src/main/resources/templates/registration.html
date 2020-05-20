@@ -1,0 +1,16 @@
+<!DOCTYPE>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>New Life</title>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script th:inline="javascript">
+        var regData = [[${regData}]];
+    </script>
+</head>
+<body>
+<div id="registration"></div>
+<script th:src="${isDevMode} ? 'http://localhost:8000/registration.js' : '/js/registration.js'"></script>
+</body>
+</html>
