@@ -43,6 +43,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="password"
                                         id="password-input-2"
                                         name="password-input-2"
                                         placeholder="Password"
@@ -61,18 +62,18 @@
                             </div>
                         </div>
                     </b-form-group>
-
                 </validation-provider>
 
                 <validation-provider
                         name="email"
-                        :rules="{ required: true, min: 5}"
+                        :rules="{ required: true, min: 6}"
                         v-slot="validationContext"
                 >
                     <b-form-group id="input-group-3">
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="email"
                                         id="email-input-3"
                                         name="email-input-3"
                                         placeholder="root@gmail.com"
@@ -82,12 +83,67 @@
                                         aria-describedby="input-3-live-feedback"
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-3-live-feedback">Email не может быть пустым!
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
+                                    Email не может быть пустым!
+                                </b-form-invalid-feedback>
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-else>
+                                    Email не может быть меньше 6 символов(включая @)
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
                     </b-form-group>
                 </validation-provider>
+
+                <validation-provider
+                        name="firstName"
+                        :rules="{ required: true, min: 2}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-4">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="name-input-4"
+                                        name="name-input-4"
+                                        placeholder="Name"
+                                        class="form-control"
+                                        v-model="firstName"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-4-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-4-live-feedback">Пожалуйста, введите Имя
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="surname"
+                        :rules="{ required: true, min: 3}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-5">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="surname-input-5"
+                                        name="surname-input-5"
+                                        placeholder="Surname"
+                                        class="form-control"
+                                        v-model="surname"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-5-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-5-live-feedback">Пожалуйста, введите Фамилию
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
                 <div class="form-group row">
                     <div class="col-sm-4">
                         <input type="submit" class="btn btn-primary" value="Create" @click="savePatient">
@@ -105,12 +161,15 @@
                 id: '',
                 username: '',
                 password: '',
-                email: ''
+                email: '',
+                firstName: '',
+                surname: ''
             }
         },
         methods: {
             savePatient() {
-                let patient = {username: this.username, password: this.password, email: this.email};
+                let patient = {username: this.username, password: this.password, email: this.email,
+                firstName: this.firstName, surname: this.surname};
 
                 this.$resource('/registration-patient').save({}, patient).then(result =>
                     result.json().then(data => {
@@ -118,6 +177,8 @@
                         this.username = "";
                         this.password = "";
                         this.email = "";
+                        this.firstName = "";
+                        this.surname = "";
                     }, result => {
                         console.log(result);
                     })
@@ -135,7 +196,7 @@
 
 <style>
     body {
-        padding: 1rem;
+
     }
     #container{
         margin-left: 550px;

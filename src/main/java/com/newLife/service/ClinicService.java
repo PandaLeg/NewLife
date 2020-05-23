@@ -2,6 +2,7 @@ package com.newLife.service;
 
 import com.newLife.domain.Clinic;
 import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
 import com.newLife.domain.Request;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.RequestRepo;
@@ -19,10 +20,16 @@ public class ClinicService {
         this.clinicRepo = clinicRepo;
     }
 
-    public Request sendRequest(Doctor doctor, Clinic clinic) {
+    public Request sendRequest(Doctor doctor, Patient patient, Clinic clinic) {
         Request request = new Request();
 
-        request.setDoctor(doctor);
+        if(doctor != null) {
+            request.setDoctor(doctor);
+        }
+        if(patient != null){
+            request.setPatient(patient);
+        }
+
         request.setClinic(clinic);
         request.setMessage("Приймите меня!");
 
@@ -32,10 +39,15 @@ public class ClinicService {
 
     public void accept(Request request) {
         Clinic clinicFromBD = request.getClinic();
-        Doctor doctorFromBd = request.getDoctor();
+        Doctor doctorFromBD = request.getDoctor();
+        Patient patientFromBD = request.getPatient();
 
-
-        clinicFromBD.getDoctors().add(doctorFromBd);
+        if(doctorFromBD != null) {
+            clinicFromBD.getDoctors().add(doctorFromBD);
+        }
+        if(patientFromBD != null){
+            clinicFromBD.getPatients().add(patientFromBD);
+        }
 
         clinicRepo.save(clinicFromBD);
         requestRepo.delete(request);

@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -27,7 +28,8 @@ public class Doctor implements UserDetails, Serializable {
     @NotBlank(message = "password can't be empty!")
     private String password;
     private String email;
-    private String fio;
+    private String firstName;
+    private String surname;
     private String position;
     private String experience;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -39,14 +41,24 @@ public class Doctor implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    @ManyToMany
+    @JoinTable(
+            name = "doctors_patients",
+            // Тобишь тут мы выступаем в роли кого-то(doctor), на кого подписываются(patient)
+            joinColumns = { @JoinColumn(name = "doctor_id") },
+            inverseJoinColumns = { @JoinColumn(name = "patient_id") }
+    )
+    private Set<Patient> patients = new HashSet<>();
+
     public Doctor() {
     }
 
-    public Doctor(String username, String password, String email, String fio, String position) {
+    public Doctor(String username, String password, String email, String firstName, String surname, String position) {
         this.username = username;
         this.password = password;
         this.email = email;
-        this.fio = fio;
+        this.firstName = firstName;
+        this.surname = surname;
         this.position = position;
     }
 
@@ -84,12 +96,20 @@ public class Doctor implements UserDetails, Serializable {
         this.email = email;
     }
 
-    public String getFio() {
-        return fio;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFio(String fio) {
-        this.fio = fio;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPosition() {
@@ -130,6 +150,14 @@ public class Doctor implements UserDetails, Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
     }
 
     @Override

@@ -23,7 +23,8 @@ create table doctor (
     active boolean not null,
     email varchar(255) not null,
     experience varchar(255),
-    fio varchar(255) not null,
+    first_name varchar(255) not null,
+    surname varchar(255) not null,
     last_visit timestamp,
     password varchar(255) not null,
     position varchar(255) not null,
@@ -41,6 +42,8 @@ create table patient (
     username varchar(255) not null,
     password varchar(255) not null,
     email varchar(255) not null,
+    first_name varchar(255) not null,
+    surname varchar(255) not null,
     active boolean not null,
     last_visit timestamp,
     primary key (id)

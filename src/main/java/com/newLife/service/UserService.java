@@ -7,10 +7,13 @@ import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -42,5 +45,18 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("Username not found!");
         }
 
+    }
+
+    public void getAllProfiles(Clinic clinic,
+                               Doctor doctor,
+                               Patient patient,
+                               HashMap<Object, Object> data) {
+        if (clinic != null) {
+            data.put("profileClinic", clinic);
+        } else if (doctor != null) {
+            data.put("profileDoctor", doctor);
+        } else {
+            data.put("profilePatient", patient);
+        }
     }
 }

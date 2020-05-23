@@ -3,6 +3,7 @@ package com.newLife.controller;
 
 import com.newLife.domain.Clinic;
 import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
 import com.newLife.domain.Request;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.RequestRepo;
@@ -47,14 +48,20 @@ public class ClinicController {
         return clinic.getDoctors();
     }
 
-    @PostMapping("/send-request/{id}")
-    public Request sendRequest(
-            @PathVariable("id") Clinic clinic,
-            @AuthenticationPrincipal Doctor doctor) {
-        return clinicService.sendRequest(doctor, clinic);
+    @GetMapping("/patients-clinic-list")
+    public Set<Patient> getAllPatientsOfClinic(@AuthenticationPrincipal Clinic clinic) {
+        return clinic.getPatients();
     }
 
-    @DeleteMapping("/request-accept/{id}")
+    @PostMapping("/send-request-clinic/{id}")
+    public Request sendRequest(
+            @PathVariable("id") Clinic clinic,
+            @AuthenticationPrincipal Doctor doctor,
+            @AuthenticationPrincipal Patient patient) {
+        return clinicService.sendRequest(doctor, patient, clinic);
+    }
+
+    @DeleteMapping("/accept-request-clinic/{id}")
     public void acceptRequest(
             @PathVariable("id") Request request) {
         clinicService.accept(request);

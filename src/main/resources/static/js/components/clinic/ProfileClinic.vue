@@ -1,40 +1,44 @@
 <template>
     <div>
-        <h4>{{ profileClinic.username }}</h4>
+        <h4>{{ currentProfileClinic.username }}</h4>
         <br>
-        <label>{{ profileClinic.nameClinic }}</label>
+        <label>{{ currentProfileClinic.nameClinic }}</label>
         <br>
-        <label>{{ profileClinic.address }}</label>
+        <label>{{ currentProfileClinic.address }}</label>
         <br>
         <div v-if="check">
-            <input type="button" @click="saveRequest" value="Send Request!"/>
+            <input type="button" class="btn btn-primary" @click="saveRequest" value="Send Request!"/>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        props: ['profileClinic', 'check', 'profileDoctor'],
+        props: ['currentProfileClinic', 'check', 'profileDoctor', 'profilePatient'],
         data(){
             return{
                 id: '',
                 idDoctor: 0,
                 idClinic: 0,
+                idPatient: 0,
                 message: ''
             }
         },
         created() {
-            this.idClinic = this.profileClinic.id;
+            this.idClinic = this.currentProfileClinic.id;
             if(this.profileDoctor != null) {
                 this.idDoctor = this.profileDoctor.id;
             }
-            console.log(this.idClinic, this.idDoctor)
+            if(this.profilePatient != null) {
+                this.idPatient = this.profilePatient.id;
+            }
+            console.log(this.idClinic, this.idDoctor, this.idPatient)
         },
         methods:{
             saveRequest() {
-                let request = {idDoctor: this.idDoctor};
+                let request = {idDoctor: this.idDoctor, idPatient: this.idPatient};
 
-                this.$resource('/send-request/{id}').save({id: this.idClinic}, request).then(result =>
+                this.$resource('/send-request-clinic/{id}').save({id: this.idClinic}, request).then(result =>
                     result.json().then(data => {
                         console.log(data);
                     })

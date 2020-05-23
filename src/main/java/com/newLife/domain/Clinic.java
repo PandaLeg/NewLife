@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class Clinic implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "clinic_doctors",
             // Тобишь тут мы выступаем в роли кого-то(clinic), на кого подписываются(doctor)
@@ -47,6 +48,15 @@ public class Clinic implements UserDetails, Serializable {
             inverseJoinColumns = { @JoinColumn(name = "doctor_id") }
     )
     private Set<Doctor> doctors = new HashSet<>();
+
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "clinic_patients",
+            // Тобишь тут мы выступаем в роли кого-то(clinic), на кого подписываются(doctor)
+            joinColumns = { @JoinColumn(name = "clinic_id") },
+            inverseJoinColumns = { @JoinColumn(name = "patient_id") }
+    )
+    private Set<Patient> patients = new HashSet<>();
 
     public Clinic() {
     }
@@ -147,6 +157,14 @@ public class Clinic implements UserDetails, Serializable {
 
     public void setDoctors(Set<Doctor> doctors) {
         this.doctors = doctors;
+    }
+
+    public Set<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(Set<Patient> patients) {
+        this.patients = patients;
     }
 
     @Override

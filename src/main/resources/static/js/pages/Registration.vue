@@ -1,11 +1,11 @@
 <template>
     <div>
+        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
+        </nav-bar>
         <div v-if="checkClinic">
-            <h1>Registration clinic!</h1>
             <registration-clinic-form></registration-clinic-form>
         </div>
         <div v-else-if="checkDoctor">
-            <h1>Registration doctor!</h1>
             <registration-doctor-form></registration-doctor-form>
         </div>
         <div v-else>
@@ -18,17 +18,22 @@
     import RegistrationClinicForm from 'components/registration/RegistrationClinicForm.vue'
     import RegistrationDoctorForm from 'components/registration/RegistrationDoctorForm.vue'
     import RegistrationPatientForm from 'components/registration/RegistrationPatientForm.vue'
+    import NavBar from 'components/navbar/NavBar.vue'
 
     export default {
         components:{
             RegistrationClinicForm,
             RegistrationDoctorForm,
-            RegistrationPatientForm
+            RegistrationPatientForm,
+            NavBar
         },
         data(){
             return {
                 checkClinic: regData.checkClinic,
-                checkDoctor: regData.checkDoctor
+                checkDoctor: regData.checkDoctor,
+                profileClinic: null,
+                profileDoctor: null,
+                profilePatient: null
             }
         }
     }

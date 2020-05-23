@@ -1,21 +1,183 @@
 <template>
-    <div>
-        <label>Username: </label>
-        <input type="text" v-model="username" placeholder="Username"/>
-        <br>
-        <label>Password: </label>
-        <input type="password" v-model="password" placeholder="Password"/>
-        <br>
-        <label>Email: </label>
-        <input type="email" v-model="email" placeholder="Email"/>
-        <br>
-        <label>FIO: </label>
-        <input type="text" v-model="fio" placeholder="FIO"/>
-        <br>
-        <label>Position: </label>
-        <input type="text" v-model="position" placeholder="Position"/>
-        <br>
-        <input type="button" value="Create" @click="saveDoctor">
+    <div id="container" class="container mt-4">
+        <validation-observer ref="observer" v-slot="{ handleSubmit }">
+            <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
+                <h1 id="h-header">Registration doctor!</h1>
+                <validation-provider
+                        name="username"
+                        :rules="{ required: true, min: 3 }"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-1">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="username-input-1"
+                                        name="username-input-1"
+                                        placeholder="Username"
+                                        class="form-control"
+                                        v-model="username"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-1-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-1-live-feedback"
+                                                         v-if="username === ''">
+                                    Имя пользователя не может быть пустым!
+                                </b-form-invalid-feedback>
+                                <b-form-invalid-feedback id="input-1-live-feedback" v-else>
+                                    Имя пользователя должно быть не меньше трёх символов!
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="password"
+                        :rules="{ required: true, min: 1 }"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-2">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        type="password"
+                                        id="password-input-2"
+                                        name="password-input-2"
+                                        placeholder="Password"
+                                        class="form-control"
+                                        v-model="password"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-2-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password === ''">
+                                    Пароль не может быть пустым!
+                                </b-form-invalid-feedback>
+                                <!--<b-form-invalid-feedback id="input-2-live-feedback" v-else>
+                                    Пароль должно быть не меньше трёх символов
+                                </b-form-invalid-feedback>-->
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="email"
+                        :rules="{ required: true, min: 6}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-3">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        type="email"
+                                        id="email-input-3"
+                                        name="email-input-3"
+                                        placeholder="root@gmail.com"
+                                        class="form-control"
+                                        v-model="email"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-3-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
+                                    Email не может быть пустым!
+                                </b-form-invalid-feedback>
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-else>
+                                    Email не может быть меньше 6 символов(включая @)
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="firstName"
+                        :rules="{ required: true, min: 2}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-4">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="name-input-4"
+                                        name="name-input-4"
+                                        placeholder="Name"
+                                        class="form-control"
+                                        v-model="firstName"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-4-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-4-live-feedback">Пожалуйста, введите Имя
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="surname"
+                        :rules="{ required: true, min: 3}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-5">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="surname-input-5"
+                                        name="surname-input-5"
+                                        placeholder="Surname"
+                                        class="form-control"
+                                        v-model="surname"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-5-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-5-live-feedback">Пожалуйста, введите Фамилию
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+
+                <validation-provider
+                        name="position"
+                        :rules="{ required: true, min: 3}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-6">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        id="position-input-6"
+                                        name="position-input-6"
+                                        placeholder="Position"
+                                        class="form-control"
+                                        v-model="position"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-5-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-6-live-feedback" v-if="position === ''">
+                                    Пожалуйста, введите должность
+                                </b-form-invalid-feedback>
+                                <b-form-invalid-feedback id="input-6-live-feedback" v-else>
+                                    Должность должна быть не меньше трёх символов
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
+                <div class="form-group row">
+                    <div class="col-sm-4">
+                        <input type="submit" class="btn btn-primary" value="Create" @click="saveDoctor">
+                    </div>
+                </div>
+            </b-form>
+        </validation-observer>
     </div>
 </template>
 
@@ -27,7 +189,8 @@
                 username: '',
                 password: '',
                 email: '',
-                fio: '',
+                firstName: '',
+                surname: '',
                 position: ''
             }
         },
@@ -35,7 +198,7 @@
             saveDoctor() {
                 let doctor = {
                     username: this.username, password: this.password, email: this.email,
-                    fio: this.fio, position: this.position
+                    firstName: this.firstName, surname: this.surname, position: this.position
                 };
 
                 this.$resource('/registration-doctor').save({}, doctor).then(result =>
@@ -44,10 +207,17 @@
                         this.username = "";
                         this.password = "";
                         this.email = "";
-                        this.fio = "";
+                        this.firstName = "";
+                        this.surname = "";
                         this.position = "";
                     })
                 )
+            },
+            getValidationState({ dirty, validated, valid = null }) {
+                return dirty || validated ? valid : null;
+            },
+            onSubmit() {
+
             }
         }
     }

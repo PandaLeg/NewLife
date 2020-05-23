@@ -1,6 +1,5 @@
 <template>
     <div>
-        <a href="/">Главная</a>
         <request-row v-for="request in requests"
                      :key="request.id"
                      :request="request"

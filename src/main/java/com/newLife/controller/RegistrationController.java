@@ -1,13 +1,10 @@
 package com.newLife.controller;
 
-import com.newLife.domain.Clinic;
-import com.newLife.domain.Doctor;
-import com.newLife.domain.Patient;
-import com.newLife.domain.Role;
+import com.newLife.domain.*;
+import com.newLife.repo.ChildRepo;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,13 +20,15 @@ public class RegistrationController {
     private final DoctorRepo doctorRepo;
     private final PasswordEncoder passwordEncoder;
     private final PatientRepo patientRepo;
+    private final ChildRepo childRepo;
 
     public RegistrationController(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PasswordEncoder passwordEncoder,
-                                  PatientRepo patientRepo) {
+                                  PatientRepo patientRepo, ChildRepo childRepo) {
         this.clinicRepo = clinicRepo;
         this.doctorRepo = doctorRepo;
         this.passwordEncoder = passwordEncoder;
         this.patientRepo = patientRepo;
+        this.childRepo = childRepo;
     }
 
     @PostMapping("/registration-clinic")
@@ -58,7 +57,6 @@ public class RegistrationController {
         patient.setLastVisit(LocalDateTime.now());
         patient.setRoles(Collections.singleton(Role.Patient));
         patient.setPassword(passwordEncoder.encode(patient.getPassword()));
-
         return patientRepo.save(patient);
     }
 }

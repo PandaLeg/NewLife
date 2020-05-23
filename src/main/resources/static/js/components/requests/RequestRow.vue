@@ -3,11 +3,14 @@
         <label> {{ request.message }}</label>
         <div v-if="profileClinic">
             <span>
-                <input type="button" value="Save" @click="ClinicToDoctor">
+                <input type="button" class="btn btn-info" value="Save" @click="ClinicToDoctorOrPatient">
             </span>
         </div>
         <div v-else-if="profileDoctor">
             <span>
+                <span>
+                <input type="button" class="btn btn-info" value="Save" @click="DoctorToPatient">
+            </span>
             </span>
         </div>
         <br>
@@ -16,7 +19,7 @@
 
 <script>
     export default {
-        props: ['request', 'profileClinic', 'profileDoctor', 'requests'],
+        props: ['request', 'profileClinic', 'profileDoctor', 'profilePatient', 'requests'],
         data(){
             return{
                 id: null
@@ -26,14 +29,22 @@
             this.id = this.request.id;
         },
         methods:{
-            ClinicToDoctor() {
-                this.$resource('/request-accept{/id}').delete({id: this.id}).then(result => {
+            ClinicToDoctorOrPatient() {
+                this.$resource('/accept-request-clinic{/id}').delete({id: this.id}).then(result => {
                         if(result.ok){
                             console.log(result);
                             this.requests.splice(this.requests.indexOf(this.request), 1);
                         }
                     }
                 )
+            },
+            DoctorToPatient(){
+                this.$resource('/accept-request-doctor{/id}').delete({id: this.id}).then(result =>{
+                    if(result.ok){
+                        console.log(result);
+                        this.requests.splice(this.requests.indexOf(this.request),1);
+                    }
+                })
             }
         }
     }

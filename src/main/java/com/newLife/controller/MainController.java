@@ -3,6 +3,7 @@ package com.newLife.controller;
 import com.newLife.domain.Clinic;
 import com.newLife.domain.Doctor;
 import com.newLife.domain.Patient;
+import com.newLife.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,14 @@ import java.util.HashMap;
 
 @Controller
 public class MainController {
+    private final UserService userService;
 
     @Value("${spring.profiles.active}")
     private String profile;
+
+    public MainController(UserService userService) {
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String main(
@@ -27,13 +33,7 @@ public class MainController {
             Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
-        if (clinic != null) {
-            data.put("profileClinic", clinic);
-        } else if (doctor != null) {
-            data.put("profileDoctor", doctor);
-        } else {
-            data.put("profilePatient", patient);
-        }
+        userService.getAllProfiles(clinic, doctor, patient, data);
         model.addAttribute("isDevMode", "dev".equals(profile));
         model.addAttribute("dataClinic", data);
         return "main";

@@ -28,6 +28,8 @@ public class Patient implements UserDetails, Serializable {
     @NotBlank(message = "password can't be empty!")
     private String password;
     private String email;
+    private String firstName;
+    private String surname;
     private boolean active;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime lastVisit;
@@ -40,10 +42,12 @@ public class Patient implements UserDetails, Serializable {
     public Patient() {
     }
 
-    public Patient(String username, String password, String email) {
+    public Patient(String username, String password, String email, String firstName, String surname) {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.firstName = firstName;
+        this.surname = surname;
     }
 
     public Long getId() {
@@ -72,6 +76,22 @@ public class Patient implements UserDetails, Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public boolean isActive() {

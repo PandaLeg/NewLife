@@ -3,8 +3,10 @@ package com.newLife.controller;
 
 import com.newLife.domain.Clinic;
 import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.RequestRepo;
+import com.newLife.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,22 +18,34 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.HashMap;
 
 @Controller
-public class UserController {
+public class UserClinicController {
     private final ClinicRepo clinicRepo;
     private final RequestRepo requestRepo;
+    private final UserService userService;
 
     @Value("${spring.profiles.active}")
     private String profile;
 
     @Autowired
-    public UserController(ClinicRepo clinicRepo, RequestRepo requestRepo) {
+    public UserClinicController(ClinicRepo clinicRepo, RequestRepo requestRepo, UserService userService) {
         this.clinicRepo = clinicRepo;
         this.requestRepo = requestRepo;
+        this.userService = userService;
     }
 
     @GetMapping("/clinics")
-    public String allClinic(Model model) {
-        model.addAttribute("clinicData", clinicRepo.findAll());
+    public String allClinic(
+            @AuthenticationPrincipal Clinic clinic,
+            @AuthenticationPrincipal Doctor doctor,
+            @AuthenticationPrincipal Patient patient,
+            Model model) {
+        HashMap<Object, Object> data = new HashMap<>();
+
+        userService.getAllProfiles(clinic, doctor, patient, data);
+
+        data.put("allClinics", clinicRepo.findAll());
+
+        model.addAttribute("clinicData", data);
         model.addAttribute("isDevMode", "dev".equals(profile));
         return "clinic";
     }
@@ -41,21 +55,20 @@ public class UserController {
             @PathVariable("id") Clinic clinic,
             @AuthenticationPrincipal Clinic currentClinic,
             @AuthenticationPrincipal Doctor currentDoctor,
+            @AuthenticationPrincipal Patient currentPatient,
             Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
-        data.put("clinicProfile", clinic);
+        data.put("currentProfileClinic", clinic);
 
         if (currentClinic != null) {
             data.put("checkRole", false);
         } else {
             data.put("checkRole", true);
         }
-        if (currentDoctor != null) {
-            data.put("doctorProfile", currentDoctor);
-        } else {
-            data.put("doctorProfile", null);
-        }
+
+        userService.getAllProfiles(currentClinic, currentDoctor, currentPatient, data);
+
         model.addAttribute("isDevMode", "dev".equals(profile));
         model.addAttribute("profileData", data);
         return "clinicProfile";
@@ -65,6 +78,7 @@ public class UserController {
     public String request(
             @AuthenticationPrincipal Clinic clinic,
             @AuthenticationPrincipal Doctor doctor,
+            @AuthenticationPrincipal Patient patient,
             Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
@@ -78,6 +92,8 @@ public class UserController {
             data.put("requests", null);
         }
 
+        data.put("profilePatient", patient);
+
         model.addAttribute("isDevMode", "dev".equals(profile));
         model.addAttribute("requestData", data);
         return "listRequest";
@@ -86,18 +102,44 @@ public class UserController {
     @GetMapping("/list-doctors")
     public String doctors(
             @AuthenticationPrincipal Clinic clinic,
+            @AuthenticationPrincipal Doctor doctor,
+            @AuthenticationPrincipal Patient patient,
             Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
         data.put("doctors", clinic.getDoctors());
+
+        userService.getAllProfiles(clinic, doctor, patient, data);
 
         model.addAttribute("isDevMode", "dev".equals(profile));
         model.addAttribute("doctorData", data);
         return "listDoctors";
     }
 
+    @GetMapping("/list-patients")
+    public String patients(
+            @AuthenticationPrincipal Clinic clinic,
+            @AuthenticationPrincipal Doctor doctor,
+            @AuthenticationPrincipal Patient patient,
+            Model model
+    ) {
+        HashMap<Object, Object> data = new HashMap<>();
 
-    // Этот метод был сделан для того, чтобы вернуть id клиники, к которой привязан текущий доктор
+        if(clinic != null) {
+            data.put("patients", clinic.getPatients());
+        }
+        if(doctor != null) {
+            data.put("patients", doctor.getPatients());
+        }
+        userService.getAllProfiles(clinic, doctor, patient, data);
+
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        model.addAttribute("patientData", data);
+
+        return "listPatients";
+    }
+
+    /*// Этот метод был сделан для того, чтобы вернуть id клиники, к которой привязан текущий доктор
     @GetMapping("/doctor-clinic")
     public String getClinic(
             @AuthenticationPrincipal Doctor doctor) {
@@ -105,5 +147,5 @@ public class UserController {
 
         System.out.println(byId);
         return "listClinic";
-    }
+    }*/
 }
