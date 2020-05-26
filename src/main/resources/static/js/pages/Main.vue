@@ -1,6 +1,7 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
         <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
+
         </nav-bar>
         <div v-if="!profileClinic && !profileDoctor && !profilePatient">
             <h1>Приветствую вас!</h1>

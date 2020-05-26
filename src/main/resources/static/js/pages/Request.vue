@@ -1,6 +1,7 @@
 <template>
     <div>
-        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
+        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor"
+                 :profilePatient="profilePatient">
         </nav-bar>
         <requests-list :requests="requests"
                        :profileClinic="profileClinic"

@@ -7,10 +7,15 @@
 <script>
     import ClinicRow from './ClinicRow.vue'
     export default {
+        name: 'clinics',
         components:{
             ClinicRow
         },
-        props: ['clinics']
+        data(){
+            return{
+                clinics: clinicData.allClinics,
+            }
+        }
     }
 </script>
 

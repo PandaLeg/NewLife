@@ -14,7 +14,6 @@
 
 <script>
     export default {
-        props: ['currentProfileClinic', 'check', 'profileDoctor', 'profilePatient'],
         data(){
             return{
                 id: '',

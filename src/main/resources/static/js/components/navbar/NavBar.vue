@@ -43,7 +43,7 @@
                         <template v-slot:button-content>
                             <em>{{profileDoctor.username}}</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item> Profile </b-dropdown-item>
                         <b-dropdown-item href="/logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
                     <b-nav-item-dropdown right v-if="profilePatient">
@@ -51,10 +51,11 @@
                         <template v-slot:button-content>
                             <em>{{profilePatient.username}}</em>
                         </template>
-                        <b-dropdown-item href="#">Profile</b-dropdown-item>
+                        <b-dropdown-item>
+
+                        </b-dropdown-item>
                         <b-dropdown-item href="/logout">Sign Out</b-dropdown-item>
                     </b-nav-item-dropdown>
-
                 </b-navbar-nav>
             </b-collapse>
             <div class="navbar-text mr-3" v-if="!profileClinic && !profileDoctor && !profilePatient">
@@ -69,7 +70,34 @@
 
 <script>
     export default {
-        props: ['profileClinic', 'profileDoctor', 'profilePatient']
+        props: ['profileClinic', 'profileDoctor', 'profilePatient'],
+        data() {
+            return{
+                currentProfPatient: '3',
+                idClinic: 0,
+                idDoctor: 0,
+                idPatient: 0
+            }
+        },
+        created(){
+            if(this.profileClinic != null) {
+                this.idClinic = this.profileClinic.id;
+            }
+            if(this.profileDoctor != null) {
+                this.idDoctor = this.profileDoctor.id;
+            }
+            if(this.profilePatient != null) {
+                this.idPatient = this.profilePatient.id;
+            }
+            /*if(this.currentProfilePatient != null){
+                this.currentProfPatient = this.currentProfilePatient.id;
+            }*/
+        },
+        methods:{
+            /*showPatientProfile(){
+                this.$router.push({name: 'patient', params: { idPatient: '3' } })
+            }*/
+        }
     }
 </script>
 

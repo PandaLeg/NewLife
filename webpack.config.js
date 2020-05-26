@@ -11,6 +11,7 @@ module.exports = {
         clinic: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'clinic.js'),
         clinicProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'clinicProfile.js'),
         doctorProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'doctorProfile.js'),
+        patientProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'patientProfile.js'),
         request: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'request.js'),
         listDoctors: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'listDoctors.js'),
         listPatients: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'listPatients.js'),

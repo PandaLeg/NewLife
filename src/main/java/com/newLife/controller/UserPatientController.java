@@ -10,6 +10,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.HashMap;
 
@@ -26,12 +27,30 @@ public class UserPatientController {
         this.childRepo = childRepo;
     }
 
+    @GetMapping("/patient-profile/{id}")
+    public String patientProfile(
+            @PathVariable(value = "id") Patient patient,
+            @AuthenticationPrincipal Patient currentPatient,
+            @AuthenticationPrincipal Clinic currentClinic,
+            @AuthenticationPrincipal Doctor currentDoctor,
+            Model model) {
+        HashMap<Object, Object> data = new HashMap<>();
+
+        data.put("currentProfilePatient", patient);
+
+        userService.getAllProfiles(currentClinic, currentDoctor, currentPatient, data);
+
+        model.addAttribute("isDevMode", "dev".equals(profile));
+        model.addAttribute("profileData", data);
+        return "patientProfile";
+    }
+
     @GetMapping("/state")
     public String getState(
             @AuthenticationPrincipal Patient patient,
             @AuthenticationPrincipal Clinic clinic,
             @AuthenticationPrincipal Doctor doctor,
-            Model model){
+            Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
         data.put("children", childRepo.findByPatient_Id(patient.getId()));
@@ -47,7 +66,7 @@ public class UserPatientController {
             @AuthenticationPrincipal Patient patient,
             @AuthenticationPrincipal Clinic clinic,
             @AuthenticationPrincipal Doctor doctor,
-            Model model){
+            Model model) {
         HashMap<Object, Object> data = new HashMap<>();
 
         data.put("patient", patient);

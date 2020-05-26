@@ -1,23 +1,24 @@
 <template>
     <div>
         <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
+
         </nav-bar>
-        <clinics-list :clinics="clinics"></clinics-list>
+        <!--<clinics-list :clinics="clinics"></clinics-list>-->
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
-    import ClinicsList from 'components/clinic/ClinicsList.vue'
+    /*import ClinicsList from 'components/clinic/ClinicsList.vue'*/
     import NavBar from 'components/navbar/NavBar.vue'
 
     export default {
         components:{
-            ClinicsList,
+            /*ClinicsList,*/
             NavBar
         },
         data(){
             return {
-                clinics: clinicData.allClinics,
                 profileClinic: clinicData.profileClinic,
                 profileDoctor: clinicData.profileDoctor,
                 profilePatient: clinicData.profilePatient

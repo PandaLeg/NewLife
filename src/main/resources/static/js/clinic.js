@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import Clinic from 'pages/Clinic.vue'
+import router from 'router/router'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 import 'bootstrap/dist/css/bootstrap.css';
@@ -11,6 +12,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 
 new Vue({
-   el: "#clinic",
+    el: "#clinic",
+    router,
     render: a => a(Clinic)
 });

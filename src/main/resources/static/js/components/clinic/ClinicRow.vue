@@ -1,6 +1,6 @@
 <template>
     <div>
-    <a href="">{{clinic.nameClinic}}</a>
+        <router-link to="/clinic-profile/1"> {{ clinic.nameClinic }}</router-link>
     </div>
 </template>
 
@@ -9,6 +9,11 @@
         props: ['clinic'],
         created() {
             console.log(this.clinic.id);
+        },
+        methods: {
+            showClinicProfile() {
+
+            }
         }
     }
 </script>
