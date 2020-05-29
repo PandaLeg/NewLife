@@ -4,15 +4,17 @@
 
         </nav-bar>
         <div v-if="!profileClinic && !profileDoctor && !profilePatient">
-            <h1>Приветствую вас!</h1>
+
         </div>
         <div v-else>
-            <messages-list :messages="messages"></messages-list>
+            <!--<messages-list></messages-list>-->
         </div>
+        <router-view></router-view>
     </div>
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     import MessagesList from 'components/main/MessagesList.vue'
     import NavBar from 'components/navbar/NavBar.vue'
 
@@ -21,16 +23,8 @@
             MessagesList,
             NavBar
         },
-        data() {
-            return {
-                profileClinic: dataClinic.profileClinic,
-                profileDoctor: dataClinic.profileDoctor,
-                profilePatient: dataClinic.profilePatient,
-                messages: [
-                    {id: 1, text: 'Первый тост за localhost'},
-                    {id: 2, text: 'Wow!So nice'}
-                ],
-            }
+        computed: {
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
         }
     }
 </script>

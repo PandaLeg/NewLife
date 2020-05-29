@@ -12,6 +12,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="username-input-1"
                                         name="username-input-1"
                                         placeholder="Username"
@@ -101,6 +102,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="nameClinic-input-4"
                                         name="nameClinic-input-4"
                                         placeholder="Name Clinic"
@@ -110,7 +112,8 @@
                                         aria-describedby="input-4-live-feedback"
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-4-live-feedback">Пожалуйста, введите название клиники
+                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="nameClinic === ''">Пожалуйста,
+                                    введите название клиники
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -126,6 +129,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="nameClinic-input-5"
                                         name="nameClinic-input-5"
                                         placeholder="Address Clinic"
@@ -135,7 +139,8 @@
                                         aria-describedby="input-5-live-feedback"
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-5-live-feedback">Пожалуйста, введите адрес клиники
+                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="address === ''">Пожалуйста,
+                                    введите адрес клиники
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -179,6 +184,9 @@
                         this.email = "";
                         this.nameClinic = "";
                         this.address = "";
+                        this.$router.push('/login');
+                    }, result => {
+                        console.log(result);
                     })
                 )
             },

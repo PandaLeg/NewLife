@@ -1,8 +1,5 @@
 <template>
     <div>
-        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor"
-                 :profilePatient="profilePatient">
-        </nav-bar>
         <requests-list :requests="requests"
                        :profileClinic="profileClinic"
                        :profileDoctor="profileDoctor"
@@ -12,20 +9,31 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     import RequestsList from 'components/requests/RequestsList.vue'
-    import NavBar from 'components/navbar/NavBar.vue'
 
     export default {
         components:{
-            RequestsList,
-            NavBar
+            RequestsList
         },
         data() {
             return {
-                requests: requestData.requests,
-                profileClinic: requestData.profileClinic,
-                profileDoctor: requestData.profileDoctor,
-                profilePatient: requestData.profilePatient
+                requests: null
+            }
+        },
+        created(){
+            this.getAllRequests();
+        },
+        computed:{
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
+        },
+        methods:{
+            getAllRequests(){
+                this.$resource('/list-requests').get().then(result =>
+                    result.json().then(data => {
+                        this.requests = data;
+                    })
+                )
             }
         }
     }

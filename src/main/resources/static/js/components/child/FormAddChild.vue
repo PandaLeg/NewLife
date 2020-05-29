@@ -1,6 +1,6 @@
 <template>
     <div class="container mt-5">
-        <h1> Please add child</h1>
+        <h1> Добавление ребёнка </h1>
         <div class="form-group row">
             <div class="col-sm-4">
                 <input type="text" class="form-control" v-model="nameChild" name="nameChild" placeholder="Name child"/>
@@ -22,7 +22,6 @@
 
 <script>
     export default {
-        props: ['child'],
         data(){
             return{
                 id: '',

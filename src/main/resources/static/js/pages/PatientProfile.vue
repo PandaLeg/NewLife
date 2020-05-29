@@ -1,28 +1,70 @@
 <template>
     <div>
-        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
-        </nav-bar>
-        <profile-patient :currentProfilePatient="currentProfilePatient" :profileClinic="profileClinic"
-                        :profileDoctor="profileDoctor">
-        </profile-patient>
+        <div v-if="error" class="error">
+            {{ error }}
+        </div>
+        <div v-if="currentProfilePatient" class="content">
+            <h4>{{ currentProfilePatient.username }}</h4>
+            <br>
+            <label>{{ currentProfilePatient.firstName }}</label>
+            <br>
+            <label>{{ currentProfilePatient.surname }}</label>
+            <br>
+            <!--Показывает, доктору или опекуну ссылку на профиль ребёнка-->
+            <div v-if="profilePatient || checkBindingToPatient">
+                <label v-for="child in children" :key="child.id">
+                    <router-link :to="{name: 'childProfile', params: {idProfileChild: child.id}}"> My child </router-link>
+                </label>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import ProfilePatient from 'components/patients/ProfilePatient.vue'
-    import NavBar from 'components/navbar/NavBar.vue'
-
+    import { mapState } from 'vuex'
     export default {
-        components:{
-            ProfilePatient,
-            NavBar
+        props: ['idProfilePatient'],
+        data(){
+            return{
+                currentProfilePatient: null,
+                error: null,
+                children: [],
+                checkBindingToPatient: false
+            }
         },
-        data() {
-            return {
-                currentProfilePatient: profileData.currentProfilePatient,
-                profileClinic: profileData.profileClinic,
-                profileDoctor: profileData.profileDoctor,
-                profilePatient: profileData.profilePatient
+        created() {
+            if(this.profileDoctor != null){
+                this.checkBindingPatient();
+            }
+            this.fetchPatientData();
+            this.fetchChildrenData();
+        },
+        computed: {
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
+        },
+        methods:{
+            fetchPatientData() {
+                this.error = null;
+                this.$resource('/patient/{id}').get({id: this.idProfilePatient}).then(result =>
+                        result.json().then(data =>{
+                            this.currentProfilePatient = data;
+                        }), response => {
+                        this.error = response.error;
+                    }
+                )
+            },
+            fetchChildrenData() {
+                this.$resource('/children-patient/{id}').get({id: this.idProfilePatient}).then(result => {
+                    this.children = result.data;
+                    console.log(result);
+                })
+            },
+            // Проверка принадлежности пациента к врачу
+            checkBindingPatient() {
+                this.$resource('/check-binding-patient/{id}').get({id: this.idProfilePatient}).then(result => {
+                    this.checkBindingToPatient = result.data;
+                    console.log(result);
+                })
             }
         }
     }

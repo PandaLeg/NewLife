@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-link to="/clinic-profile/1"> {{ clinic.nameClinic }}</router-link>
+        <button @click="showProfileClinic">{{ clinic.nameClinic }}</button>
     </div>
 </template>
 
@@ -11,8 +11,8 @@
             console.log(this.clinic.id);
         },
         methods: {
-            showClinicProfile() {
-
+            showProfileClinic(){
+                this.$router.push({name: 'clinicProfile', params: { idProfileClinic: this.clinic.id } })
             }
         }
     }

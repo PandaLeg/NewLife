@@ -27,3 +27,34 @@ fetch('/message/4', { method: 'DELETE' }).then(result => console.log(result))
 Возврат одного сообщения
 
 fetch('/message/2').then(response => response.json().then(console.log))
+
+
+
+
+
+Добавление с датой(зависит от того, что указано, pattern = 'yyyy-MM-dd')
+
+fetch(
+  '/workers', 
+  { 
+    method: 'POST', 
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'Worker №1', address: 'Liona, st. 1', birthday: '1999-09-03', company_id: 4})
+  }
+).then(result => console.log(result))
+
+
+
+
+ messageApi.get() - тут мы получаем promise, который выполняет запрос
+         к серверу и тогда когда он получит результат от сервера(callback, либо успешно либо с ошибкой), он вернёт
+         поток выполнения в then
+
+         в then, мы должны передать функцию, которая обработает результат от сервера, поэтому используем
+         стрелочные функции
+        messageApi.get().then(result =>
+            result.json().then(data =>
+                data.forEach(message => this.messages.push(message))
+            )
+        )
+

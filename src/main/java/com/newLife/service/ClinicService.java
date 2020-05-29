@@ -5,6 +5,7 @@ import com.newLife.domain.Doctor;
 import com.newLife.domain.Patient;
 import com.newLife.domain.Request;
 import com.newLife.repo.ClinicRepo;
+import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.RequestRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,20 +14,22 @@ import org.springframework.stereotype.Service;
 public class ClinicService {
     private final RequestRepo requestRepo;
     private final ClinicRepo clinicRepo;
+    private final DoctorRepo doctorRepo;
 
     @Autowired
-    public ClinicService(RequestRepo requestRepo, ClinicRepo clinicRepo) {
+    public ClinicService(RequestRepo requestRepo, ClinicRepo clinicRepo, DoctorRepo doctorRepo) {
         this.requestRepo = requestRepo;
         this.clinicRepo = clinicRepo;
+        this.doctorRepo = doctorRepo;
     }
 
     public Request sendRequest(Doctor doctor, Patient patient, Clinic clinic) {
         Request request = new Request();
 
-        if(doctor != null) {
+        if (doctor != null) {
             request.setDoctor(doctor);
         }
-        if(patient != null){
+        if (patient != null) {
             request.setPatient(patient);
         }
 
@@ -42,14 +45,33 @@ public class ClinicService {
         Doctor doctorFromBD = request.getDoctor();
         Patient patientFromBD = request.getPatient();
 
-        if(doctorFromBD != null) {
+        if (doctorFromBD != null) {
             clinicFromBD.getDoctors().add(doctorFromBD);
         }
-        if(patientFromBD != null){
+        if (patientFromBD != null) {
             clinicFromBD.getPatients().add(patientFromBD);
         }
 
         clinicRepo.save(clinicFromBD);
         requestRepo.delete(request);
+    }
+
+    public void cancel(Request request) {
+        requestRepo.delete(request);
+    }
+
+    public void cancelBindingFromClinic(Clinic clinic, Doctor doctor, Patient patient) {
+        if (doctor != null) {
+            clinic.getDoctors().remove(doctor);
+        }
+        if (patient != null) {
+            /*while(doctorRepo.findByDoctor(patient.getId()) != null){
+                Doctor doctors = doctorRepo.findByDoctor(patient.getId());
+                doctorRepo.find
+            }*/
+            clinic.getPatients().remove(patient);
+        }
+
+        clinicRepo.save(clinic);
     }
 }

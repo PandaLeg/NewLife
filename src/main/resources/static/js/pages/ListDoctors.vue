@@ -1,7 +1,5 @@
 <template>
     <div>
-        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
-        </nav-bar>
         <doctors-list :doctors="doctors"></doctors-list>
     </div>
 </template>
@@ -17,14 +15,20 @@
         },
         data(){
             return {
-                doctors: doctorData.doctors,
-                profileClinic: doctorData.profileClinic,
-                profileDoctor: doctorData.profileDoctor,
-                profilePatient: doctorData.profilePatient
+                doctors: []
             }
         },
         created(){
-            console.log(this.doctors);
+            this.getAllDoctors();
+        },
+        methods:{
+            getAllDoctors(){
+                this.$resource('/doctors-list-clinic').get().then(result =>
+                    result.json().then(data => {
+                        this.doctors = data
+                    })
+                )
+            }
         }
     }
 </script>

@@ -3,14 +3,14 @@
         <label> {{ request.message }}</label>
         <div v-if="profileClinic">
             <span>
-                <input type="button" class="btn btn-info" value="Save" @click="ClinicToDoctorOrPatient">
+                <input type="button" class="btn btn-info" value="Save" @click="addByClinicToDoctorOrPatient">
+                <input type="button" class="btn btn-info" value="Cancel" @click="cancelByClinicToDoctorOrPatient">
             </span>
         </div>
         <div v-else-if="profileDoctor">
             <span>
-                <span>
-                <input type="button" class="btn btn-info" value="Save" @click="DoctorToPatient">
-            </span>
+                <input type="button" class="btn btn-info" value="Save" @click="addByDoctorToPatient">
+                <input type="button" class="btn btn-info" value="Cancel" @click="cancelByDoctorToPatient">
             </span>
         </div>
         <br>
@@ -29,7 +29,7 @@
             this.id = this.request.id;
         },
         methods:{
-            ClinicToDoctorOrPatient() {
+            addByClinicToDoctorOrPatient() {
                 this.$resource('/accept-request-clinic{/id}').delete({id: this.id}).then(result => {
                         if(result.ok){
                             console.log(result);
@@ -38,8 +38,24 @@
                     }
                 )
             },
-            DoctorToPatient(){
+            cancelByClinicToDoctorOrPatient() {
+                this.$resource('/cancel-request-clinic/{id}').delete({id: this.id}).then(result => {
+                    if(result.ok){
+                        console.log(result);
+                        this.requests.splice(this.requests.indexOf(this.request), 1);
+                    }
+                })
+            },
+            addByDoctorToPatient(){
                 this.$resource('/accept-request-doctor{/id}').delete({id: this.id}).then(result =>{
+                    if(result.ok){
+                        console.log(result);
+                        this.requests.splice(this.requests.indexOf(this.request),1);
+                    }
+                })
+            },
+            cancelByDoctorToPatient() {
+                this.$resource('/cancel-request-doctor/{id}').delete({id: this.id}).then(result => {
                     if(result.ok){
                         console.log(result);
                         this.requests.splice(this.requests.indexOf(this.request),1);

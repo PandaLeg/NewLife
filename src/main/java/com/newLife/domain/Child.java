@@ -1,21 +1,27 @@
 package com.newLife.domain;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "child")
-@EqualsAndHashCode(of = {"id"})
-@ToString(of = {"id"})
-public class Child {
+@Data
+public class Child implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String nameChild;
     private String state;
+    private String height;
+    private String weight;
+    private String temperature;
+    private String pulse;
+    private String pressure;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Patient patient;
@@ -23,41 +29,15 @@ public class Child {
     public Child() {
     }
 
-    public Child(String nameChild, String state, Patient patient) {
+    public Child(String nameChild, String state, String height, String weight, String temperature, String pulse,
+                 String pressure, Patient patient) {
         this.nameChild = nameChild;
         this.state = state;
-        this.patient = patient;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNameChild() {
-        return nameChild;
-    }
-
-    public void setNameChild(String nameChild) {
-        this.nameChild = nameChild;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
+        this.height = height;
+        this.weight = weight;
+        this.temperature = temperature;
+        this.pulse = pulse;
+        this.pressure = pressure;
         this.patient = patient;
     }
 }

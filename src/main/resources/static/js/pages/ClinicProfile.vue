@@ -1,64 +1,99 @@
 <template>
     <div>
-        <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
-        </nav-bar>
-        <!--<profile-clinic :currentProfileClinic="currentProfileClinic" :check="isRole" :profileDoctor="profileDoctor"
-        :profilePatient="profilePatient">
-        </profile-clinic>-->
-        <h4>{{ currentProfileClinic.username }}</h4>
-        <br>
-        <label>{{ currentProfileClinic.nameClinic }}</label>
-        <br>
-        <label>{{ currentProfileClinic.address }}</label>
-        <br>
-        <div v-if="isRole">
-            <input type="button" class="btn btn-primary" @click="saveRequest" value="Send Request!"/>
+        <div v-if="error" class="error">
+            {{ error }}
+        </div>
+        <div v-if="currentProfileClinic" class="content">
+            <h4>{{ currentProfileClinic.username }}</h4>
+            <br>
+            <label>{{ currentProfileClinic.nameClinic }}</label>
+            <br>
+            <label>{{ currentProfileClinic.address }}</label>
+            <br>
+            <div v-if="!checkBindingToClinic">
+                <div v-if="!profileClinic">
+                    <input type="button" class="btn btn-primary" @click="saveClinicRequest" :disabled="checkButton"
+                           value="Send Request!"/>
+                </div>
+            </div>
+            <div v-if="checkBindingToClinic">
+                <div v-if="!profileClinic">
+                    <input type="button" class="btn btn-primary" @click="cancelBindingClinic"
+                           value="Cancel Binding!"/>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-    /*import ProfileClinic from 'components/clinic/ProfileClinic.vue'*/
-    import NavBar from 'components/navbar/NavBar.vue'
-
+    import { mapState } from 'vuex'
     export default {
-        components:{
-            /*ProfileClinic,*/
-            NavBar
-        },
+        name: 'clinicProfile',
+        props: ['idProfileClinic'],
         data() {
             return {
-                profileClinic: profileData.profileClinic,
-                profileDoctor: profileData.profileDoctor,
-                profilePatient: profileData.profilePatient,
-                currentProfileClinic: profileData.currentProfileClinic,
-                isRole: profileData.checkRole,
+                currentProfileClinic: null,
+                error: null,
                 id: '',
                 idDoctor: 0,
                 idClinic: 0,
                 idPatient: 0,
-                message: ''
+                checkButton: false,
+                checkBindingToClinic: false
             }
         },
         created() {
-            this.idClinic = this.currentProfileClinic.id;
+            this.idClinic = this.idProfileClinic;
             if(this.profileDoctor != null) {
                 this.idDoctor = this.profileDoctor.id;
             }
             if(this.profilePatient != null) {
                 this.idPatient = this.profilePatient.id;
             }
-            console.log(this.idClinic, this.idDoctor, this.idPatient)
+
+            this.fetchClinicData();
+            this.checkBindingClinic();
+        },
+        computed: {
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
         },
         methods:{
-            saveRequest() {
+            saveClinicRequest() {
                 let request = {idDoctor: this.idDoctor, idPatient: this.idPatient};
 
                 this.$resource('/send-request-clinic/{id}').save({id: this.idClinic}, request).then(result =>
                     result.json().then(data => {
+                        this.checkButton = true;
                         console.log(data);
                     })
                 )
+            },
+
+            fetchClinicData(){
+                this.error = null;
+                this.$resource('/clinic/{id}').get({id: this.idProfileClinic}).then(result =>
+                    result.json().then(data => {
+                        this.currentProfileClinic = data;
+                    }), response => {
+                    this.error = response.error;
+                });
+            },
+
+            checkBindingClinic(){
+                this.$resource('/check-binding-clinic/{id}').get({id: this.idClinic}).then(result => {
+                    this.checkBindingToClinic = result.data;
+                    console.log(result)
+                })
+            },
+
+            // Отмена привязки от клиники
+            cancelBindingClinic(){
+                this.$resource('/cancel-binding-clinic/{id}').delete({id: this.idClinic}).then(result =>{
+                    if(result.ok){
+                        console.log(result)
+                    }
+                })
             }
         }
     }

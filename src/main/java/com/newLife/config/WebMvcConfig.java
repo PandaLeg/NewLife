@@ -13,7 +13,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> webServerCustomizer(){
         return container -> {
-            // Для все 404 ошибок, будем возвращать страничку с мепингом /
+            // Для всех 404 ошибок, будем возвращать страничку с мепингом /
             container.addErrorPages(new ErrorPage(HttpStatus.NOT_FOUND, "/"));
         };
     }

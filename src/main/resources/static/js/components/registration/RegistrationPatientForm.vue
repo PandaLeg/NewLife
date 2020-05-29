@@ -13,6 +13,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="username-input-1"
                                         name="username-input-1"
                                         placeholder="Username"
@@ -20,6 +21,7 @@
                                         v-model="username"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-1-live-feedback"
+                                        required
                                 ></b-form-input>
 
                                 <b-form-invalid-feedback id="input-1-live-feedback"
@@ -51,9 +53,10 @@
                                         v-model="password"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-2-live-feedback"
+                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password === ''">
+                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password == ''">
                                     Пароль не может быть пустым!
                                 </b-form-invalid-feedback>
                                 <!--<b-form-invalid-feedback id="input-2-live-feedback" v-else>
@@ -81,9 +84,10 @@
                                         v-model="email"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-3-live-feedback"
+                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email == ''">
                                     Email не может быть пустым!
                                 </b-form-invalid-feedback>
                                 <b-form-invalid-feedback id="input-3-live-feedback" v-else>
@@ -103,6 +107,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="name-input-4"
                                         name="name-input-4"
                                         placeholder="Name"
@@ -110,9 +115,11 @@
                                         v-model="firstName"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-4-live-feedback"
+                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-4-live-feedback">Пожалуйста, введите Имя
+                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="firstName == ''">Пожалуйста,
+                                    введите Имя
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -128,6 +135,7 @@
                         <div class="form-group row">
                             <div class="col-sm-4">
                                 <b-form-input
+                                        type="text"
                                         id="surname-input-5"
                                         name="surname-input-5"
                                         placeholder="Surname"
@@ -135,9 +143,11 @@
                                         v-model="surname"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-5-live-feedback"
+                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-5-live-feedback">Пожалуйста, введите Фамилию
+                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="firstName == 'surname'">Пожалуйста,
+                                введите Фамилию
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -179,6 +189,7 @@
                         this.email = "";
                         this.firstName = "";
                         this.surname = "";
+                        this.$router.push('/login');
                     }, result => {
                         console.log(result);
                     })

@@ -5,18 +5,7 @@ module.exports = {
     mode: 'development',
     devtool: 'source-map',
     entry: {
-        main: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js'),
-        registration: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'registration.js'),
-        login: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'login.js'),
-        clinic: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'clinic.js'),
-        clinicProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'clinicProfile.js'),
-        doctorProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'doctorProfile.js'),
-        patientProfile: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'patientProfile.js'),
-        request: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'request.js'),
-        listDoctors: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'listDoctors.js'),
-        listPatients: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'listPatients.js'),
-        addChild: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'addChild.js'),
-        state: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'state.js')
+        main: path.join(__dirname, 'src', 'main', 'resources', 'static', 'js', 'main.js')
     },
     devServer: {
         contentBase: './dist',

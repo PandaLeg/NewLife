@@ -17,20 +17,30 @@
                     <input type="submit" id="logIn" class="btn btn-primary col-sm-12" value="Sign in"/>
                 </div>
             </div>
-            <div class="form-group row ml-sm-2">
-                <a href="/registration-clinic">Add new Clinic</a>
-                <label style="margin-left: 10px; margin-right: 10px;"> | </label>
-                <a href="/registration-doctor">Add new Doctor</a>
-                <label style="margin-left: 10px; margin-right: 10px;"> | </label>
-                <a href="/registration-patient">Add new Patient</a>
+            <div class="col-sm-11">
+                <router-link :to="{name: 'registrationClinic', params: {name_reg: 'clinic'}}"> Хотите
+                    зарегистрироваться, как клиника?
+                </router-link>
             </div>
+            <div class="col-sm-11">
+                <router-link :to="{name: 'registrationDoctor', params: {name_reg: 'doctor'}}"> Хотите
+                    зарегистрироваться, как доктор?
+                </router-link>
+            </div>
+            <div class="col-sm-11">
+                <router-link :to="{name: 'registrationPatient', params: {name_reg: 'patient'}}"> Хотите
+                    зарегистрироваться, как пациент?
+                </router-link>
+            </div>
+
         </form>
     </div>
 
 </template>
 
 <script>
-
+    export default {
+    }
 </script>
 
 <style>
@@ -42,5 +52,8 @@
     }
     #logPassword {
         border-radius: 14px;
+    }
+    span {
+        display: block;
     }
 </style>
