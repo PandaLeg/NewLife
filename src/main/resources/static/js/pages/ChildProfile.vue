@@ -2,8 +2,6 @@
     <div>
         <div v-if="currentProfileChild" class="content">
             <h4>{{ currentProfileChild.nameChild }}</h4>
-            <h4>{{ currentProfileChild.height }}</h4>
-            <h4>{{ currentProfileChild.weight }}</h4>
             <h4>{{ currentProfileChild.state }}</h4>
             <br>
         </div>
@@ -16,8 +14,6 @@
         data(){
             return{
                 currentProfileChild: null,
-                error: null,
-                child: [],
             }
         },
         created(){

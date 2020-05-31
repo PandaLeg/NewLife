@@ -1,23 +1,26 @@
 <template>
     <div>
         <div class="container mt-5">
-            <h1> Показатели </h1>
-            <div class = "form-group row">
-                <label class="col-sm-2 col-form-label"> Температура: </label>
-                <div class="col-sm-6">
-                    <label> {{ currentChild.temperature }}</label>
+            <div v-if="currentChild" class="content">
+                <h1> Показатели </h1>
+                <h1> {{ currentChild.nameChild }} </h1>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"> Температура: </label>
+                    <div class="col-sm-6" v-if="temperature != ''">
+                        <label> {{ currentChild.temperature }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class = "form-group row">
-                <label class="col-sm-2 col-form-label"> Пульс: </label>
-                <div class="col-sm-6">
-                    <label> {{ currentChild.pulse }}</label>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"> Пульс: </label>
+                    <div class="col-sm-6" v-if="pulse != ''">
+                        <label> {{ currentChild.pulse }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class = "form-group row">
-                <label class="col-sm-2 col-form-label"> Давление: </label>
-                <div class="col-sm-6">
-                    <label> {{ currentChild.pressure }}</label>
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"> Давление: </label>
+                    <div class="col-sm-6" v-if="pressure != ''">
+                        <label> {{ currentChild.pressure }}</label>
+                    </div>
                 </div>
             </div>
         </div>
@@ -30,19 +33,22 @@
         data(){
             return{
                 currentChild: null,
-                id: ''
+                temperature: '',
+                pressure: '',
+                pulse: ''
             }
         },
         created(){
-            this.id = this.childId;
-            this.findChild();
+            this.findChildOfPatient();
         },
         methods:{
-            findChild(){
-                this.$resource('/child/{id}').get({id: this.id}).then(result =>
+            findChildOfPatient(){
+                this.$resource('/child/{id}').get({id: this.childId}).then(result =>
                     result.json().then(data =>{
                         this.currentChild = data;
-                        console.log(data);
+                        this.temperature = this.currentChild.temperature;
+                        this.pressure = this.currentChild.pressure;
+                        this.pulse = this.currentChild.pulse;
                     })
                 )
             }

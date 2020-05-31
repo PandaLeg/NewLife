@@ -23,7 +23,7 @@
         },
         methods:{
             getAllPatients(){
-                this.$resource('patients-list').get().then(result =>
+                this.$resource('/patients-set').get().then(result =>
                     result.json().then(data => {
                         this.patients = data;
                     })

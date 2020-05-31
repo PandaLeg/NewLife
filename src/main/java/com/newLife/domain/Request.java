@@ -1,6 +1,9 @@
 package com.newLife.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -8,6 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "request")
 @Data
+@EqualsAndHashCode(of = {"id"})
 public class Request implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -16,12 +20,24 @@ public class Request implements Serializable{
     private String message;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
     private Clinic clinic;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
     private Patient patient;
 
     public Request() {

@@ -12,8 +12,10 @@
             <br>
             <!--Показывает, доктору или опекуну ссылку на профиль ребёнка-->
             <div v-if="profilePatient || checkBindingToPatient">
+                <label> Child(children) </label>
                 <label v-for="child in children" :key="child.id">
-                    <router-link :to="{name: 'childProfile', params: {idProfileChild: child.id}}"> My child </router-link>
+                    <router-link :to="{name: 'childProfile', params: {idProfileChild: child.id}}"> {{ child.nameChild }}
+                    </router-link>
                 </label>
             </div>
         </div>

@@ -8,6 +8,7 @@ import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
 import com.newLife.repo.RequestRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,6 +18,7 @@ public class DoctorService {
     private final ClinicRepo clinicRepo;
     private final PatientRepo patientRepo;
 
+    @Autowired
     public DoctorService(RequestRepo requestRepo, DoctorRepo doctorRepo, ClinicRepo clinicRepo, PatientRepo patientRepo) {
         this.requestRepo = requestRepo;
         this.doctorRepo = doctorRepo;

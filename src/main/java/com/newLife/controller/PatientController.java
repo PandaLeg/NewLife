@@ -1,12 +1,16 @@
 package com.newLife.controller;
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
-import com.newLife.domain.*;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.newLife.domain.Child;
+import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
+import com.newLife.domain.Views;
 import com.newLife.repo.ChildRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
 import com.newLife.service.PatientService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +24,7 @@ public class PatientController {
     private final PatientRepo patientRepo;
     private final PatientService patientService;
 
+    @Autowired
     public PatientController(ChildRepo childRepo, DoctorRepo doctorRepo, PatientRepo patientRepo,
                              PatientService patientService) {
         this.childRepo = childRepo;

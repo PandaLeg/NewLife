@@ -1,5 +1,7 @@
 package com.newLife.domain;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -10,6 +12,11 @@ import java.io.Serializable;
 @Entity
 @Table(name = "child")
 @Data
+@EqualsAndHashCode(of = {"id"})
+@JsonIdentityInfo(
+        property = "id",
+        generator = ObjectIdGenerators.PropertyGenerator.class
+)
 public class Child implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

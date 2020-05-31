@@ -61,14 +61,10 @@ public class ClinicService {
     }
 
     public void cancelBindingFromClinic(Clinic clinic, Doctor doctor, Patient patient) {
-        if (doctor != null) {
+        if (doctor != null && clinic.getDoctors().contains(doctor)) {
             clinic.getDoctors().remove(doctor);
         }
-        if (patient != null) {
-            /*while(doctorRepo.findByDoctor(patient.getId()) != null){
-                Doctor doctors = doctorRepo.findByDoctor(patient.getId());
-                doctorRepo.find
-            }*/
+        if (patient != null && clinic.getPatients().contains(patient)) {
             clinic.getPatients().remove(patient);
         }
 

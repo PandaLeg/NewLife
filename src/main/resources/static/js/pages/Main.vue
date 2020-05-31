@@ -23,6 +23,9 @@
             MessagesList,
             NavBar
         },
+        created() {
+            console.log(this.profileClinic, this.profileDoctor, this.profilePatient);
+        },
         computed: {
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
         }

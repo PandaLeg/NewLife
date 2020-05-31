@@ -2,12 +2,10 @@ package com.newLife.controller;
 
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.newLife.domain.*;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.RequestRepo;
 import com.newLife.service.ClinicService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +28,11 @@ public class ClinicController {
     }
 
     @GetMapping("/clinic/{id}")
-    @JsonView(Views.FullClinic.class)
     public Clinic getOneClinic(@PathVariable("id") Clinic clinic) {
         return clinic;
     }
 
     @GetMapping("/hospitals")
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
     public List<Clinic> getAllClinic() {
         return clinicRepo.findAll();
     }
@@ -61,7 +57,7 @@ public class ClinicController {
         return clinic.getDoctors();
     }
 
-    @GetMapping("/patients-list")
+    @GetMapping("/patients-set")
     public Set<Patient> getAllPatientsOfClinic(
             @AuthenticationPrincipal Clinic clinic,
             @AuthenticationPrincipal Doctor doctor) {

@@ -20,7 +20,7 @@ import ShowIndicators from 'components/showing/ShowIndicators.vue'
 Vue.use(VueRouter);
 
 const routes = [
-    {path: '/', component: MessagesList},
+    {path: '/', component: MessagesList, redirect: '/${defaultLocale}'},
     {path: '/login', component: Login},
     {path: '/registration-clinic/:name_reg',component: Registration, name: 'registrationClinic', props: true},
     {path: '/registration-doctor/:name_reg',component: Registration, name: 'registrationDoctor', props: true},
