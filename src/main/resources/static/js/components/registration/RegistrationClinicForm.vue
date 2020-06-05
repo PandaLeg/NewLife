@@ -1,8 +1,8 @@
 <template>
-    <div id="container" class="container mt-4">
+    <div id="container" class="container mt-5">
         <validation-observer ref="observer" v-slot="{ handleSubmit }">
             <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                <h1 id="h-header">Registration clinic!</h1>
+                <h1 id="h-header">{{ $t('registrationClinic.registrationNewAccount') }}</h1>
                 <validation-provider
                         name="username"
                         :rules="{ required: true, min: 3 }"
@@ -15,7 +15,7 @@
                                         type="text"
                                         id="username-input-1"
                                         name="username-input-1"
-                                        placeholder="Username"
+                                        :placeholder="$t('registrationClinic.username')"
                                         class="form-control"
                                         v-model="username"
                                         :state="getValidationState(validationContext)"
@@ -24,10 +24,10 @@
 
                                 <b-form-invalid-feedback id="input-1-live-feedback"
                                                          v-if="username === ''">
-                                    Имя пользователя не может быть пустым!
+                                    {{ $t('registrationClinic.usernameEmpty') }}
                                 </b-form-invalid-feedback>
                                 <b-form-invalid-feedback id="input-1-live-feedback" v-else>
-                                    Имя пользователя должно быть не меньше трёх символов!
+                                    {{ $t('registrationClinic.usernameLess') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
                 </validation-provider>
                 <validation-provider
                         name="password"
-                        :rules="{ required: true, min: 1 }"
+                        :rules="{ required: true, min: 6 }"
                         v-slot="validationContext"
                 >
                     <b-form-group id="input-group-2">
@@ -45,7 +45,7 @@
                                         type="password"
                                         id="password-input-2"
                                         name="password-input-2"
-                                        placeholder="Password"
+                                        :placeholder="$t('registrationClinic.password')"
                                         class="form-control"
                                         v-model="password"
                                         :state="getValidationState(validationContext)"
@@ -53,11 +53,11 @@
                                 ></b-form-input>
 
                                 <b-form-invalid-feedback id="input-2-live-feedback" v-if="password === ''">
-                                    Пароль не может быть пустым!
+                                    {{ $t('registrationClinic.passwordEmpty') }}
                                 </b-form-invalid-feedback>
-                                <!--<b-form-invalid-feedback id="input-2-live-feedback" v-else>
-                                    Пароль должно быть не меньше трёх символов
-                                </b-form-invalid-feedback>-->
+                                <b-form-invalid-feedback id="input-2-live-feedback" v-else>
+                                    {{ $t('registrationClinic.passwordLess') }}
+                                </b-form-invalid-feedback>
                             </div>
                         </div>
                     </b-form-group>
@@ -83,10 +83,10 @@
                                 ></b-form-input>
 
                                 <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
-                                    Email не может быть пустым!
+                                    {{ $t('registrationClinic.emailEmpty') }}
                                 </b-form-invalid-feedback>
                                 <b-form-invalid-feedback id="input-3-live-feedback" v-else>
-                                    Email не может быть меньше 6 символов(включая @)
+                                    {{ $t('registrationClinic.emailLess') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -95,7 +95,7 @@
 
                 <validation-provider
                         name="nameClinic"
-                        :rules="{ required: true, min: 3}"
+                        :rules="{ required: true, min: 1}"
                         v-slot="validationContext"
                 >
                     <b-form-group id="input-group-4">
@@ -105,15 +105,15 @@
                                         type="text"
                                         id="nameClinic-input-4"
                                         name="nameClinic-input-4"
-                                        placeholder="Name Clinic"
+                                        :placeholder="$t('registrationClinic.nameClinic')"
                                         class="form-control"
                                         v-model="nameClinic"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-4-live-feedback"
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="nameClinic === ''">Пожалуйста,
-                                    введите название клиники
+                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="nameClinic === ''">
+                                    {{ $t('registrationClinic.nameClinicEmpty') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -122,7 +122,7 @@
 
                 <validation-provider
                         name="address"
-                        :rules="{ required: true, min: 4}"
+                        :rules="{ required: true, min: 1}"
                         v-slot="validationContext"
                 >
                     <b-form-group id="input-group-5">
@@ -132,15 +132,41 @@
                                         type="text"
                                         id="nameClinic-input-5"
                                         name="nameClinic-input-5"
-                                        placeholder="Address Clinic"
+                                        :placeholder="$t('registrationClinic.address')"
                                         class="form-control"
                                         v-model="address"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-5-live-feedback"
                                 ></b-form-input>
+                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="address === ''">
+                                    {{ $t('registrationClinic.addressEmpty') }}
+                                </b-form-invalid-feedback>
+                            </div>
+                        </div>
+                    </b-form-group>
+                </validation-provider>
 
-                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="address === ''">Пожалуйста,
-                                    введите адрес клиники
+                <validation-provider
+                        name="city"
+                        :rules="{ required: true, min: 3}"
+                        v-slot="validationContext"
+                >
+                    <b-form-group id="input-group-6">
+                        <div class="form-group row">
+                            <div class="col-sm-4">
+                                <b-form-input
+                                        type="text"
+                                        id="city-input-6"
+                                        name="city-input-6"
+                                        :placeholder="$t('registrationClinic.city')"
+                                        class="form-control"
+                                        v-model="city"
+                                        :state="getValidationState(validationContext)"
+                                        aria-describedby="input-6-live-feedback"
+                                ></b-form-input>
+
+                                <b-form-invalid-feedback id="input-6-live-feedback" v-if="city === ''">
+                                    {{ $t('registrationClinic.cityEmpty') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -166,14 +192,15 @@
                 password: '',
                 email: '',
                 nameClinic: '',
-                address: ''
+                address: '',
+                city: '',
             }
         },
         methods: {
             saveClinic() {
                 let clinic = {
                     username: this.username, password: this.password, email: this.email,
-                    nameClinic: this.nameClinic, address: this.address
+                    nameClinic: this.nameClinic, address: this.address, city: this.city,
                 };
 
                 this.$resource('/registration-clinic').save({}, clinic).then(result =>
@@ -184,6 +211,7 @@
                         this.email = "";
                         this.nameClinic = "";
                         this.address = "";
+                        this.city = "";
                         this.$router.push('/login');
                     }, result => {
                         console.log(result);

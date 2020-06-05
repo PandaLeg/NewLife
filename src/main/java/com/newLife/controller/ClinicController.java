@@ -1,28 +1,47 @@
 package com.newLife.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.newLife.domain.*;
+import com.newLife.domain.Clinic;
+import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
+import com.newLife.domain.Request;
 import com.newLife.repo.ClinicRepo;
+import com.newLife.repo.DoctorRepo;
+import com.newLife.repo.PatientRepo;
 import com.newLife.repo.RequestRepo;
 import com.newLife.service.ClinicService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @RestController
 public class ClinicController {
     private final ClinicRepo clinicRepo;
+    private final DoctorRepo doctorRepo;
+    private final PatientRepo patientRepo;
     private final ClinicService clinicService;
     private final RequestRepo requestRepo;
 
+    @Value("${upload.path}")
+    private String uploadPath;
+
     @Autowired
-    public ClinicController(ClinicRepo clinicRepo, ClinicService clinicService, RequestRepo requestRepo) {
+    public ClinicController(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PatientRepo patientRepo,
+                            ClinicService clinicService, RequestRepo requestRepo) {
         this.clinicRepo = clinicRepo;
+        this.doctorRepo = doctorRepo;
+        this.patientRepo = patientRepo;
         this.clinicService = clinicService;
         this.requestRepo = requestRepo;
     }
@@ -57,6 +76,16 @@ public class ClinicController {
         return clinic.getDoctors();
     }
 
+    @GetMapping("/doctors-list-clinic/{id}")
+    public Set<Doctor> getAllDoctorsForProfile(@PathVariable("id") Clinic clinic) {
+        return clinic.getDoctors();
+    }
+
+    @GetMapping("/patients-list-clinic/{id}")
+    public Set<Patient> getAllPatientsForProfile(@PathVariable("id") Clinic clinic) {
+        return clinic.getPatients();
+    }
+
     @GetMapping("/patients-set")
     public Set<Patient> getAllPatientsOfClinic(
             @AuthenticationPrincipal Clinic clinic,
@@ -78,6 +107,69 @@ public class ClinicController {
             @AuthenticationPrincipal Patient patient) {
         return clinicService.sendRequest(doctor, patient, clinic);
     }
+
+
+    @PostMapping(value = "/update-profile-avatar")
+    public ResponseEntity<Clinic> updateProfileClinicAvatar(
+            @AuthenticationPrincipal Clinic currentClinic,
+            @AuthenticationPrincipal Doctor currentDoctor,
+            @AuthenticationPrincipal Patient currentPatient,
+            @RequestParam("picture") MultipartFile file) throws IOException {
+        if (!file.isEmpty()) {
+            saveFile(currentClinic, currentDoctor, currentPatient, file);
+        }
+        if (currentClinic != null) {
+            clinicRepo.save(currentClinic);
+        } else if (currentDoctor != null) {
+            doctorRepo.save(currentDoctor);
+        } else {
+            patientRepo.save(currentPatient);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    public void saveFile(Clinic clinic, Doctor doctor, Patient patient, MultipartFile file
+    ) throws IOException {
+        if (file != null && !file.getOriginalFilename().isEmpty()) {
+            File uploadDir = new File(uploadPath);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            String uuidFile = UUID.randomUUID().toString();
+            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+            file.transferTo(new File(uploadPath + "/" + resultFileName));
+            if (clinic != null) {
+                clinic.setClinicPicture(resultFileName);
+            }
+            if (doctor != null) {
+                doctor.setDoctorPicture(resultFileName);
+            }
+            if (patient != null) {
+                patient.setPatientPicture(resultFileName);
+            }
+        }
+    }
+
+    @PutMapping("/update-clinic-profile")
+    public Clinic updateProfileClinic(
+            @AuthenticationPrincipal Clinic currentClinic,
+            @RequestBody Clinic clinic
+    ) {
+        if (clinic.getUsername() != null && !clinic.getUsername().equals(currentClinic.getUsername())) {
+            currentClinic.setUsername(clinic.getUsername());
+        }
+        if (clinic.getPhone() != null && !clinic.getPhone().equals(currentClinic.getPhone())) {
+            currentClinic.setPhone(clinic.getPhone());
+        }
+        if (clinic.getCity() != null && !clinic.getCity().equals(currentClinic.getCity())) {
+            currentClinic.setCity(clinic.getCity());
+        }
+        if (clinic.getAddress() != null && !clinic.getAddress().equals(currentClinic.getAddress())) {
+            currentClinic.setAddress(clinic.getAddress());
+        }
+        return clinicRepo.save(currentClinic);
+    }
+
 
     @PutMapping("/update-visit-clinic/{id}")
     public Clinic updateVisit(
@@ -106,10 +198,11 @@ public class ClinicController {
             @AuthenticationPrincipal Doctor doctor,
             @AuthenticationPrincipal Patient patient
     ) {
-        if(doctor != null){
+
+        if (doctor != null) {
             return clinic.getDoctors().contains(doctor);
         }
-        if(patient != null){
+        if (patient != null) {
             return clinic.getPatients().contains(patient);
         }
         return false;

@@ -1,9 +1,14 @@
 <template>
     <div>
         <div class="container mt-5">
-            <h1> Список пациентов </h1>
+            <h1> {{ $t('listPatients.listPatients') }} </h1>
             <label class="col-form-label"> {{ patient.firstName }} </label>
             <label class="col-form-label"> {{ patient.surname }} </label>
+            <div>
+                <router-link :to="{name: 'patientProfile', params: {idProfilePatient: patient.id} }">
+                    {{ patient.username }}
+                </router-link>
+            </div>
             <div v-if="profileDoctor">
                 <label> Дети: </label>
                 <label v-for="child in children" :key="child.id">

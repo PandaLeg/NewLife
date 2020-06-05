@@ -1,6 +1,7 @@
 package com.newLife.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -13,10 +14,6 @@ import java.io.Serializable;
 @Table(name = "child")
 @Data
 @EqualsAndHashCode(of = {"id"})
-@JsonIdentityInfo(
-        property = "id",
-        generator = ObjectIdGenerators.PropertyGenerator.class
-)
 public class Child implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,6 +21,7 @@ public class Child implements Serializable {
 
     private String nameChild;
     private String state;
+    private String age;
     private String height;
     private String weight;
     private String temperature;
@@ -31,6 +29,11 @@ public class Child implements Serializable {
     private String pressure;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
     private Patient patient;
 
     public Child() {

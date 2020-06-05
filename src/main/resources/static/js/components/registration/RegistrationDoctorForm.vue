@@ -2,7 +2,7 @@
     <div id="container" class="container mt-4">
         <validation-observer ref="observer" v-slot="{ handleSubmit }">
             <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                <h1 id="h-header">Registration doctor!</h1>
+                <h1 id="h-header">{{ $t('registrationDoctor.registrationNewAccount') }}</h1>
                 <validation-provider
                         name="username"
                         :rules="{ required: true, min: 3 }"
@@ -15,20 +15,19 @@
                                         type="text"
                                         id="username-input-1"
                                         name="username-input-1"
-                                        placeholder="Username"
+                                        :placeholder="$t('registrationDoctor.username')"
                                         class="form-control"
                                         v-model="username"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-1-live-feedback"
-                                        required
                                 ></b-form-input>
 
                                 <b-form-invalid-feedback id="input-1-live-feedback"
-                                                         v-if="username == ''">
-                                    Имя пользователя не может быть пустым!
+                                                         v-if="username === ''">
+                                    {{ $t('registrationDoctor.usernameEmpty') }}
                                 </b-form-invalid-feedback>
                                 <b-form-invalid-feedback id="input-1-live-feedback" v-else>
-                                    Имя пользователя должно быть не меньше трёх символов!
+                                    {{ $t('registrationDoctor.usernameLess') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -37,7 +36,7 @@
 
                 <validation-provider
                         name="password"
-                        :rules="{ required: true, min: 1 }"
+                        :rules="{ required: true, min: 6 }"
                         v-slot="validationContext"
                 >
                     <b-form-group id="input-group-2">
@@ -47,20 +46,19 @@
                                         type="password"
                                         id="password-input-2"
                                         name="password-input-2"
-                                        placeholder="Password"
+                                        :placeholder="$t('registrationDoctor.password')"
                                         class="form-control"
                                         v-model="password"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-2-live-feedback"
-                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password == ''">
-                                    Пароль не может быть пустым!
+                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password === ''">
+                                    {{ $t('registrationDoctor.passwordEmpty') }}
                                 </b-form-invalid-feedback>
-                                <!--<b-form-invalid-feedback id="input-2-live-feedback" v-else>
-                                    Пароль должно быть не меньше трёх символов
-                                </b-form-invalid-feedback>-->
+                                <b-form-invalid-feedback id="input-2-live-feedback" v-else>
+                                    {{ $t('registrationDoctor.passwordLess') }}
+                                </b-form-invalid-feedback>
                             </div>
                         </div>
                     </b-form-group>
@@ -83,14 +81,13 @@
                                         v-model="email"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-3-live-feedback"
-                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email == ''">
-                                    Email не может быть пустым!
+                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
+                                    {{ $t('registrationDoctor.emailEmpty') }}
                                 </b-form-invalid-feedback>
                                 <b-form-invalid-feedback id="input-3-live-feedback" v-else>
-                                    Email не может быть меньше 6 символов(включая @)
+                                    {{ $t('registrationDoctor.emailLess') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -109,16 +106,15 @@
                                         type="text"
                                         id="name-input-4"
                                         name="name-input-4"
-                                        placeholder="Name"
+                                        :placeholder="$t('registrationDoctor.name')"
                                         class="form-control"
                                         v-model="firstName"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-4-live-feedback"
-                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="firstName == ''">Пожалуйста,
-                                    введите Имя
+                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="firstName === ''">
+                                    {{ $t('registrationDoctor.nameEmpty') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -137,16 +133,15 @@
                                         type="text"
                                         id="surname-input-5"
                                         name="surname-input-5"
-                                        placeholder="Surname"
+                                        :placeholder="$t('registrationDoctor.surname')"
                                         class="form-control"
                                         v-model="surname"
                                         :state="getValidationState(validationContext)"
                                         aria-describedby="input-5-live-feedback"
-                                        required
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="surname == ''">Пожалуйста,
-                                    введите Фамилию
+                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="surname === ''">
+                                    {{ $t('registrationDoctor.surnameEmpty') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>
@@ -165,19 +160,18 @@
                                         type="text"
                                         id="position-input-6"
                                         name="position-input-6"
-                                        placeholder="Position"
+                                        :placeholder="$t('registrationDoctor.position')"
                                         class="form-control"
                                         v-model="position"
                                         :state="getValidationState(validationContext)"
-                                        aria-describedby="input-5-live-feedback"
-                                        required
+                                        aria-describedby="input-6-live-feedback"
                                 ></b-form-input>
 
-                                <b-form-invalid-feedback id="input-6-live-feedback" v-if="position == ''">
-                                    Пожалуйста, введите должность
+                                <b-form-invalid-feedback id="input-6-live-feedback" v-if="position === ''">
+                                    {{ $t('registrationDoctor.positionEmpty') }}
                                 </b-form-invalid-feedback>
-                                <b-form-invalid-feedback id="input-6-live-feedback" v-else>
-                                    Должность должна быть не меньше трёх символов
+                                <b-form-invalid-feedback id="input-6-live-feedback" v-else-if="position < 3">
+                                    {{ $t('registrationDoctor.positionLess') }}
                                 </b-form-invalid-feedback>
                             </div>
                         </div>

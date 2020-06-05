@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -21,28 +22,30 @@ import java.util.*;
 public class Doctor implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
     private Long id;
 
     @NotBlank(message = "username can't be empty!")
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
+    @Length(min = 3)
     private String username;
     @NotBlank(message = "password can't be empty!")
+    @Length(min = 6)
     private String password;
     @NotBlank(message = "email can't be empty")
     @Email
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
+    @Length(min = 6)
     private String email;
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
+    @NotBlank(message = "firstName can't be empty")
+    @Length(min = 2)
     private String firstName;
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
+    @NotBlank(message = "surname can't be empty")
+    @Length(min = 3)
     private String surname;
-    @JsonView(Views.IdUsernameEmailFirstNameSurnamePosition.class)
+    @NotBlank(message = "position can't be empty")
+    @Length(min = 3)
     private String position;
-    @JsonView(Views.FullDoctor.class)
     private String experience;
+    private String doctorPicture;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonView(Views.FullDoctor.class)
     private LocalDateTime lastVisit;
     @JsonView(Views.FullDoctor.class)
     private boolean active;
@@ -52,6 +55,15 @@ public class Doctor implements UserDetails, Serializable {
     @Enumerated(EnumType.STRING)
     @JsonView(Views.FullDoctor.class)
     private Set<Role> roles;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
+    @JsonView(Views.FullDoctor.class)
+    private Clinic clinic;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(

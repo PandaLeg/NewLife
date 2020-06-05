@@ -3,6 +3,7 @@ package com.newLife.domain;
 import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -22,24 +23,27 @@ import java.util.Set;
 public class Clinic implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
     private Long id;
     @NotBlank(message = "username can't be empty!")
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
+    @Length(min = 3)
     private String username;
     @NotBlank(message = "password can't be empty!")
+    @Length(min = 6)
     private String password;
     @NotBlank(message = "email can't be empty")
     @Email
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
+    @Length(min = 6)
     private String email;
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
+    @NotBlank(message = "name clinic can't be empty")
     private String nameClinic;
-    @JsonView(Views.IdUsernameEmailNameClinicAddress.class)
+    @NotBlank(message = "address can't be empty")
     private String address;
+    @NotBlank(message = "city can't be empty")
+    @Length(min = 3)
+    private String city;
     private String phone;
+    private String clinicPicture;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonView(Views.FullClinic.class)
     private LocalDateTime lastVisit;
     @JsonView(Views.FullClinic.class)
     private boolean active;
@@ -72,6 +76,7 @@ public class Clinic implements UserDetails, Serializable {
             joinColumns = {@JoinColumn(name = "clinic_id")},
             inverseJoinColumns = {@JoinColumn(name = "patient_id")}
     )
+
     @JsonView(Views.FullClinic.class)
     @JsonIdentityReference
     @JsonIdentityInfo(
@@ -83,13 +88,22 @@ public class Clinic implements UserDetails, Serializable {
     public Clinic() {
     }
 
-    public Clinic(String username, String password, String email, String nameClinic, String address) {
+
+    public Clinic(String username, String password, String email, String nameClinic, String address, String city,
+                  String clinicPicture) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.nameClinic = nameClinic;
         this.address = address;
+        this.city = city;
+        this.clinicPicture = clinicPicture;
     }
+
+    boolean checkBindingDoctorToClinic(Doctor doctor){
+        return doctors.contains(doctor);
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

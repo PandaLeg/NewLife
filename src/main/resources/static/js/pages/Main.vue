@@ -7,7 +7,57 @@
 
         </div>
         <div v-else>
-            <!--<messages-list></messages-list>-->
+            <div v-if="(profileDoctor || profileClinic || profilePatient) && $route.path === '/'">
+                <b-carousel
+                        id="carousel-1"
+                        :interval="4000"
+                        controls
+                        indicators
+                        background="#ababab"
+                        style="text-shadow: 1px 1px 2px #333;"
+                >
+                    <!-- Text slides with image -->
+                    <b-carousel-slide>
+                        <template v-slot:img>
+                            <img
+                                    class="d-block img-fluid w-100 h-25"
+                                    width="1024"
+                                    height="480"
+                                    src="https://picsum.photos/1024/480/?image=52"
+                            >
+                        </template>
+                        <h1>Hello world!</h1>
+                    </b-carousel-slide>
+
+                    <!-- Slides with image only -->
+                    <b-carousel-slide>
+                        <template v-slot:img>
+                            <img
+                                    class="d-block img-fluid w-100 h-25"
+                                    width="1024"
+                                    height="480"
+                                    src="https://picsum.photos/1024/480/?image=55"
+                                    alt="image slot"
+                            >
+                        </template>
+                    </b-carousel-slide>
+
+                    <!-- Slides with img slot -->
+                    <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
+                    <b-carousel-slide width="1024"
+                                      height="480">
+                        <template v-slot:img>
+                            <img
+                                    class="d-block img-fluid w-100 h-25"
+                                    width="1024"
+                                    height="480"
+                                    src="https://picsum.photos/1024/480/?image=58"
+                                    alt="image slot"
+                            >
+                        </template>
+                    </b-carousel-slide>
+                </b-carousel>
+            </div>
         </div>
         <router-view></router-view>
     </div>
@@ -19,6 +69,7 @@
     import NavBar from 'components/navbar/NavBar.vue'
 
     export default {
+        name: 'Main',
         components:{
             MessagesList,
             NavBar

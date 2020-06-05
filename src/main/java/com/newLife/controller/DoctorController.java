@@ -1,8 +1,10 @@
 package com.newLife.controller;
 
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.newLife.domain.*;
+import com.newLife.domain.Clinic;
+import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
+import com.newLife.domain.Request;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.service.DoctorService;
@@ -69,6 +71,25 @@ public class DoctorController {
         return doctorService.sendRequest(doctor, patient, clinic);
     }
 
+
+    @PutMapping("/update-doctor-profile")
+    public Doctor updateProfileDoctor(
+            @AuthenticationPrincipal Doctor currentDoctor,
+            @RequestBody Doctor doctor
+    ) {
+        if (doctor.getUsername() != null && !doctor.getUsername().equals(currentDoctor.getUsername())) {
+            currentDoctor.setUsername(doctor.getUsername());
+        }
+        if (doctor.getExperience() != null && !doctor.getExperience().equals(currentDoctor.getExperience())) {
+            currentDoctor.setExperience(doctor.getExperience());
+        }
+        if (doctor.getPatients() != null && !doctor.getPatients().equals(currentDoctor.getPosition())) {
+            currentDoctor.setPosition(doctor.getPosition());
+        }
+
+        return doctorRepo.save(currentDoctor);
+    }
+
     @PutMapping("/update-visit-doctor/{id}")
     public Doctor updateVisit(
             @PathVariable(value = "id") Doctor doctor) {
@@ -84,8 +105,7 @@ public class DoctorController {
 
     @DeleteMapping("/cancel-request-doctor/{id}")
     public void cancelRequest(
-            @PathVariable("id") Request request
-    ){
+            @PathVariable("id") Request request) {
         doctorService.cancel(request);
     }
 
@@ -95,10 +115,10 @@ public class DoctorController {
             @AuthenticationPrincipal Patient patient,
             @AuthenticationPrincipal Clinic clinic
     ) {
-        if(patient != null){
+        if (patient != null) {
             return doctor.getPatients().contains(patient);
         }
-        if(clinic != null){
+        if (clinic != null) {
             return clinic.getDoctors().contains(doctor);
         }
         return false;
@@ -108,8 +128,7 @@ public class DoctorController {
     public void cancelBindingFromDoctor(
             @PathVariable("id") Doctor doctor,
             @AuthenticationPrincipal Patient patient,
-            @AuthenticationPrincipal Clinic clinic
-    ){
+            @AuthenticationPrincipal Clinic clinic) {
         doctorService.cancelBinding(doctor, patient, clinic);
     }
 }

@@ -11,15 +11,9 @@ export default new Vuex.Store({
                 profileClinic: allData.profileClinic,
                 profileDoctor: allData.profileDoctor,
                 profilePatient: allData.profilePatient,
-                messages: [
-                    {id: 1, text: 'Первый тост за localhost'},
-                    {id: 2, text: 'Wow!So nice'}
-                ]
+                defaultPicture: '/img/DefaultAvatar.png'
             }),
             getters: {
-                getAllMessages: state => {
-                    return state.messages
-                }
             }
         }
     }

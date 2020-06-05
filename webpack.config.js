@@ -37,6 +37,13 @@ module.exports = {
                     'vue-style-loader',
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.svg$/,
+                use: [
+                    'babel-loader',
+                    'vue-svg-loader'
+                ]
             }
         ]
     },

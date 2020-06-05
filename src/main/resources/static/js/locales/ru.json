@@ -1,0 +1,162 @@
+{
+  "navBar": {
+    "home": "Главная",
+    "clinic": "Клиники",
+    "requests": "Запросы",
+    "listDoctors": "Список Докторов",
+    "listPatients": "Список Пациентов",
+    "messages": "Уведомления",
+    "addChild": "Добавить Ребёнка",
+    "stateChild": "Состояние Детей",
+    "pleaseLogin": "Пожалуйста, авторизуйтесь",
+    "signIn": "Войти",
+    "profile": "Профиль",
+    "editing": "Редактирование",
+    "signOut": "Выйти"
+  },
+  "main": {
+    "messages": "Показать {message}"
+  },
+  "clinicProfile": {
+    "about": "О нас",
+    "achievements": "Достижения",
+    "nameClinic": "Название клиники",
+    "phone": "Телефон",
+    "specified": "Не указан",
+    "address": "Адресс",
+    "listDoctors": "Список Докторов",
+    "listPatients": "Список Пациентов",
+    "editProfile": "Редактировать"
+  },
+  "doctorProfile": {
+    "about": "О себе",
+    "achievements": "Достижения",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "specialization": "Специализация",
+    "experience": "Опыт",
+    "specified": "Не указан",
+    "editProfile": "Редактировать"
+  },
+  "patientProfile": {
+    "about": "О себе",
+    "interests": "Интересы",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "children": "Дети",
+    "sendMessage": "Отправить уведомление",
+    "title": "Заголовок",
+    "description": "Описание",
+    "send": "Отправить",
+    "close": "Закрыть",
+    "editProfile": "Редактировать"
+  },
+  "childProfile": {
+    "about": "О ребёнке",
+    "interests": "Интересы",
+    "name": "Имя",
+    "age": "Возраст",
+    "height": "Рост",
+    "weight": "Вес",
+    "specified": "Не указан",
+    "state": "Состояние",
+    "indicators": "Показатели",
+    "temperature": "Температура",
+    "pulse": "Пульс",
+    "pressure": "Давление",
+    "editProfile": "Редактировать"
+  },
+  "editingProfile": {
+    "changeProfile": "Изменить Профиль",
+    "changeAvatar": "Изменить аватар",
+    "saveAvatar": "Сохранить аватар",
+    "enterName": "Введите имя",
+    "enterCity": "Введите город",
+    "enterAddress": "Введите адресс",
+    "enterPhone": "Введите номер телефона",
+    "saveInformation": "Сохранить информацию",
+    "experience": "Укажите ваш опыт работы",
+    "position": "Укажите должность"
+  },
+  "messagesList": {
+    "listMessages": "Список сообщений"
+  },
+  "formAddChild": {
+    "addChild": "Добавить Ребёнка",
+    "nameChild": "Имя ребёнка",
+    "age": "Возраст",
+    "add": "Добавить"
+  },
+  "listDoctors": {
+    "listDoctors": "Список Докторов"
+  },
+  "listPatients": {
+    "listPatients": "Список Пациентов"
+  },
+  "state": {
+    "addIndicators": "Добавить показатели"
+  },
+  "login": {
+    "pleaseSignIn": "Пожалуйста войдите",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "signIn": "Войти",
+    "account": "Нет аккаунта?",
+    "clinic": "Создать аккаунт клиники",
+    "doctor": "Создать аккаунт доктора",
+    "patient": "Создать аккаунт пациента",
+    "usernameEmpty": "Имя пользователя не может быть пустым",
+    "passwordEmpty": "Пароль не может быть пустым"
+  },
+  "registrationClinic": {
+    "registrationNewAccount": "Регистрация",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "nameClinic": "Название клиники",
+    "address": "Адресс",
+    "city": "Город",
+    "usernameEmpty": "Имя пользователя не может быть пустым",
+    "usernameLess": "Имя пользователя должно быть не меньше трёх символов",
+    "passwordEmpty": "Пароль не может быть пустым",
+    "passwordLess": "Пароль должен быть не меньше шести символов",
+    "emailEmpty": "Email не может быть пустым!",
+    "emailLess": "Email не может быть меньше 6 символов(включая @)",
+    "nameClinicEmpty": "Пожалуйста,введите название клиники",
+    "addressEmpty": "Пожалуйста,введите адресс клиники",
+    "cityEmpty": "Пожалуйста, введите город",
+    "create": "Создать"
+  },
+  "registrationDoctor": {
+    "registrationNewAccount": "Регистрация",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "position": "Должность(Специализация)",
+    "usernameEmpty": "Имя пользователя не может быть пустым",
+    "usernameLess": "Имя пользователя должно быть не меньше трёх символов",
+    "passwordEmpty": "Пароль не может быть пустым",
+    "passwordLess": "Пароль должен быть не меньше шести символов",
+    "emailEmpty": "Email не может быть пустым!",
+    "emailLess": "Email не может быть меньше 6 символов(включая @)",
+    "nameEmpty": "Пожалуйста, введите Имя",
+    "surnameEmpty": "Пожалуйста, введите фамилию",
+    "positionEmpty": "Пожалуйста, введите должность(специализацию)",
+    "positionLess": "Должность должна быть не меньше трёх символов"
+  },
+  "registrationPatient": {
+    "registrationNewAccount": "Регистрация",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "usernameEmpty": "Имя пользователя не может быть пустым",
+    "usernameLess": "Имя пользователя должно быть не меньше трёх символов",
+    "passwordEmpty": "Пароль не может быть пустым",
+    "passwordLess": "Пароль должен быть не меньше шести символов",
+    "emailEmpty": "Email не может быть пустым!",
+    "emailLess": "Email не может быть меньше 6 символов(включая @)",
+    "nameEmpty": "Пожалуйста, введите имя",
+    "surnameEmpty": "Пожалуйста, введите фамилию"
+  }
+}

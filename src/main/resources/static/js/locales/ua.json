@@ -1,0 +1,162 @@
+{
+  "navBar": {
+    "home": "Головна",
+    "clinic": "Клініки",
+    "requests": "Запити",
+    "listDoctors": "Список Докторів",
+    "listPatients": "Список Пацієнтів",
+    "messages": "Повідомлення",
+    "addChild": "Додати Дитину",
+    "stateChild": "Стан Дітей",
+    "pleaseLogin": "Будь ласка, авторизуйтесь",
+    "signIn": "Увійти",
+    "profile": "Профіль",
+    "editing": "Редагування",
+    "signOut": "Вийти"
+  },
+  "main": {
+    "messages": "Показать {message}"
+  },
+  "clinicProfile": {
+    "about": "Про нас",
+    "achievements": "Досягнення",
+    "nameClinic": "Назва клініки",
+    "phone": "Телефон",
+    "specified": "Не вказано",
+    "address": "Адреса",
+    "listDoctors": "Список Докторів",
+    "listPatients": "Список Пацієнтів",
+    "editProfile": "Редагувати"
+  },
+  "doctorProfile": {
+    "about": "Про себе",
+    "achievements": "Досягнення",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "specialization": "Спеціалізація",
+    "experience": "Досвід",
+    "specified": "Не вказано",
+    "editProfile": "Редагувати"
+  },
+  "patientProfile": {
+    "about": "Про себе",
+    "interests": "Інтереси",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "children": "Діти",
+    "sendMessage": "Відправити повідомлення",
+    "title": "Заголовок",
+    "description": "Опис",
+    "send": "Відправити",
+    "close": "Закрити",
+    "editProfile": "Редагувати"
+  },
+  "childProfile": {
+    "about": "Про дитину",
+    "interests": "Інтереси",
+    "name": "Ім'я",
+    "age": "Вік",
+    "height": "Зріст",
+    "weight": "Вага",
+    "specified": "Не вказано",
+    "state": "Стан",
+    "indicators": "Показники",
+    "temperature": "Температура",
+    "pulse": "Пульс",
+    "pressure": "Тиск",
+    "editProfile": "Редагувати"
+  },
+  "editingProfile": {
+    "changeProfile": "Змінити Профіль",
+    "changeAvatar": "Змінити аватар",
+    "saveAvatar": "Зберегти аватар",
+    "enterName": "Введіть ім'я",
+    "enterCity": "Введіть місто",
+    "enterAddress": "Введіть адресу",
+    "enterPhone": "Введіть номер телефону",
+    "saveInformation": "Зберегти інформацію",
+    "experience": "Вкажіть ваш досвід роботи",
+    "position": "Вкажіть посаду"
+  },
+  "messagesList": {
+    "listMessages": "Лист повідомлень"
+  },
+  "formAddChild": {
+    "addChild": "Додати дитину",
+    "nameChild": "Ім'я дитини",
+    "age": "Вік",
+    "add": "Додати"
+  },
+  "listDoctors": {
+    "listDoctors": "Лист Докторів"
+  },
+  "listPatients": {
+    "listPatients": "Лист Пацієнтів"
+  },
+  "state": {
+    "addIndicators": "Додати показники"
+  },
+  "login": {
+    "pleaseSignIn": "Будь ласка, війдіть",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "signIn": "Увійти",
+    "account": "Немає облікового запису?",
+    "clinic": "Створити акаунт клініки",
+    "doctor": "Створити акаунт доктора",
+    "patient": "Створити акаунт пацієнта",
+    "usernameEmpty": "Ім'я користувача не може бути порожнім",
+    "passwordEmpty": "Пароль не може бути порожнім"
+  },
+  "registrationClinic": {
+    "registrationNewAccount": "Реєстрація",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "nameClinic": "Назва клініки",
+    "address": "Адреса",
+    "city": "Місто",
+    "usernameEmpty": "Ім'я користувача не може бути порожнім",
+    "usernameLess": "Ім'я користувача має бути не менше трьох символів",
+    "passwordEmpty": "Пароль не може бути порожнім",
+    "passwordLess": "Пароль повинен бути не менше шести символів",
+    "emailEmpty": "Email не може бути порожнім!",
+    "emailLess": "Email не може бути менше 6 символів (включаючи @)",
+    "nameClinicEmpty": "Будь ласка, введіть назву клініки",
+    "addressEmpty": "Будь ласка, введіть адресу клініки",
+    "cityEmpty": "Будь ласка, введіть місто",
+    "create": "Створити"
+  },
+  "registrationDoctor": {
+    "registrationNewAccount": "Реєстрація",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "position": "Посада (Спеціалізація)",
+    "usernameEmpty": "Ім'я користувача не може бути порожнім",
+    "usernameLess": "Ім'я користувача має бути не менше трьох символів",
+    "passwordEmpty": "Пароль не може бути порожнім",
+    "passwordLess": "Пароль повинен бути не менше шести символів",
+    "emailEmpty": "Email не може бути порожнім!",
+    "emailLess": "Email не може бути менше 6 символів (включаючи @)",
+    "nameEmpty": "Будь ласка, введіть ім'я",
+    "surnameEmpty": "Будь ласка, введіть прізвище",
+    "positionEmpty": "Будь ласка, введіть посаду (спеціалізацію)",
+    "positionLess": "Посада повинна бути не менше трьох символів"
+  },
+  "registrationPatient": {
+    "registrationNewAccount": "Реєстрація",
+    "username": "Ім'я користувача",
+    "password": "Пароль",
+    "name": "Ім'я",
+    "surname": "Прізвище",
+    "usernameEmpty": "Ім'я користувача не може бути порожнім",
+    "usernameLess": "Ім'я користувача має бути не менше трьох символів",
+    "passwordEmpty": "Пароль не може бути порожнім",
+    "passwordLess": "Пароль повинен бути не менше шести символів",
+    "emailEmpty": "Email не може бути порожнім!",
+    "emailLess": "Email не може бути менше 6 символів (включаючи @)",
+    "nameEmpty": "Будь ласка, введіть ім'я",
+    "surnameEmpty": "Будь ласка, введіть прізвище"
+  }
+}

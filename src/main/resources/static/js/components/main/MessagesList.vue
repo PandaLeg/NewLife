@@ -1,6 +1,6 @@
 <template>
     <div v-if="profileClinic || profileDoctor || profilePatient">
-        <message-row v-for="message in getAllMessages" :key="message.id" :message="message"> </message-row>
+
     </div>
 </template>
 
@@ -14,7 +14,6 @@
         },
         computed: {
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient']),
-            ...mapGetters('mainModule', ['getAllMessages'])
         }
     }
 </script>

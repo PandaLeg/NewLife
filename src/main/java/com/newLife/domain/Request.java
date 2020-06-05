@@ -1,6 +1,7 @@
 package com.newLife.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ public class Request implements Serializable{
     private String message;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class
@@ -27,6 +29,7 @@ public class Request implements Serializable{
     private Doctor doctor;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class
@@ -34,6 +37,7 @@ public class Request implements Serializable{
     private Clinic clinic;
 
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class

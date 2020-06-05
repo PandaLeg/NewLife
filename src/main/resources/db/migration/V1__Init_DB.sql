@@ -3,13 +3,15 @@ create sequence hibernate_sequence start 1 increment 1;
 create table clinic (
     id int8 not null,
     active boolean not null,
-    address varchar(255),
+    address varchar(255) not null,
+    city varchar(255) not null,
     email varchar(255) not null,
     last_visit timestamp,
     name_clinic varchar(255) not null,
     password varchar(255) not null,
     phone varchar(255),
     username varchar(255) not null,
+    clinic_picture varchar(255),
     primary key (id)
 );
 
@@ -29,6 +31,7 @@ create table doctor (
     password varchar(255) not null,
     position varchar(255) not null,
     username varchar(255) not null,
+    doctor_picture varchar(255),
     primary key (id)
 );
 
@@ -44,6 +47,7 @@ create table patient (
     email varchar(255) not null,
     first_name varchar(255) not null,
     surname varchar(255) not null,
+    patient_picture varchar(255),
     active boolean not null,
     last_visit timestamp,
     primary key (id)

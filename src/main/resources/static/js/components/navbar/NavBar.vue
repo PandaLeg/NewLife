@@ -6,37 +6,44 @@
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
                 <b-navbar-nav>
-                    <b-nav-item href="/">Home</b-nav-item>
+                    <b-nav-item href="/">{{ $t('navBar.home') }}</b-nav-item>
                     <b-nav-item v-if="profileClinic || profileDoctor || profilePatient" @click="allClinic">
-                        Клиники
+                        {{ $t('navBar.clinic') }}
                     </b-nav-item>
                     <b-nav-item v-if="profileClinic || profileDoctor" @click="allRequests">
-                        Запросы
+                        {{ $t('navBar.requests') }}
                     </b-nav-item>
                     <b-nav-item v-if="profileClinic" @click="allDoctors">
-                        Список докторов
+                        {{ $t('navBar.listDoctors') }}
                     </b-nav-item>
                     <b-nav-item v-if="profileClinic || profileDoctor" @click="allPatients">
-                        Список пациентов
+                        {{ $t('navBar.listPatients') }}
+                    </b-nav-item>
+                    <b-nav-item v-if="profilePatient" @click="allMessages">
+                        {{ $t('navBar.messages') }}
                     </b-nav-item>
                     <b-nav-item v-if="profilePatient" @click="formAddChild">
-                        Добавить ребёнка
+                        {{ $t('navBar.addChild') }}
                     </b-nav-item>
                     <b-nav-item v-if="profilePatient" @click="stateChild">
-                        Состояние детей
+                        {{ $t('navBar.stateChild') }}
                     </b-nav-item>
                 </b-navbar-nav>
 
                 <!-- Right aligned nav items -->
-                <b-navbar-nav class="ml-auto"  v-if="profileClinic || profileDoctor || profilePatient">
+                <b-navbar-nav class="ml-auto" v-if="profileClinic || profileDoctor || profilePatient">
 
                     <b-nav-item-dropdown right v-if="profileClinic">
                         <!-- Using 'button-content' slot -->
                         <template v-slot:button-content>
                             <em>{{profileClinic.username}}</em>
                         </template>
-                        <b-dropdown-item @click="showClinicProfile">Profile</b-dropdown-item>
-                        <b-dropdown-item @click="updateVisit" href="/logout">Sign Out</b-dropdown-item>
+                        <b-dropdown-item @click="showClinicProfile">{{ $t('navBar.profile') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="editingProfile">{{ $t('navBar.editing') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="updateVisit" href="/logout">{{ $t('navBar.signOut') }}
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
 
                     <b-nav-item-dropdown right v-if="profileDoctor">
@@ -44,8 +51,12 @@
                         <template v-slot:button-content>
                             <em>{{profileDoctor.username}}</em>
                         </template>
-                        <b-dropdown-item @click="showDoctorProfile"> Profile </b-dropdown-item>
-                        <b-dropdown-item @click="updateVisit" href="/logout" >Sign Out</b-dropdown-item>
+                        <b-dropdown-item @click="showDoctorProfile"> {{ $t('navBar.profile') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="editingProfile">{{ $t('navBar.editing') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="updateVisit" href="/logout"> {{ $t('navBar.signOut') }}
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
 
                     <b-nav-item-dropdown right v-if="profilePatient">
@@ -53,43 +64,72 @@
                         <template v-slot:button-content>
                             <em>{{profilePatient.username}}</em>
                         </template>
-                        <b-dropdown-item @click="showPatientProfile">Profile</b-dropdown-item>
-                        <b-dropdown-item @click="updateVisit" href="/logout">Sign Out</b-dropdown-item>
+                        <b-dropdown-item @click="showPatientProfile"> {{ $t('navBar.profile') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="editingProfile">{{ $t('navBar.editing') }}</b-dropdown-item>
+                        <b-dropdown-divider></b-dropdown-divider>
+                        <b-dropdown-item @click="updateVisit" href="/logout"> {{ $t('navBar.signOut') }}
+                        </b-dropdown-item>
                     </b-nav-item-dropdown>
+                    <b-navbar-nav class="ml-auto">
+                        <b-nav-item-dropdown right>
+                            <!-- Using 'button-content' slot -->
+                            <template v-slot:button-content class="locale-switcher">
+                                🌐 {{$i18n.locale}}
+                            </template>
+                            <LocaleSwitcher/>
+                        </b-nav-item-dropdown>
+                    </b-navbar-nav>
                 </b-navbar-nav>
             </b-collapse>
             <div class="navbar-text mr-3" v-if="!profileClinic && !profileDoctor && !profilePatient">
-                Please, login!
+                {{ $t('navBar.pleaseLogin') }}
             </div>
             <div v-if="!profileClinic && !profileDoctor && !profilePatient">
-                <router-link to="/login">Войти</router-link>
+                <router-link :to="{name: 'login'}">{{ $t('navBar.signIn') }}</router-link>
+            </div>
+            <div v-if="!profileClinic && !profileDoctor && !profilePatient">
+                <b-navbar-nav class="ml-auto">
+                    <b-nav-item-dropdown right>
+                        <!-- Using 'button-content' slot -->
+                        <template v-slot:button-content class="locale-switcher">
+                            🌐 {{$i18n.locale}}
+                        </template>
+                        <LocaleSwitcher/>
+                    </b-nav-item-dropdown>
+                </b-navbar-nav>
             </div>
         </b-navbar>
     </div>
 </template>
 
 <script>
+    import LocaleSwitcher from 'switcher/LocaleSwitcher.vue'
+
     export default {
         props: ['profileClinic', 'profileDoctor', 'profilePatient'],
+        components: {
+            LocaleSwitcher
+        },
         data() {
-            return{
+            return {
                 idClinic: 0,
                 idDoctor: 0,
                 idPatient: 0
             }
         },
-        created(){
-            if(this.profileClinic != null) {
+        created() {
+            if (this.profileClinic != null) {
                 this.idClinic = this.profileClinic.id;
             }
-            if(this.profileDoctor != null) {
+            if (this.profileDoctor != null) {
                 this.idDoctor = this.profileDoctor.id;
             }
-            if(this.profilePatient != null) {
+            if (this.profilePatient != null) {
                 this.idPatient = this.profilePatient.id;
             }
         },
-        methods:{
+        methods: {
             allClinic() {
                 this.$router.push("/clinics")
             },
@@ -102,37 +142,49 @@
             allPatients() {
                 this.$router.push("/patients-list")
             },
-            showClinicProfile() {
-                this.$router.push({name: 'clinicProfile', params: { idProfileClinic: this.idClinic } })
+            allMessages() {
+                this.$router.push("/messages-list")
             },
-            showDoctorProfile() {
-                this.$router.push({name: 'doctorProfile', params: { idProfileDoctor: this.idDoctor } })
+            showClinicProfile()
+            {
+                this.$router.push({name: 'clinicProfile', params: {idProfileClinic: this.idClinic}})
             },
-            showPatientProfile() {
-                this.$router.push({name: 'patientProfile', params: { idProfilePatient: this.idPatient } })
+            showDoctorProfile()
+            {
+                this.$router.push({name: 'doctorProfile', params: {idProfileDoctor: this.idDoctor}})
             },
-            updateVisit() {
-                if(this.profileClinic != null) {
+            showPatientProfile()
+            {
+                this.$router.push({name: 'patientProfile', params: {idProfilePatient: this.idPatient}})
+            },
+            editingProfile()
+            {
+                this.$router.push("/edit-profile")
+            },
+            updateVisit()
+            {
+                if (this.profileClinic != null) {
                     this.$resource('/update-visit-clinic/{id}').update({id: this.profileClinic.id}, {})
                         .then()
-                }else if(this.profileDoctor != null){
+                } else if (this.profileDoctor != null) {
                     this.$resource('/update-visit-doctor/{id}').update({id: this.profileDoctor.id}, {})
                         .then()
-                }else{
+                } else {
                     this.$resource('/update-visit-patient/{id}').update({id: this.profilePatient.id}, {})
                         .then()
                 }
             },
-            formAddChild() {
+            formAddChild()
+            {
                 this.$router.push('/add-child')
             },
-            stateChild(){
+            stateChild()
+            {
                 this.$router.push('/state')
             }
         }
     }
 </script>
 
-<style>
-
+<style scoped>
 </style>

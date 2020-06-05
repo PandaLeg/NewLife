@@ -1,0 +1,162 @@
+{
+  "navBar": {
+    "home": "Home",
+    "clinic": "Clinics",
+    "requests": "Requests",
+    "listDoctors": "List Doctors",
+    "listPatients": "List Patients",
+    "messages": "Messages",
+    "addChild": "Add Child",
+    "stateChild": "State Children",
+    "pleaseLogin": "Please login",
+    "signIn": "Sign In",
+    "profile": "Profile",
+    "editing": "Editing",
+    "signOut": "Sign Out"
+  },
+  "main": {
+    "messages": "Show {message}"
+  },
+  "clinicProfile": {
+    "about": "About",
+    "achievements": "Achievements",
+    "nameClinic": "Name of clinic",
+    "phone": "Phone",
+    "specified": "Not specified",
+    "address": "Address",
+    "listDoctors": "List of doctors",
+    "listPatients": "List of patients",
+    "editProfile": "Edit profile"
+  },
+  "doctorProfile": {
+    "about": "About",
+    "achievements": "Achievements",
+    "name": "Name",
+    "surname": "Surname",
+    "specialization": "Specialization",
+    "experience": "Experience",
+    "specified": "Not specified",
+    "editProfile": "Edit profile"
+  },
+  "patientProfile": {
+    "about": "About",
+    "interests": "Interests",
+    "name": "Name",
+    "surname": "Surname",
+    "children": "Children",
+    "sendMessage": "Send Message",
+    "title": "Title",
+    "description": "Description",
+    "send": "Send",
+    "close": "Close",
+    "editProfile": "Edit profile"
+  },
+  "childProfile": {
+    "about": "About",
+    "interests": "Interests",
+    "name": "Name",
+    "age": "Age",
+    "height": "Height",
+    "weight": "Weight",
+    "specified": "Not specified",
+    "state": "State",
+    "indicators": "Indicators",
+    "temperature": "Temperature",
+    "pulse": "Pulse",
+    "pressure": "Pressure",
+    "editProfile": "Edit profile"
+  },
+  "editingProfile": {
+    "changeProfile": "Change Profile",
+    "changeAvatar": "Change Avatar",
+    "saveAvatar": "Save Avatar",
+    "enterName": "Enter your name",
+    "enterCity": "Enter city",
+    "enterAddress": "Enter address",
+    "enterPhone": "Enter phone",
+    "saveInformation": "Save information",
+    "experience": "Indicate your work experience",
+    "position": "Specify a position"
+  },
+  "messagesList": {
+    "listMessages": "List of messages"
+  },
+  "formAddChild": {
+    "addChild": "Add child",
+    "nameChild": "Name child",
+    "age": "Age",
+    "add": "Add"
+  },
+  "listDoctors": {
+    "listDoctors": "List of doctors"
+  },
+  "listPatients": {
+    "listPatients": "List of patients"
+  },
+  "state": {
+    "addIndicators": "Add Indicators"
+  },
+  "login": {
+    "pleaseSignIn": "Please Sign In",
+    "username": "Username",
+    "password": "Password",
+    "signIn": "Sign in",
+    "account": "Don't have an account?",
+    "clinic": "Create a new clinic account",
+    "doctor": "Create a new doctor account",
+    "patient": "Create a new patient account",
+    "usernameEmpty": "Username can't be empty",
+    "passwordEmpty": "Password can't be empty"
+  },
+  "registrationClinic": {
+    "registrationNewAccount": "Registration",
+    "username": "Username",
+    "password": "Password",
+    "nameClinic": "Name of clinic",
+    "address": "Address",
+    "city": "City",
+    "usernameEmpty": "Username can't be empty",
+    "usernameLess": "Username must be at least three characters",
+    "passwordEmpty": "Password can't be empty",
+    "passwordLess": "Password must be at least six characters",
+    "emailEmpty": "Email can't be empty",
+    "emailLess": "Email can't be less than 6 characters (including @)",
+    "nameClinicEmpty": "Please enter the name of the clinic",
+    "addressEmpty": "Please enter the clinic address",
+    "cityEmpty": "Please enter a city",
+    "create": "Create"
+  },
+  "registrationDoctor": {
+    "registrationNewAccount": "Registration",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "surname": "Surname",
+    "position": "Specialization",
+    "usernameEmpty": "Username can't be empty",
+    "usernameLess": "Username must be at least three characters",
+    "passwordEmpty": "Password can't be empty",
+    "passwordLess": "Password must be at least six characters",
+    "emailEmpty": "Email can't be empty",
+    "emailLess": "Email can't be less than 6 characters (including @)",
+    "nameEmpty": "Please enter a name",
+    "surnameEmpty": "Please enter a surname",
+    "positionEmpty": "Please enter a position",
+    "positionLess": "Position must be at least three characters"
+  },
+  "registrationPatient": {
+    "registrationNewAccount": "Registration",
+    "username": "Username",
+    "password": "Password",
+    "name": "Name",
+    "surname": "Surname",
+    "usernameEmpty": "Username can't be empty",
+    "usernameLess": "Username must be at least three characters",
+    "passwordEmpty": "Password can't be empty",
+    "passwordLess": "Password must be at least six characters",
+    "emailEmpty": "Email can't be empty",
+    "emailLess": "Email can't be less than 6 characters (including @)",
+    "nameEmpty": "Please enter a name",
+    "surnameEmpty": "Please enter a surname"
+  }
+}

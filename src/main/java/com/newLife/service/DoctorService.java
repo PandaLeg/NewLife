@@ -19,7 +19,8 @@ public class DoctorService {
     private final PatientRepo patientRepo;
 
     @Autowired
-    public DoctorService(RequestRepo requestRepo, DoctorRepo doctorRepo, ClinicRepo clinicRepo, PatientRepo patientRepo) {
+    public DoctorService(RequestRepo requestRepo, DoctorRepo doctorRepo, ClinicRepo clinicRepo,
+                         PatientRepo patientRepo) {
         this.requestRepo = requestRepo;
         this.doctorRepo = doctorRepo;
         this.clinicRepo = clinicRepo;

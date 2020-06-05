@@ -33,6 +33,19 @@ public class RegistrationController {
 
     @PostMapping("/registration-clinic")
     public Clinic addClinic(@Valid @RequestBody Clinic clinic) {
+        Clinic clinicFromDb = clinicRepo.findByUsername(clinic.getUsername());
+        Doctor doctorFromDb = doctorRepo.findByUsername(clinic.getUsername());
+        Patient patientFromDb = patientRepo.findByUsername(clinic.getUsername());
+
+        if(clinicFromDb != null){
+            return null;
+        }
+        if(doctorFromDb != null){
+            return null;
+        }
+        if(patientFromDb != null){
+            return null;
+        }
         clinic.setActive(true);
         clinic.setLastVisit(LocalDateTime.now());
         clinic.setRoles(Collections.singleton(Role.Clinic));
@@ -43,6 +56,19 @@ public class RegistrationController {
 
     @PostMapping("/registration-doctor")
     public Doctor addDoctor(@Valid @RequestBody Doctor doctor) {
+        Clinic clinicFromDb = clinicRepo.findByUsername(doctor.getUsername());
+        Doctor doctorFromDb = doctorRepo.findByUsername(doctor.getUsername());
+        Patient patientFromDb = patientRepo.findByUsername(doctor.getUsername());
+
+        if(clinicFromDb != null){
+            return null;
+        }
+        if(doctorFromDb != null){
+            return null;
+        }
+        if(patientFromDb != null){
+            return null;
+        }
         doctor.setActive(true);
         doctor.setLastVisit(LocalDateTime.now());
         doctor.setRoles(Collections.singleton(Role.Doctor));
@@ -53,6 +79,19 @@ public class RegistrationController {
 
     @PostMapping("/registration-patient")
     public Patient addPatient(@Valid @RequestBody Patient patient) {
+        Clinic clinicFromDb = clinicRepo.findByUsername(patient.getUsername());
+        Doctor doctorFromDb = doctorRepo.findByUsername(patient.getUsername());
+        Patient patientFromDb = patientRepo.findByUsername(patient.getUsername());
+
+        if(clinicFromDb != null){
+            return null;
+        }
+        if(doctorFromDb != null){
+            return null;
+        }
+        if(patientFromDb != null){
+            return null;
+        }
         patient.setActive(true);
         patient.setLastVisit(LocalDateTime.now());
         patient.setRoles(Collections.singleton(Role.Patient));

@@ -11,6 +11,7 @@ import ListPatients from 'pages/ListPatients.vue'
 import ClinicProfile from 'pages/ClinicProfile.vue'
 import DoctorProfile from 'pages/DoctorProfile.vue'
 import PatientProfile from 'pages/PatientProfile.vue'
+import EditProfile from 'pages/EditProfile.vue'
 import AddChild from 'pages/AddChild.vue'
 import State from 'pages/State.vue'
 import ChildProfile from 'pages/ChildProfile.vue'
@@ -20,8 +21,8 @@ import ShowIndicators from 'components/showing/ShowIndicators.vue'
 Vue.use(VueRouter);
 
 const routes = [
-    {path: '/', component: MessagesList, redirect: '/${defaultLocale}'},
-    {path: '/login', component: Login},
+    {path: '/', component: MessagesList},
+    {path: '/login', component: Login, name: 'login'},
     {path: '/registration-clinic/:name_reg',component: Registration, name: 'registrationClinic', props: true},
     {path: '/registration-doctor/:name_reg',component: Registration, name: 'registrationDoctor', props: true},
     {path: '/registration-patient/:name_reg',component: Registration, name: 'registrationPatient', props: true},
@@ -32,6 +33,7 @@ const routes = [
     {path: '/clinic-profile/:idProfileClinic', component: ClinicProfile, name: 'clinicProfile', props: true},
     {path: '/doctor-profile/:idProfileDoctor', component: DoctorProfile, name: 'doctorProfile', props: true},
     {path: '/patient-profile/:idProfilePatient', component: PatientProfile, name: 'patientProfile', props: true},
+    {path: '/edit-profile', component: EditProfile},
     {path: '/add-child', component: AddChild},
     {path: '/state', component: State},
     {path: '/child-profile/:idProfileChild', component: ChildProfile, name: 'childProfile', props: true},

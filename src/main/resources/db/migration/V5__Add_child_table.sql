@@ -2,6 +2,7 @@ create table child (
     id int8 not null,
     name_child varchar(255) not null,
     state varchar(255),
+    age varchar(100) not null,
     height varchar(255),
     weight varchar(255),
     temperature varchar(255),

@@ -1,11 +1,11 @@
 package com.newLife.domain;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -25,33 +25,41 @@ import java.util.Set;
 public class Patient implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @JsonView(Views.IdUsernameEmailFirstNameSurname.class)
     private Long id;
 
     @NotBlank(message = "username can't be empty!")
-    @JsonView(Views.IdUsernameEmailFirstNameSurname.class)
+    @Length(min = 3)
     private String username;
     @NotBlank(message = "password can't be empty!")
+    @Length(min = 6)
     private String password;
     @NotBlank(message = "email can't be empty")
     @Email
-    @JsonView(Views.IdUsernameEmailFirstNameSurname.class)
+    @Length(min = 6)
     private String email;
-    @JsonView(Views.IdUsernameEmailFirstNameSurname.class)
+    @NotBlank(message = "firstName can't be empty")
+    @Length(min = 2)
     private String firstName;
-    @JsonView(Views.IdUsernameEmailFirstNameSurname.class)
+    @NotBlank(message = "surname can't be empty")
+    @Length(min = 3)
     private String surname;
-    @JsonView(Views.FullPatient.class)
+    private String patientPicture;
     private boolean active;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonView(Views.FullPatient.class)
     private LocalDateTime lastVisit;
-
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "patient_role", joinColumns = @JoinColumn(name = "patient_id"))
     @Enumerated(EnumType.STRING)
     @JsonView(Views.FullPatient.class)
     private Set<Role> roles;
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIdentityReference
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
+    private Set<Child> children = new HashSet<>();
 
     public Patient() {
     }

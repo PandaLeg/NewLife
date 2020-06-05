@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h5> {{child.nameChild}} </h5>
-        <label> {{child.state}} </label>
-        <button class="btn btn-info" @click="addIndicatorsChild">Добавить показатели</button>
-        <button class="btn btn-info" @click="showIndicatorsChild">Просмотреть показатели</button>
+        <router-link :to="{name: 'childProfile', params: {idProfileChild: child.id} }">
+            {{child.nameChild}}
+        </router-link>
+        <button class="btn btn-info" @click="addIndicatorsChild">{{ $t('state.addIndicators') }}</button>
     </div>
 </template>
 
@@ -13,11 +13,7 @@
         methods:{
             addIndicatorsChild(){
                 this.$router.push({name: 'addIndicators', params: { childId: this.child.id } })
-            },
-            showIndicatorsChild(){
-                this.$router.push({name: 'showIndicators', params: { childId: this.child.id } })
             }
-
         }
     }
 </script>
