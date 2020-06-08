@@ -179,6 +179,7 @@
             affiliationToClinic() {
                 this.$resource('/affiliation-to-clinic/{id}').get({id: this.idProfileDoctor}).then(result => {
                         this.checkAffiliation = result.data;
+
                     }
                 )
             },

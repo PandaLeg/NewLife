@@ -1,13 +1,16 @@
 package com.newLife.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import com.newLife.domain.Clinic;
 import com.newLife.domain.Doctor;
 import com.newLife.domain.Patient;
+import com.newLife.domain.Views;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -20,12 +23,21 @@ public class UserService implements UserDetailsService {
     private final ClinicRepo clinicRepo;
     private final DoctorRepo doctorRepo;
     private final PatientRepo patientRepo;
-
+    private final ObjectWriter clinicWriter;
+    private final ObjectWriter doctorWriter;
+    private final ObjectWriter patientWriter;
     @Autowired
-    public UserService(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PatientRepo patientRepo) {
+    public UserService(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PatientRepo patientRepo, ObjectMapper clinicWriter,
+                       ObjectMapper doctorWriter, ObjectMapper patientWriter) {
         this.clinicRepo = clinicRepo;
         this.doctorRepo = doctorRepo;
         this.patientRepo = patientRepo;
+        this.clinicWriter = clinicWriter
+                .setConfig(clinicWriter.getSerializationConfig()).writerWithView(Views.FullClinic.class);
+        this.doctorWriter = doctorWriter
+                .setConfig(doctorWriter.getSerializationConfig()).writerWithView(Views.FullDoctor.class);
+        this.patientWriter = patientWriter
+                .setConfig(patientWriter.getSerializationConfig()).writerWithView(Views.FullPatient.class);
     }
 
 
@@ -50,13 +62,23 @@ public class UserService implements UserDetailsService {
     public void getAllProfiles(Clinic clinic,
                                Doctor doctor,
                                Patient patient,
-                               HashMap<Object, Object> data) {
+                               HashMap<Object, Object> data) throws JsonProcessingException {
         if (clinic != null) {
-            data.put("profileClinic", clinic);
+            Clinic clinicFromDb = clinicRepo.findByUsername(clinic.getUsername());
+            /*String serializedClinic = clinicWriter.writeValueAsString(clinicFromDb);*/
+            data.put("profileClinic", clinicFromDb);
         } else if (doctor != null) {
-            data.put("profileDoctor", doctor);
+            Doctor doctorFromDb = doctorRepo.findByUsername(doctor.getUsername());
+            /*String serializedDoctor = doctorWriter.writeValueAsString(doctorFromDb);*/
+            data.put("profileDoctor", doctorFromDb);
+        } else if(patient != null) {
+            Patient patientFromDb = patientRepo.findByUsername(patient.getUsername());
+            /*String serializedPatient = patientWriter.writeValueAsString(patientFromDb);*/
+            data.put("profilePatient", patientFromDb);
         } else {
-            data.put("profilePatient", patient);
+            data.put("profileClinic", null);
+            data.put("profileDoctor", null);
+            data.put("profilePatient", null);
         }
     }
 }

@@ -44,8 +44,8 @@ public class DoctorController {
     public Doctor affiliationToClinic(
             @PathVariable("id") Doctor doctor,
             @AuthenticationPrincipal Patient patient) {
-        Long doctorFromClinic = clinicRepo.findByClinic_IdFromDoctor_Id(doctor.getId());
-        Long patientFromClinic = clinicRepo.findByClinic_IdFromPatient_Id(patient.getId());
+        Long doctorFromClinic = doctor.getClinic().getId();
+        Long patientFromClinic = patient.getClinic().getId();
 
         if (doctorFromClinic == null) {
             return null;
@@ -119,7 +119,12 @@ public class DoctorController {
             return doctor.getPatients().contains(patient);
         }
         if (clinic != null) {
-            return clinic.getDoctors().contains(doctor);
+            for(Doctor doc : clinic.getDoctors()){
+                if(doc.getId().equals(doctor.getId())){
+                    return true;
+                }
+            }
+            return false;
         }
         return false;
     }

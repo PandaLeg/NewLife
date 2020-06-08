@@ -79,7 +79,8 @@
     "position": "Specify a position"
   },
   "messagesList": {
-    "listMessages": "List of messages"
+    "listMessages": "List of messages",
+    "btnDelete": "Delete"
   },
   "formAddChild": {
     "addChild": "Add child",

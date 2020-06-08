@@ -144,6 +144,8 @@
 
 <script>
     import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
+    import requestsApi from 'api/clinicProfile'
     export default {
         name: 'clinicProfile',
         props: ['idProfileClinic'],
@@ -183,15 +185,17 @@
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture'])
         },
         methods:{
+            ...mapActions('clinicProfile', ['saveClinicRequestAction']),
             saveClinicRequest() {
-                let request = {idDoctor: this.idDoctor, idPatient: this.idPatient};
-
-                this.$resource('/send-request-clinic/{id}').save({id: this.idClinic}, request).then(result =>
+                let request = {idClinic: this.idClinic, idDoctor: this.idDoctor, idPatient: this.idPatient};
+                this.saveClinicRequestAction(request);
+                this.checkButton = true;
+                /*requestsApi.add(request).then(result =>
                     result.json().then(data => {
                         this.checkButton = true;
                         console.log(data);
                     })
-                )
+                )*/
             },
 
             fetchClinicData(){

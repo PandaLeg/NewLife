@@ -48,11 +48,6 @@ public class PatientController {
         return patientRepo.findAll();
     }
 
-    /*@GetMapping("/doctor-patient-list")
-    public Set<Doctor> getAllDoctors(@AuthenticationPrincipal Patient patient) {
-        return patient.getDoctors();
-    }*/
-
     @GetMapping("/child-patient-list")
     public Set<Child> getAllChildren(@AuthenticationPrincipal Patient patient) {
         return patient.getChildren();

@@ -79,7 +79,8 @@
     "position": "Вкажіть посаду"
   },
   "messagesList": {
-    "listMessages": "Лист повідомлень"
+    "listMessages": "Лист повідомлень",
+    "btnDelete": "Видалити"
   },
   "formAddChild": {
     "addChild": "Додати дитину",

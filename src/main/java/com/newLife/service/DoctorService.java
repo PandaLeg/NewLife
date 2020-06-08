@@ -53,7 +53,7 @@ public class DoctorService {
         }
 
         if (clinic != null) {
-            clinic.getDoctors().add(doctor);
+            doctor.setClinic(clinic);
         }
 
         doctorRepo.save(doctor);
@@ -70,8 +70,8 @@ public class DoctorService {
             doctorRepo.save(doctor);
         }
         if(clinic != null){
-            clinic.getDoctors().remove(doctor);
-            clinicRepo.save(clinic);
+            doctor.setClinic(null);
+            doctorRepo.save(doctor);
         }
     }
 }

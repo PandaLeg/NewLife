@@ -32,6 +32,7 @@ create table doctor (
     position varchar(255) not null,
     username varchar(255) not null,
     doctor_picture varchar(255),
+    clinic_id int8,
     primary key (id)
 );
 
@@ -50,6 +51,7 @@ create table patient (
     patient_picture varchar(255),
     active boolean not null,
     last_visit timestamp,
+    clinic_id int8,
     primary key (id)
 );
 
@@ -75,6 +77,12 @@ alter table if exists doctor_role
 
 alter table if exists patient_role
     add constraint patient_role_patient_fk foreign key (patient_id) references patient;
+
+alter table if exists doctor
+    add constraint doctor_clinic_fk foreign key (clinic_id) references clinic;
+
+alter table if exists patient
+    add constraint patient_clinic_fk foreign key (clinic_id) references clinic;
 
 alter table if exists request
     add constraint request_clinic_fk foreign key (clinic_id) references clinic;

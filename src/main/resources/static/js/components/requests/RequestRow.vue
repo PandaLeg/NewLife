@@ -46,13 +46,12 @@
                         <b-card-text>
                             <div v-if="request.clinic != null">
                                 <router-link
-                                        :to="{name: 'doctorProfile', params: {idProfileClinic: request.clinic.id} }">
+                                        :to="{name: 'clinicProfile', params: {idProfileClinic: request.clinic.id} }">
                                     {{ request.clinic.username }}
                                 </router-link>
                             </div>
                             <div v-if="request.patient != null">
-                                <router-link
-                                        :to="{name: 'patientProfile', params: {idProfilePatient: request.patient.id} }">
+                                <router-link :to="{name: 'patientProfile', params: {idProfilePatient: request.patient.id} }">
                                     {{ request.patient.username }}
                                 </router-link>
                             </div>

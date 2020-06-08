@@ -79,7 +79,8 @@
     "position": "Укажите должность"
   },
   "messagesList": {
-    "listMessages": "Список сообщений"
+    "listMessages": "Список сообщений",
+    "btnDelete": "Удалить"
   },
   "formAddChild": {
     "addChild": "Добавить Ребёнка",

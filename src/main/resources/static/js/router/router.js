@@ -8,6 +8,7 @@ import Clinic from 'pages/Clinic.vue'
 import Requests from 'pages/Request.vue'
 import ListDoctors from 'pages/ListDoctors.vue'
 import ListPatients from 'pages/ListPatients.vue'
+import Messages from 'pages/Messages.vue'
 import ClinicProfile from 'pages/ClinicProfile.vue'
 import DoctorProfile from 'pages/DoctorProfile.vue'
 import PatientProfile from 'pages/PatientProfile.vue'
@@ -30,6 +31,7 @@ const routes = [
     {path: '/requests', component: Requests},
     {path: '/doctors-list', component: ListDoctors},
     {path: '/patients-list', component: ListPatients},
+    {path: '/messages-list', component: Messages},
     {path: '/clinic-profile/:idProfileClinic', component: ClinicProfile, name: 'clinicProfile', props: true},
     {path: '/doctor-profile/:idProfileDoctor', component: DoctorProfile, name: 'doctorProfile', props: true},
     {path: '/patient-profile/:idProfilePatient', component: PatientProfile, name: 'patientProfile', props: true},

@@ -22,30 +22,40 @@ import java.util.Set;
 @Table(name = "patient")
 @Data
 @EqualsAndHashCode(of = {"id"})
+@ToString(of = {"id", "username"})
 public class Patient implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @JsonView(Views.FullPatient.class)
     private Long id;
 
     @NotBlank(message = "username can't be empty!")
     @Length(min = 3)
+    @JsonView(Views.FullPatient.class)
     private String username;
     @NotBlank(message = "password can't be empty!")
     @Length(min = 6)
+    @JsonView(Views.FullPatient.class)
     private String password;
     @NotBlank(message = "email can't be empty")
     @Email
     @Length(min = 6)
+    @JsonView(Views.FullPatient.class)
     private String email;
     @NotBlank(message = "firstName can't be empty")
     @Length(min = 2)
+    @JsonView(Views.FullPatient.class)
     private String firstName;
     @NotBlank(message = "surname can't be empty")
     @Length(min = 3)
+    @JsonView(Views.FullPatient.class)
     private String surname;
+    @JsonView(Views.FullPatient.class)
     private String patientPicture;
+    @JsonView(Views.FullPatient.class)
     private boolean active;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonView(Views.FullPatient.class)
     private LocalDateTime lastVisit;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "patient_role", joinColumns = @JoinColumn(name = "patient_id"))
@@ -53,13 +63,24 @@ public class Patient implements UserDetails, Serializable {
     @JsonView(Views.FullPatient.class)
     private Set<Role> roles;
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIdentityReference
     @JsonIdentityInfo(
             property = "id",
             generator = ObjectIdGenerators.PropertyGenerator.class
     )
+    @JsonView(Views.FullPatient.class)
     private Set<Child> children = new HashSet<>();
+
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIdentityReference
+    @JsonIdentityInfo(
+            property = "id",
+            generator = ObjectIdGenerators.PropertyGenerator.class
+    )
+    @JsonView(Views.FullPatient.class)
+    private Clinic clinic;
 
     public Patient() {
     }

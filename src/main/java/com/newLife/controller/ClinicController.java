@@ -128,7 +128,7 @@ public class ClinicController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    public void saveFile(Clinic clinic, Doctor doctor, Patient patient, MultipartFile file
+    private void saveFile(Clinic clinic, Doctor doctor, Patient patient, MultipartFile file
     ) throws IOException {
         if (file != null && !file.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
@@ -198,12 +198,21 @@ public class ClinicController {
             @AuthenticationPrincipal Doctor doctor,
             @AuthenticationPrincipal Patient patient
     ) {
-
         if (doctor != null) {
-            return clinic.getDoctors().contains(doctor);
+            for (Doctor doc : clinic.getDoctors()) {
+                if (doc.getId().equals(doctor.getId())) {
+                    return true;
+                }
+            }
+            return false;
         }
         if (patient != null) {
-            return clinic.getPatients().contains(patient);
+            for (Patient pat : clinic.getPatients()) {
+                if (pat.getId().equals(patient.getId())) {
+                    return true;
+                }
+            }
+            return false;
         }
         return false;
     }

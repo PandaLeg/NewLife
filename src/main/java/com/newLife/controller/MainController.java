@@ -37,7 +37,7 @@ public class MainController {
             @AuthenticationPrincipal Clinic clinic,
             @AuthenticationPrincipal Doctor doctor,
             @AuthenticationPrincipal Patient patient,
-            Model model) {
+            Model model) throws JsonProcessingException {
         HashMap<Object, Object> data = new HashMap<>();
 
         userService.getAllProfiles(clinic, doctor, patient, data);

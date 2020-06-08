@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "child")
 @Data
 @EqualsAndHashCode(of = {"id"})
+@ToString(of = {"id", "nameChild", "age"})
 public class Child implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 @Table(name = "request")
 @Data
 @EqualsAndHashCode(of = {"id"})
+@ToString(of = {"id", "message"})
 public class Request implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

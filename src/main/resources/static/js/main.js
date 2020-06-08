@@ -1,10 +1,11 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
+import 'api/resource'
 import Main from 'pages/Main.vue'
 import '@babel/polyfill'
 import store from 'store/store'
 import router from 'router/router'
 import i18n  from './i18n'
-import VueResource from 'vue-resource'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 import {
