@@ -91,6 +91,8 @@
 
 <script>
     import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
+    import editApi from 'api/editProfile'
     export default {
         data(){
             return{
@@ -129,6 +131,8 @@
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture'])
         },
         methods:{
+            ...mapActions('editProfile', ['updateProfileClinicAction', 'updateProfileDoctorAction',
+            'updateProfilePatientAction']),
             fileChange(e){
                 let selectedFile = e.target.files[0];
                 if(this.profileClinic != null) {
@@ -139,7 +143,7 @@
                     this.patientPicture = selectedFile;
                 }
             },
-            updateProfileAvatar(){
+            async updateProfileAvatar(){
                 if (this.clinicPicture !== null) {
                     this.form.append('picture', this.clinicPicture);
                 }
@@ -149,33 +153,20 @@
                 if(this.patientPicture !== null){
                     this.form.append('picture', this.patientPicture);
                 }
-                this.$resource('/update-profile-avatar').save({}, this.form).then(result => {
-                    console.log(result);
-                })
+                const result = await editApi.updateAvatar(this.form);
+                console.log(result);
             },
             updateProfileClinic(){
                 let updateClinic = {username: this.username, phone: this.phone, city: this.city, address: this.address};
-                this.$resource('/update-clinic-profile').update({}, updateClinic).then(result =>
-                    result.json().then(data => {
-                        console.log(result);
-                    })
-                )
+                this.updateProfileClinicAction(updateClinic);
             },
             updateProfileDoctor(){
                 let updateDoctor = {username: this.username, experience: this.experience, position: this.position};
-                this.$resource('/update-doctor-profile').update({}, updateDoctor).then(result =>
-                    result.json().then(data => {
-                        console.log(result);
-                    })
-                )
+                this.updateProfileDoctorAction(updateDoctor);
             },
             updateProfilePatient(){
                 let updatePatient = {username: this.username};
-                this.$resource('/update-patient-profile').update({}, updatePatient).then(result =>
-                    result.json().then(data => {
-                        console.log(result);
-                    })
-                )
+                this.updateProfilePatientAction(updatePatient);
             }
         }
     }

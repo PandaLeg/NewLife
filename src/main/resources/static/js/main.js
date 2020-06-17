@@ -6,6 +6,8 @@ import '@babel/polyfill'
 import store from 'store/store'
 import router from 'router/router'
 import i18n  from './i18n'
+import Vuetify from 'vuetify'
+import 'vuetify/dist/vuetify.min.css'
 import {BootstrapVue, IconsPlugin} from 'bootstrap-vue'
 
 import {
@@ -37,6 +39,8 @@ localize("en", en);
 Vue.component("ValidationObserver", ValidationObserver);
 Vue.component("ValidationProvider", ValidationProvider);
 
+//VUETIFY
+Vue.use(Vuetify);
 // BOOTSTRAP
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
@@ -45,6 +49,7 @@ Vue.use(VueResource);
 
 new Vue({
     el: "#main",
+    vuetify : new Vuetify(),
     store,
     router,
     i18n,

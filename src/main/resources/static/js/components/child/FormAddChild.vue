@@ -22,6 +22,8 @@
 </template>
 
 <script>
+    import childApi from 'api/child'
+
     export default {
         data() {
             return {
@@ -31,17 +33,12 @@
             }
         },
         methods: {
-            saveChild()
-            {
+            async saveChild() {
                 let child = {nameChild: this.nameChild, age: this.age};
-                this.$resource('/child-add').save({}, child).then(result =>
-                    result.json().then(data => {
-                        console.log(data);
-                        this.nameChild = "";
-                        this.age = "";
-                        this.state = ""
-                    })
-                )
+                const result = await childApi.addChild(child);
+                this.nameChild = "";
+                this.age = "";
+                console.log(result);
             }
         }
     }

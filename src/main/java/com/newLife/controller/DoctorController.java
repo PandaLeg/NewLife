@@ -119,7 +119,8 @@ public class DoctorController {
             return doctor.getPatients().contains(patient);
         }
         if (clinic != null) {
-            for(Doctor doc : clinic.getDoctors()){
+            Clinic currentClinic = clinicRepo.findByUsername(clinic.getUsername());
+            for(Doctor doc : currentClinic.getDoctors()){
                 if(doc.getId().equals(doctor.getId())){
                     return true;
                 }

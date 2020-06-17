@@ -122,22 +122,18 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
+    import {mapActions} from 'vuex'
     export default {
         name: 'doctorProfile',
         props: ['idProfileDoctor'],
         data() {
             return {
-                currentProfileDoctor: null,
-                error: null,
                 id: '',
                 idDoctor: 0,
                 idClinic: 0,
                 idPatient: 0,
-                doctorPicture: '',
                 checkButton: false,
-                checkAffiliation: null,
-                checkBindingToDoctor: false
             }
         },
         created() {
@@ -154,49 +150,31 @@
             this.fetchDoctorData();
         },
         computed: {
-            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture'])
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture']),
+            ...mapState('doctorProfile', ['currentProfileDoctor', 'doctorPicture', 'checkAffiliation',
+            'checkBindingToDoctor', 'error'])
         },
         methods: {
+            ...mapActions('doctorProfile', ['saveDoctorRequestAction', 'fetchDoctorDataAction',
+                'affiliationToClinicAction', 'checkBindingDoctorAction', 'cancelBindingDoctorAction']),
             saveDoctorRequest() {
-                let request = {idClinic: this.idClinic, idPatient: this.idPatient};
-
-                this.$resource('/send-request-doctor/{id}').save({id: this.idDoctor}, request).then(result =>
-                    result.json().then(data => {
-                        this.checkButton = true;
-                        console.log(data);
-                    })
-                )
+                let request = {idDoctor: this.idDoctor, idClinic: this.idClinic, idPatient: this.idPatient};
+                this.saveDoctorRequestAction(request);
+                this.checkButton = true;
             },
             fetchDoctorData(){
-                this.error = null;
-                this.$resource('/doctor/{id}').get({id: this.idProfileDoctor}).then(result =>
-                    result.json().then(data => {
-                        this.currentProfileDoctor = data;
-                        this.doctorPicture = '/img/' + this.currentProfileDoctor.doctorPicture;
-                    })
-                )
+                this.fetchDoctorDataAction(this.idProfileDoctor);
             },
             affiliationToClinic() {
-                this.$resource('/affiliation-to-clinic/{id}').get({id: this.idProfileDoctor}).then(result => {
-                        this.checkAffiliation = result.data;
-
-                    }
-                )
+                this.affiliationToClinicAction(this.idProfileDoctor);
             },
 
             checkBindingDoctor(){
-                this.$resource('/check-binding-doctor/{id}').get({id: this.idProfileDoctor}).then(result => {
-                    this.checkBindingToDoctor = result.data;
-                    console.log(result);
-                })
+                this.checkBindingDoctorAction(this.idProfileDoctor);
             },
             // Отмена привязки от доктора
             cancelBindingDoctor(){
-                this.$resource('/cancel-binding-from-doctor/{id}').delete({id: this.idDoctor}).then(result => {
-                    if(result.ok){
-                        console.log(result)
-                    }
-                })
+                this.cancelBindingDoctorAction(this.idDoctor);
             }
         }
     }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <requests-list :requests="requests"
+        <requests-list :requests="listRequests"
                        :profileClinic="profileClinic"
                        :profileDoctor="profileDoctor"
                        :profilePatient="profilePatient">
@@ -10,30 +10,24 @@
 
 <script>
     import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import { mapActions } from 'vuex'
     import RequestsList from 'components/requests/RequestsList.vue'
-
     export default {
         components:{
             RequestsList
-        },
-        data() {
-            return {
-                requests: null
-            }
         },
         created(){
             this.getAllRequests();
         },
         computed:{
-            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient'])
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient']),
+            ...mapGetters('request', ['listRequests']),
         },
         methods:{
+            ...mapActions('request', ['getAllRequestsAction']),
             getAllRequests(){
-                this.$resource('/list-requests').get().then(result =>
-                    result.json().then(data => {
-                        this.requests = data;
-                    })
-                )
+                this.getAllRequestsAction();
             }
         }
     }

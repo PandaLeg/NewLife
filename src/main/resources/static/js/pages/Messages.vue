@@ -2,7 +2,7 @@
     <div>
         <div class="container mt-5">
             <h1> {{ $t('messagesList.listMessages') }} </h1>
-            <label v-for="message in messages" :key="message.id">
+            <label v-for="message in listMessages" :key="message.id">
                 <label class="col-form-label"> {{ message.title }} </label>
                 <p class="col-form-label"> {{ message.description }} </p>
                 <div class="form-group row">
@@ -17,31 +17,23 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState, mapGetters} from 'vuex'
+    import { mapActions } from 'vuex'
     export default {
-        data(){
-            return{
-                messages: []
-            }
-        },
         created(){
             this.findAllMessages();
         },
         computed: {
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient']),
+            ...mapGetters('messages', ['listMessages'])
         },
         methods:{
+            ...mapActions('messages', ['findAllMessagesAction', 'deleteMessageAction']),
             findAllMessages(){
-                this.$resource('/patient-messages-list').get().then(result => {
-                    this.messages = result.data;
-                    console.log(result);
-                })
+                this.findAllMessagesAction();
             },
             deleteMessage(message){
-                this.$resource('/patient-delete-message/{id}').delete({id: message.id}).then(result => {
-                    this.messages.splice(this.messages.indexOf(this.message), 1);
-                    console.log(result)
-                })
+                this.deleteMessageAction(message);
             }
         }
     }

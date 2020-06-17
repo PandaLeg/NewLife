@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 @Entity
@@ -18,7 +19,9 @@ public class Message implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "title can't be empty")
     private String title;
+    @NotBlank(message = "description can't be empty")
     private String description;
 
     @ManyToOne(fetch = FetchType.EAGER)

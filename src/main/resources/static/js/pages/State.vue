@@ -6,9 +6,10 @@
 
 <script>
     import ChildList from 'components/child/ChildList.vue'
+    import childApi from 'api/child'
 
     export default {
-        components:{
+        components: {
             ChildList
         },
         data() {
@@ -20,13 +21,13 @@
             this.getAllChildren();
         },
         methods: {
-            getAllChildren() {
-                this.$resource('/child-patient-list').get().then(result =>
-                    result.json().then(data => {
-                        this.children = data;
-                        console.log(result);
-                    })
-                )
+            async getAllChildren() {
+                const result = await childApi.listChild();
+                const data = await result.json();
+                if (result.ok) {
+                    this.children = data;
+                }
+                console.log(result);
             }
         }
     }

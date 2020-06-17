@@ -100,79 +100,169 @@
                         </div>
                     </div>
                 </div>
-                <h5>{{ $t('clinicProfile.listDoctors') }}</h5>
-                <hr class="mt-2 mb-3"/>
-                <b-card-group >
-                    <div class="card-check my-3" v-for="doctor in doctors" :key="doctor.id">
-                        <b-card
-                                img-alt="Image"
-                                img-top
-                                tag="article"
-                                style="max-width: 300px; width: 250px;"
-                                class="text-center mr-4"
-                                border-variant="info" :header="doctor.position">
-                            <b-card-text>
-                                {{ doctor.firstName }}
-                                {{ doctor.surname }}
-                            </b-card-text>
-                        </b-card>
-                    </div>
-                </b-card-group>
+                <v-app id="inspire">
+                    <h5>{{ $t('clinicProfile.listDoctors') }}</h5>
+                    <hr class="mt-2 mb-3"/>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-row
+                                        align="start"
+                                        justify="space-around"
+                                >
+                                    <v-card
+                                            v-for="doctor in listDoctors"
+                                            :key="doctor.id"
+                                    >
+                                        <div v-if="doctor.doctorPicture !== null && doctor.doctorPicture !== ''">
+                                            <v-img
+                                                    :src="'/img/' + doctor.doctorPicture"
+                                                    height="250px"
+                                                    width="320px"
+                                                    dark
+                                            >
+                                            </v-img>
+                                        </div>
+                                        <div v-else>
+                                            <v-img
+                                                    class="orange--text align-end"
+                                                    :src="defaultPicture"
+                                                    height="250px"
+                                                    dark
+                                            >
+                                            </v-img>
+                                        </div>
+                                        <v-list two-line>
+                                            <v-list-item @click="">
+                                                <v-list-item-icon>
+                                                    <v-icon color="light-blue lighten-1">mdi-doctor</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{ doctor.firstName }} {{ doctor.surname }}
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle>Name, Surname</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                            <v-divider inset></v-divider>
+                                            <v-list-item @click="">
+                                                <v-list-item-icon>
+                                                    <v-icon color="light-blue lighten-1">mdi-cast-education</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{doctor.position}}</v-list-item-title>
+                                                    <v-list-item-subtitle>Specialization</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
 
-                <h5>{{ $t('clinicProfile.listPatients') }}</h5>
-                <hr class="mt-2 mb-3"/>
-                <b-card-group>
-                    <div class="card-check my-3" v-for="patient in patients" :key="patient.id">
-                        <b-card
-                                img-alt="Image"
-                                img-top
-                                tag="article"
-                                style="max-width: 300px; width: 250px;"
-                                class="text-center mr-4"
-                                border-variant="info">
-                            <b-card-text>
-                                {{ patient.firstName }}
-                                {{ patient.surname }}
-                            </b-card-text>
-                        </b-card>
-                    </div>
-                </b-card-group>
+                                        <v-card-actions>
+                                            <router-link
+                                                    :to="{name: 'doctorProfile',
+                                                        params: {idProfileDoctor: doctor.id} }"
+                                            tag="button">
+                                                <v-btn
+                                                        color="red accent-2"
+                                                        text
+                                                >
+                                                    Profile
+                                                </v-btn>
+                                            </router-link>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                    <h5>{{ $t('clinicProfile.listPatients') }}</h5>
+                    <hr class="mt-2 mb-3"/>
+                    <v-container fluid>
+                        <v-row>
+                            <v-col cols="12">
+                                <v-row
+                                        align="start"
+                                        justify="space-around"
+                                >
+                                    <v-card
+                                            v-for="patient in listPatients"
+                                            :key="patient.id"
+                                    >
+                                        <div v-if="patient.patientPicture !== null && patient.patientPicture !== ''">
+                                            <v-img
+                                                    :src="'/img/' + patient.patientPicture"
+                                                    height="260px"
+                                                    dark
+                                            >
+                                            </v-img>
+                                        </div>
+                                        <div v-else>
+                                            <v-img
+                                                    class="orange--text align-end"
+                                                    :src="defaultPicture"
+                                                    height="260px"
+                                                    dark
+                                            >
+                                            </v-img>
+                                        </div>
+                                        <v-list two-line>
+                                            <v-list-item @click="">
+                                                <v-list-item-icon>
+                                                    <v-icon color="light-blue lighten-1">mdi-human-male</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content>
+                                                    <v-list-item-title>{{ patient.firstName }} {{ patient.surname }}
+                                                    </v-list-item-title>
+                                                    <v-list-item-subtitle>Name, Surname</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list>
+
+                                        <v-card-actions>
+                                            <router-link
+                                                    :to="{name: 'patientProfile',
+                                                        params: {idProfilePatient: patient.id} }"
+                                                    tag="button">
+                                                <v-btn
+                                                        color="red accent-2"
+                                                        text
+                                                >
+                                                    Profile
+                                                </v-btn>
+                                            </router-link>
+                                        </v-card-actions>
+                                    </v-card>
+                                </v-row>
+                            </v-col>
+                        </v-row>
+                    </v-container>
+                </v-app>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mapActions } from 'vuex'
-    import requestsApi from 'api/clinicProfile'
+    import {mapState} from 'vuex'
+    import {mapActions} from 'vuex'
+    import {mapGetters} from 'vuex'
+
     export default {
         name: 'clinicProfile',
         props: ['idProfileClinic'],
         data() {
             return {
-                currentProfileClinic: null,
-                error: null,
                 id: '',
                 idDoctor: 0,
                 idClinic: 0,
                 idPatient: 0,
-                clinicPicture: '',
-                checkButton: false,
-                checkBindingToClinic: false,
-                doctors: [],
-                patients: [],
-                counter: 0,
-                slide: 0,
-                sliding: null
+                checkButton: false
             }
         },
         created() {
             this.idClinic = this.idProfileClinic;
-            if(this.profileDoctor != null) {
+            if (this.profileDoctor != null) {
                 this.idDoctor = this.profileDoctor.id;
             }
-            if(this.profilePatient != null) {
+            if (this.profilePatient != null) {
                 this.idPatient = this.profilePatient.id;
             }
 
@@ -182,83 +272,67 @@
             this.getPatientsList();
         },
         computed: {
-            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture'])
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture']),
+            ...mapState('clinicProfile', ['currentProfileClinic', 'clinicPicture', 'error', 'checkBindingToClinic']),
+            ...mapGetters('clinicProfile', ['listDoctors', 'listPatients'])
         },
-        methods:{
-            ...mapActions('clinicProfile', ['saveClinicRequestAction']),
+        watch: {
+            '$route'() {
+                this.fetchClinicData();
+            }
+        },
+        methods: {
+            ...mapActions('clinicProfile', ['saveClinicRequestAction', 'getDoctorsListAction', 'getPatientsListAction',
+                'fetchClinicDataAction', 'checkBindingClinicAction', 'cancelBindingClinicAction']),
             saveClinicRequest() {
                 let request = {idClinic: this.idClinic, idDoctor: this.idDoctor, idPatient: this.idPatient};
                 this.saveClinicRequestAction(request);
                 this.checkButton = true;
-                /*requestsApi.add(request).then(result =>
-                    result.json().then(data => {
-                        this.checkButton = true;
-                        console.log(data);
-                    })
-                )*/
             },
 
-            fetchClinicData(){
-                this.error = null;
-                this.$resource('/clinic/{id}').get({id: this.idProfileClinic}).then(result =>
-                    result.json().then(data => {
-                        this.currentProfileClinic = data;
-                        this.clinicPicture = '/img/' + this.currentProfileClinic.clinicPicture;
-                    }), response => {
-                    this.error = response.error;
-                });
+            fetchClinicData() {
+                this.fetchClinicDataAction(this.idProfileClinic);
             },
 
-            checkBindingClinic(){
-                this.$resource('/check-binding-clinic/{id}').get({id: this.idClinic}).then(result => {
-                    this.checkBindingToClinic = result.data;
-                    console.log(result)
-                })
+            checkBindingClinic() {
+                this.checkBindingClinicAction(this.idClinic);
             },
 
-            // Отмена привязки от клиники
-            cancelBindingClinic(){
-                this.$resource('/cancel-binding-clinic/{id}').delete({id: this.idClinic}).then(result =>{
-                    if(result.ok){
-                        console.log(result)
-                    }
-                })
+            cancelBindingClinic() {
+                this.cancelBindingClinicAction(this.idClinic);
             },
-            getDoctorsList(){
-                this.$resource('/doctors-list-clinic/{id}').get({id: this.idProfileClinic}).then(result => {
-                    result.json().then(data =>{
-                        this.doctors = data;
-                    })
-                })
+
+            getDoctorsList() {
+                this.getDoctorsListAction(this.idProfileClinic);
             },
-            getPatientsList(){
-                this.$resource('/patients-list-clinic/{id}').get({id: this.idProfileClinic}).then(result => {
-                    result.json().then(data => {
-                        this.patients = data;
-                    })
-                })
+
+            getPatientsList() {
+                this.getPatientsListAction(this.idProfileClinic);
             }
         }
     }
 </script>
 
 <style scoped>
-    .emp-profile{
+    .emp-profile {
         padding: 3%;
         margin-top: 3%;
         margin-bottom: 3%;
         border-radius: 50%;
         background: #fff;
     }
-    .profile-img{
+
+    .profile-img {
         text-align: center;
     }
-    .profile-img img{
+
+    .profile-img img {
         width: 200px;
         height: 200px;
         border-radius: 50%;
         background-size: auto 300px;
     }
+
     .profile-img .file input {
         position: absolute;
         opacity: 0;
@@ -266,14 +340,15 @@
         top: 0;
     }
 
-    .profile-head h5{
+    .profile-head h5 {
         color: #333;
     }
-    .profile-head h6{
+
+    .profile-head h6 {
         color: #0062cc;
     }
 
-    .profile-edit-btn{
+    .profile-edit-btn {
         border: none;
         border-radius: 1.5rem;
         width: 80%;
@@ -283,67 +358,75 @@
         color: #6c757d;
         cursor: pointer;
     }
-    .profile-rating{
+
+    .profile-rating {
         font-size: 12px;
         color: #818182;
         margin-top: 5%;
     }
-    .profile-rating span{
+
+    .profile-rating span {
         color: #495057;
         font-size: 15px;
         font-weight: 600;
     }
 
-    .profile-head .nav-tabs{
-        margin-bottom:5%;
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
     }
-    .profile-head .nav-tabs .nav-link{
-        font-weight:600;
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
         border: none;
     }
 
-    .profile-head .nav-tabs .nav-link.active{
+    .profile-head .nav-tabs .nav-link.active {
         border: none;
-        border-bottom:2px solid #0062cc;
+        border-bottom: 2px solid #0062cc;
     }
-    .profile-work{
+
+    .profile-work {
         padding: 20%;
         margin-top: -15%;
     }
 
-    .profile-check{
+    .profile-check {
         padding: 20%;
         margin-top: -30%;
     }
 
-    .btn-primary{
+    .btn-primary {
         border-radius: 12px;
     }
-    .profile-work p{
+
+    .profile-work p {
         font-size: 12px;
         color: #818182;
         font-weight: 600;
         margin-top: 10%;
     }
-    .profile-work a{
+
+    .profile-work a {
         text-decoration: none;
         color: #495057;
         font-weight: 600;
         font-size: 14px;
     }
 
-    .profile-tab label{
+    .profile-tab label {
         font-weight: 600;
     }
-    .profile-tab p{
+
+    .profile-tab p {
         font-weight: 600;
         color: #0062cc;
     }
 
-    .card-check img{
+    .card-check img {
         max-height: 150px;
         max-width: 250px;
     }
+
     @media (min-width: 576px) and (max-width: 768px) {
         .slide-box img {
             -ms-flex: 0 0 50%;
@@ -360,8 +443,7 @@
         }
     }
 
-    @media (min-width: 992px)
-    {
+    @media (min-width: 992px) {
         .slide-box img {
             -ms-flex: 0 0 25%;
             flex: 0 0 25%;

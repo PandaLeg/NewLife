@@ -1,4 +1,4 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
     <div>
         <div v-if="error" class="error">
             {{ error }}
@@ -77,43 +77,85 @@
                                     </div>
                                     <div class="col-md-6" v-if="profilePatient || checkBindingToPatient">
                                         <p><!--Показывает, доктору или опекуну ссылку на профиль ребёнка-->
-                                            <label v-for="child in children" :key="child.id">
-                                                <router-link :to="{name: 'childProfile', params: {idProfileChild: child.id}}">
+                                            <label v-for="child in listChildren" :key="child.id">
+                                                <router-link
+                                                        :to="{name: 'childProfile', params: {idProfileChild: child.id}}">
                                                     {{ child.nameChild }}
                                                 </router-link>
                                             </label>
                                         </p>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-6" v-if="profileClinic && checkBindingPatientClinic">
-                                        <b-button variant="outline-primary" @click="showModal">
-                                            {{ $t('patientProfile.sendMessage') }}
-                                        </b-button>
+                                <v-app id="inspire">
+                                    <v-row>
+                                        <div class="col-md-6" v-if="profileClinic && checkBindingPatientClinic">
+                                            <v-dialog v-model="dialog" persistent max-width="600px">
+                                                <template v-slot:activator="{ on, attrs }">
+                                                    <v-btn
+                                                            color="primary"
+                                                            dark
+                                                            v-bind="attrs"
+                                                            v-on="on"
+                                                            outlined
+                                                    >
+                                                        {{ $t('patientProfile.sendMessage') }}
+                                                    </v-btn>
+                                                </template>
+                                                <v-container>
+                                                    <v-form
+                                                            ref="form"
+                                                            lazy-validation
+                                                    >
+                                                        <v-card>
+                                                            <v-card-title>
+                                                            <span class="headline">{{ $t('patientProfile.sendMessage')}}
+                                                            </span>
+                                                            </v-card-title>
 
-                                        <b-modal id="modal-prevent-closing" ref="my-modal" hide-footer
-                                                 :title="$t('patientProfile.sendMessage')">
-                                            <b-form-group :label="$t('patientProfile.title')" label-for="name-input">
-                                                <b-form-input type="text" id="name-input" v-model="title">
+                                                            <v-card-text>
+                                                                <v-row>
+                                                                    <v-col cols="12">
+                                                                        <v-text-field
+                                                                                v-model="title"
+                                                                                :rules="titleRules"
+                                                                                :label="$t('patientProfile.title')"
+                                                                                clearable
+                                                                                required
+                                                                        >
+                                                                        </v-text-field>
+                                                                    </v-col>
+                                                                    <v-col cols="12">
+                                                                        <v-textarea
+                                                                                v-model="description"
+                                                                                :counter="255"
+                                                                                :rules="descriptionRules"
+                                                                                :label="$t('patientProfile.description')"
+                                                                                color="teal"
+                                                                                clearable
+                                                                                required
+                                                                        >
+                                                                        </v-textarea>
+                                                                    </v-col>
+                                                                </v-row>
+                                                            </v-card-text>
 
-                                                </b-form-input>
-                                            </b-form-group>
-
-                                            <b-form-group :label="$t('patientProfile.description')"
-                                                          label-for="description-input">
-                                                <b-form-input type="text" id="description-input" v-model="description"
-
-                                                ></b-form-input>
-                                                <b-button class="mt-2" variant="outline-primary" block
-                                                          @click="sendMessage">{{ $t('patientProfile.send') }}
-                                                </b-button>
-                                                <b-button class="mt-3" variant="outline-danger" block
-                                                          @click="hideModal">{{ $t('patientProfile.close') }}
-                                                </b-button>
-                                            </b-form-group>
-                                        </b-modal>
-                                    </div>
-                                </div>
+                                                            <v-card-actions>
+                                                                <v-spacer></v-spacer>
+                                                                <v-btn color="blue darken-1" text
+                                                                       @click="dialog = false">
+                                                                    {{ $t('patientProfile.close') }}
+                                                                </v-btn>
+                                                                <v-btn color="blue darken-1" text @click="sendMessage">
+                                                                    {{ $t('patientProfile.send') }}
+                                                                </v-btn>
+                                                            </v-card-actions>
+                                                        </v-card>
+                                                    </v-form>
+                                                </v-container>
+                                            </v-dialog>
+                                        </div>
+                                    </v-row>
+                                </v-app>
                             </div>
                         </div>
                     </div>
@@ -124,26 +166,30 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
+    import {mapState, mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
+    import patientApi from 'api/patientProfile'
+
     export default {
         props: ['idProfilePatient'],
-        data(){
-            return{
-                currentProfilePatient: null,
-                error: null,
-                children: [],
-                patientPicture: '',
-                checkBindingToPatient: false,
-                checkBindingPatientClinic: false,
+        data() {
+            return {
                 title: '',
-                description: ''
+                titleRules: [
+                    v => !!v || this.$i18n.t('patientProfile.titleEmpty')
+                ],
+                description: '',
+                descriptionRules: [
+                    v => !!v || this.$i18n.t('patientProfile.descriptionEmpty')
+                ],
+                dialog: false
             }
         },
         created() {
-            if(this.profileDoctor != null){
+            if (this.profileDoctor != null) {
                 this.checkBindingPatient();
             }
-            if(this.profileClinic != null){
+            if (this.profileClinic != null) {
                 this.checkBindingPatientToClinic();
             }
             this.fetchPatientData();
@@ -151,74 +197,68 @@
         },
         computed: {
             ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture']),
+            ...mapState('patientProfile', ['currentProfilePatient', 'patientPicture', 'checkBindingToPatient',
+                'checkBindingPatientClinic', 'error']),
+            ...mapGetters('patientProfile', ['listChildren'])
         },
-        methods:{
+        methods: {
+            ...mapActions('patientProfile', ['fetchPatientDataAction', 'fetchChildrenDataAction',
+                'checkBindingPatientAction', 'checkBindingPatientToClinicAction']),
             fetchPatientData() {
-                this.error = null;
-                this.$resource('/patient/{id}').get({id: this.idProfilePatient}).then(result =>
-                        result.json().then(data =>{
-                            this.currentProfilePatient = data;
-                            this.patientPicture = '/img/' + this.currentProfilePatient.patientPicture;
-                        }), response => {
-                        this.error = response.error;
-                    }
-                )
+                this.fetchPatientDataAction(this.idProfilePatient);
             },
             fetchChildrenData() {
-                this.$resource('/children-patient/{id}').get({id: this.idProfilePatient}).then(result => {
-                    this.children = result.data;
-                    console.log(result);
-                })
+                this.fetchChildrenDataAction(this.idProfilePatient);
             },
-            // Проверка принадлежности пациента к врачу
             checkBindingPatient() {
-                this.$resource('/check-binding-patient/{id}').get({id: this.idProfilePatient}).then(result => {
-                    this.checkBindingToPatient = result.data;
-                    console.log(result);
-                })
+                this.checkBindingPatientAction(this.idProfilePatient);
             },
-            checkBindingPatientToClinic(){
-                this.$resource('/check-binding-clinic-to-patient/{id}').get({id: this.idProfilePatient}).then(result => {
-                    this.checkBindingPatientClinic = result.data;
-                    console.log(result);
-                })
+            checkBindingPatientToClinic() {
+                this.checkBindingPatientToClinicAction(this.idProfilePatient);
             },
             showModal() {
-                this.title =  '';
+                this.title = '';
                 this.description = '';
+
                 this.$refs['my-modal'].show();
             },
             hideModal() {
-                this.title =  '';
+                this.title = '';
                 this.description = '';
+
                 this.$refs['my-modal'].hide()
             },
-            sendMessage(){
-                let mess = {title: this.title, description: this.description};
-
-                this.$resource('/send-message/{id}').save({id: this.idProfilePatient}, mess).then(result =>
-                    result.json().then(data => {
-                        this.title =  '';
-                        this.description = '';
-                        console.log(result);
-                    })
-                );
+            async sendMessage() {
+                this.$refs.form.validate();
+                let message = {
+                    idProfilePatient: this.idProfilePatient, title: this.title,
+                    description: this.description
+                };
+                const result = await patientApi.sendMessage(message);
+                if(this.title !== '' && this.description !== ''){
+                    this.dialog = false;
+                    this.title = '';
+                    this.description = '';
+                }
+                console.log(result);
             }
         }
     }
 </script>
 <style scoped>
-    .emp-profile{
+    .emp-profile {
         padding: 3%;
         margin-top: 3%;
         margin-bottom: 3%;
         border-radius: 0.5rem;
         background: #fff;
     }
-    .profile-img{
+
+    .profile-img {
         text-align: center;
     }
-    .profile-img img{
+
+    .profile-img img {
         width: 200px;
         height: 200px;
         border-radius: 50%;
@@ -232,14 +272,15 @@
         top: 0;
     }
 
-    .profile-head h5{
+    .profile-head h5 {
         color: #333;
     }
-    .profile-head h6{
+
+    .profile-head h6 {
         color: #0062cc;
     }
 
-    .profile-edit-btn{
+    .profile-edit-btn {
         border: none;
         border-radius: 1.5rem;
         width: 80%;
@@ -249,59 +290,66 @@
         color: #6c757d;
         cursor: pointer;
     }
-    .profile-rating{
+
+    .profile-rating {
         font-size: 12px;
         color: #818182;
         margin-top: 5%;
     }
-    .profile-rating span{
+
+    .profile-rating span {
         color: #495057;
         font-size: 15px;
         font-weight: 600;
     }
 
-    .profile-head .nav-tabs{
-        margin-bottom:5%;
+    .profile-head .nav-tabs {
+        margin-bottom: 5%;
     }
-    .profile-head .nav-tabs .nav-link{
-        font-weight:600;
+
+    .profile-head .nav-tabs .nav-link {
+        font-weight: 600;
         border: none;
     }
 
-    .profile-head .nav-tabs .nav-link.active{
+    .profile-head .nav-tabs .nav-link.active {
         border: none;
-        border-bottom:2px solid #0062cc;
+        border-bottom: 2px solid #0062cc;
     }
-    .profile-work{
+
+    .profile-work {
         padding: 20%;
         margin-top: -15%;
     }
 
-    .profile-check{
+    .profile-check {
         padding: 13%;
         margin-top: -20%;
     }
 
-    .btn-primary{
+    .btn-primary {
         border-radius: 12px;
     }
-    .profile-work p{
+
+    .profile-work p {
         font-size: 12px;
         color: #818182;
         font-weight: 600;
         margin-top: 10%;
     }
-    .profile-work a{
+
+    .profile-work a {
         text-decoration: none;
         color: #495057;
         font-weight: 600;
         font-size: 14px;
     }
 
-    .profile-tab label{
+    .profile-tab label {
         font-weight: 600;
     }
-    .profile-tab p{
+
+    .profile-tab p {
         font-weight: 600;
         color: #0062cc;
     }

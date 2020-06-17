@@ -73,7 +73,8 @@ public class ClinicController {
 
     @GetMapping("/doctors-list-clinic")
     public Set<Doctor> getAllDoctors(@AuthenticationPrincipal Clinic clinic) {
-        return clinic.getDoctors();
+        Clinic currentClinic = clinicRepo.findByUsername(clinic.getUsername());
+        return currentClinic.getDoctors();
     }
 
     @GetMapping("/doctors-list-clinic/{id}")
@@ -92,7 +93,8 @@ public class ClinicController {
             @AuthenticationPrincipal Doctor doctor) {
         Set<Patient> patients = null;
         if (clinic != null) {
-            patients = clinic.getPatients();
+            Clinic currentClinic = clinicRepo.findByUsername(clinic.getUsername());
+            patients = currentClinic.getPatients();
         }
         if (doctor != null) {
             patients = doctor.getPatients();

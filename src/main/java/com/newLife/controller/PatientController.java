@@ -50,7 +50,8 @@ public class PatientController {
 
     @GetMapping("/child-patient-list")
     public Set<Child> getAllChildren(@AuthenticationPrincipal Patient patient) {
-        return patient.getChildren();
+        Patient currentPatient = patientRepo.findByUsername(patient.getUsername());
+        return currentPatient.getChildren();
     }
 
     @GetMapping("/children-patient/{id}")
@@ -116,6 +117,7 @@ public class PatientController {
             @AuthenticationPrincipal Clinic clinic,
             @RequestBody Message message
     ) {
+        message.setId(null);
         if (!StringUtils.isEmpty(message.getDescription())) {
             message.setDescription(message.getDescription());
         } else {

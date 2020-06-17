@@ -122,28 +122,20 @@
 
 <script>
     import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
     export default {
         props: ['idProfileChild'],
-        data(){
-            return{
-                currentProfileChild: null,
-                childPicture: '',
-            }
-        },
         created(){
             this.fetchChildData();
         },
         computed: {
-            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture'])
+            ...mapState('mainModule', ['profileClinic', 'profileDoctor', 'profilePatient', 'defaultPicture']),
+            ...mapState('child', ['currentProfileChild', 'childPicture']),
         },
         methods:{
+            ...mapActions('child', ['fetchChildDataAction']),
             fetchChildData(){
-                this.$resource('/child/{id}').get({id: this.idProfileChild}).then(result =>
-                    result.json().then(data => {
-                        this.currentProfileChild = data;
-                        console.log(result);
-                    })
-                )
+                this.fetchChildDataAction(this.idProfileChild);
             }
         }
     }

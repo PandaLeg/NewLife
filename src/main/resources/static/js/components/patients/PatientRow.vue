@@ -22,28 +22,34 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import {mapState} from 'vuex'
+    import doctorApi from 'api/doctorProfile'
+
     export default {
         props: ['patient'],
-        data(){
-            return{
+        data() {
+            return {
                 children: []
             }
         },
-        created(){
-            if(this.profileDoctor != null) {
-                this.showProfileChild();
+        created() {
+            if (this.profileDoctor != null) {
+                this.showListChild();
             }
         },
         computed: {
             ...mapState('mainModule', ['profileDoctor'])
         },
-        methods:{
-            showProfileChild(){
-                this.$resource('/children-patient/{id}').get({id: this.patient.id}).then(result =>{
-                    this.children = result.data;
-                    console.log(result)
-                })
+        methods: {
+            // Список детей, пациентов
+            async showListChild() {
+                const result = await doctorApi.fetchChildren(this.patient.id);
+                const data = await result.json();
+                if (result.ok) {
+                    this.children = data;
+                }
+                console.log(result)
+
             }
         }
     }

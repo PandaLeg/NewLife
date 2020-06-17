@@ -70,6 +70,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapActions } from 'vuex'
     export default {
         props: ['request', 'profileClinic', 'profileDoctor', 'profilePatient', 'requests'],
         data(){
@@ -78,41 +80,24 @@
             }
         },
         created(){
-            this.id = this.request.id;
+
+        },
+        computed:{
         },
         methods:{
+            ...mapActions('request', ['addByClinicToDoctorOrPatientAction', 'cancelByClinicToDoctorOrPatientAction',
+            'addByDoctorToPatientAction', 'cancelByDoctorToPatientAction']),
             addByClinicToDoctorOrPatient() {
-                this.$resource('/accept-request-clinic{/id}').delete({id: this.id}).then(result => {
-                        if(result.ok){
-                            console.log(result);
-                            this.requests.splice(this.requests.indexOf(this.request), 1);
-                        }
-                    }
-                )
+                this.addByClinicToDoctorOrPatientAction(this.request);
             },
             cancelByClinicToDoctorOrPatient() {
-                this.$resource('/cancel-request-clinic/{id}').delete({id: this.id}).then(result => {
-                    if(result.ok){
-                        console.log(result);
-                        this.requests.splice(this.requests.indexOf(this.request), 1);
-                    }
-                })
+                this.cancelByClinicToDoctorOrPatientAction(this.request);
             },
             addByDoctorToPatient(){
-                this.$resource('/accept-request-doctor{/id}').delete({id: this.id}).then(result =>{
-                    if(result.ok){
-                        console.log(result);
-                        this.requests.splice(this.requests.indexOf(this.request),1);
-                    }
-                })
+                this.addByDoctorToPatientAction(this.request);
             },
             cancelByDoctorToPatient() {
-                this.$resource('/cancel-request-doctor/{id}').delete({id: this.id}).then(result => {
-                    if(result.ok){
-                        console.log(result);
-                        this.requests.splice(this.requests.indexOf(this.request),1);
-                    }
-                })
+                this.cancelByDoctorToPatientAction(this.request);
             }
         }
     }

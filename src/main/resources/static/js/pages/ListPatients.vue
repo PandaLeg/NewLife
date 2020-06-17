@@ -1,33 +1,28 @@
 <template>
     <div>
-        <patients-list :patients="patients"></patients-list>
+        <patients-list :patients="listPatients"></patients-list>
     </div>
 </template>
 
 <script>
     import PatientsList from 'components/patients/PatientsList.vue'
-    import NavBar from 'components/navbar/NavBar.vue'
+    import {mapGetters} from 'vuex'
+    import {mapActions} from 'vuex'
 
     export default {
         components:{
-            PatientsList,
-            NavBar
-        },
-        data(){
-            return{
-                patients: []
-            }
+            PatientsList
         },
         created(){
             this.getAllPatients()
         },
+        computed:{
+            ...mapGetters('listPatients', ['listPatients'])
+        },
         methods:{
+            ...mapActions('listPatients', ['getAllPatientsAction']),
             getAllPatients(){
-                this.$resource('/patients-set').get().then(result =>
-                    result.json().then(data => {
-                        this.patients = data;
-                    })
-                )
+                this.getAllPatientsAction();
             }
         }
     }

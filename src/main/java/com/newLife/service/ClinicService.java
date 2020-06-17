@@ -67,21 +67,23 @@ public class ClinicService {
     }
 
     public void cancelBindingFromClinic(Clinic clinic, Doctor doctor, Patient patient) {
-        if (doctor != null && doctor.getClinic().getId().equals(clinic.getId())) {
+        if (doctor != null) {
             doctor.setClinic(null);
             doctorRepo.save(doctor);
         }
         if (patient != null) {
-            for(Doctor doc : clinic.getDoctors()){
-                if(doc.getClinic().getId().equals(patient.getClinic().getId())){
-                    doc.getPatients().remove(patient);
-                    doctorRepo.save(doc);
+            if(patient.getClinic() != null) {
+                for (Doctor doc : clinic.getDoctors()) {
+                    if (doc.getClinic().getId().equals(patient.getClinic().getId())) {
+                        doc.getPatients().remove(patient);
+                        doctorRepo.save(doc);
+                    }
                 }
             }
             patient.setClinic(null);
+            patientRepo.save(patient);
            /* clinic.getPatients().remove(patient);*/
         }
-
         clinicRepo.save(clinic);
     }
 }

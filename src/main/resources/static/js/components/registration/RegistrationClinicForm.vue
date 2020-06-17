@@ -1,186 +1,68 @@
 <template>
-    <div id="container" class="container mt-5">
-        <validation-observer ref="observer" v-slot="{ handleSubmit }">
-            <b-form @submit.stop.prevent="handleSubmit(onSubmit)">
-                <h1 id="h-header">{{ $t('registrationClinic.registrationNewAccount') }}</h1>
-                <validation-provider
-                        name="username"
-                        :rules="{ required: true, min: 3 }"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-1">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="text"
-                                        id="username-input-1"
-                                        name="username-input-1"
-                                        :placeholder="$t('registrationClinic.username')"
-                                        class="form-control"
-                                        v-model="username"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-1-live-feedback"
-                                ></b-form-input>
-
-                                <b-form-invalid-feedback id="input-1-live-feedback"
-                                                         v-if="username === ''">
-                                    {{ $t('registrationClinic.usernameEmpty') }}
-                                </b-form-invalid-feedback>
-                                <b-form-invalid-feedback id="input-1-live-feedback" v-else>
-                                    {{ $t('registrationClinic.usernameLess') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-                <validation-provider
-                        name="password"
-                        :rules="{ required: true, min: 6 }"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-2">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="password"
-                                        id="password-input-2"
-                                        name="password-input-2"
-                                        :placeholder="$t('registrationClinic.password')"
-                                        class="form-control"
-                                        v-model="password"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-2-live-feedback"
-                                ></b-form-input>
-
-                                <b-form-invalid-feedback id="input-2-live-feedback" v-if="password === ''">
-                                    {{ $t('registrationClinic.passwordEmpty') }}
-                                </b-form-invalid-feedback>
-                                <b-form-invalid-feedback id="input-2-live-feedback" v-else>
-                                    {{ $t('registrationClinic.passwordLess') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-
-                <validation-provider
-                        name="email"
-                        :rules="{ required: true, min: 6}"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-3">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="email"
-                                        id="email-input-3"
-                                        name="email-input-3"
-                                        placeholder="root@gmail.com"
-                                        class="form-control"
-                                        v-model="email"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-3-live-feedback"
-                                ></b-form-input>
-
-                                <b-form-invalid-feedback id="input-3-live-feedback" v-if="email === ''">
-                                    {{ $t('registrationClinic.emailEmpty') }}
-                                </b-form-invalid-feedback>
-                                <b-form-invalid-feedback id="input-3-live-feedback" v-else>
-                                    {{ $t('registrationClinic.emailLess') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-
-                <validation-provider
-                        name="nameClinic"
-                        :rules="{ required: true, min: 1}"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-4">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="text"
-                                        id="nameClinic-input-4"
-                                        name="nameClinic-input-4"
-                                        :placeholder="$t('registrationClinic.nameClinic')"
-                                        class="form-control"
-                                        v-model="nameClinic"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-4-live-feedback"
-                                ></b-form-input>
-
-                                <b-form-invalid-feedback id="input-4-live-feedback" v-if="nameClinic === ''">
-                                    {{ $t('registrationClinic.nameClinicEmpty') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-
-                <validation-provider
-                        name="address"
-                        :rules="{ required: true, min: 1}"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-5">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="text"
-                                        id="nameClinic-input-5"
-                                        name="nameClinic-input-5"
-                                        :placeholder="$t('registrationClinic.address')"
-                                        class="form-control"
-                                        v-model="address"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-5-live-feedback"
-                                ></b-form-input>
-                                <b-form-invalid-feedback id="input-5-live-feedback" v-if="address === ''">
-                                    {{ $t('registrationClinic.addressEmpty') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-
-                <validation-provider
-                        name="city"
-                        :rules="{ required: true, min: 3}"
-                        v-slot="validationContext"
-                >
-                    <b-form-group id="input-group-6">
-                        <div class="form-group row">
-                            <div class="col-sm-4">
-                                <b-form-input
-                                        type="text"
-                                        id="city-input-6"
-                                        name="city-input-6"
-                                        :placeholder="$t('registrationClinic.city')"
-                                        class="form-control"
-                                        v-model="city"
-                                        :state="getValidationState(validationContext)"
-                                        aria-describedby="input-6-live-feedback"
-                                ></b-form-input>
-
-                                <b-form-invalid-feedback id="input-6-live-feedback" v-if="city === ''">
-                                    {{ $t('registrationClinic.cityEmpty') }}
-                                </b-form-invalid-feedback>
-                            </div>
-                        </div>
-                    </b-form-group>
-                </validation-provider>
-
-                <div class="form-group row">
-                    <div class="col-sm-4">
-                        <input type="submit" class="btn btn-primary" value="Create" @click="saveClinic">
-                    </div>
-                </div>
-            </b-form>
-        </validation-observer>
-    </div>
+    <v-container fluid>
+        <v-form
+                ref="form"
+                lazy-validation
+        >
+            <v-row justify="center">
+                <v-col md="4">
+                    <v-text-field
+                            v-model="username"
+                            :counter="3"
+                            :rules="usernameRules"
+                            :label="$t('registrationClinic.username')"
+                            clearable
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            v-model="password"
+                            :counter="6"
+                            :rules="passwordRules"
+                            :label="$t('registrationClinic.password')"
+                            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                            :type="showPassword ? 'text' : 'password'"
+                            clearable
+                            required
+                            @click:append="showPassword = !showPassword"
+                    >
+                    </v-text-field>
+                    <v-text-field
+                            v-model="email"
+                            :rules="emailRules"
+                            label="root@gmail.com"
+                            clearable
+                            required
+                    >
+                    </v-text-field>
+                    <v-text-field
+                            v-model="nameClinic"
+                            :rules="nameClinicRules"
+                            :label="$t('registrationClinic.nameClinic')"
+                            clearable
+                            required
+                    >
+                    </v-text-field>
+                    <v-text-field
+                            v-model="address"
+                            :rules="addressRules"
+                            :label="$t('registrationClinic.address')"
+                            clearable
+                            required
+                    >
+                    </v-text-field>
+                    <v-text-field
+                            v-model="city"
+                            :rules="cityRules"
+                            :label="$t('registrationClinic.city')"
+                            clearable
+                            required
+                    >
+                    </v-text-field>
+                    <v-btn class="mr-4" @click="saveClinic" outlined>{{ $t('registrationClinic.create')}}</v-btn>
+                </v-col>
+            </v-row>
+        </v-form>
+    </v-container>
 </template>
 
 <script>
@@ -189,15 +71,40 @@
             return {
                 id: '',
                 username: '',
+                usernameRules: [
+                    v => !!v || this.$i18n.t('registrationClinic.usernameEmpty'),
+                    v => (v && v.length >= 3) || this.$i18n.t('registrationClinic.usernameLess'),
+                ],
                 password: '',
+                passwordRules: [
+                  v => !!v || this.$i18n.t('registrationClinic.passwordEmpty'),
+                  v => (v && v.length >= 6) || this.$i18n.t('registrationClinic.passwordLess'),
+                ],
                 email: '',
+                emailRules: [
+                    v => !!v || this.$i18n.t('registrationClinic.emailEmpty'),
+                    v => /.+@.+\..+/.test(v) || this.$i18n.t('registrationClinic.emailLess'),
+                ],
                 nameClinic: '',
+                nameClinicRules: [
+                    v => !!v || this.$i18n.t('registrationClinic.nameClinicEmpty'),
+                ],
                 address: '',
+                addressRules: [
+                    v => !!v || this.$i18n.t('registrationClinic.addressEmpty'),
+                ],
                 city: '',
+                cityRules: [
+                    v => !!v || this.$i18n.t('registrationClinic.cityEmpty'),
+                    v => (v && v.length >= 6) || this.$i18n.t('registrationClinic.passwordLess'),
+                ],
+                showPassword: false,
             }
         },
         methods: {
             saveClinic() {
+                this.$refs.form.validate();
+
                 let clinic = {
                     username: this.username, password: this.password, email: this.email,
                     nameClinic: this.nameClinic, address: this.address, city: this.city,
@@ -217,17 +124,13 @@
                         console.log(result);
                     })
                 )
-            },
-            getValidationState({ dirty, validated, valid = null }) {
-                return dirty || validated ? valid : null;
-            },
-            onSubmit() {
-
             }
         }
     }
 </script>
 
-<style>
-
+<style scoped>
+    /deep/ .v-text-field {
+        width: 400px;
+    }
 </style>

@@ -1,7 +1,11 @@
 <template>
-    <div>
-        <clinics-list ></clinics-list>
-    </div>
+    <v-app>
+        <v-main>
+            <div>
+                <clinics-list ></clinics-list>
+            </div>
+        </v-main>
+    </v-app>
 </template>
 
 <script>

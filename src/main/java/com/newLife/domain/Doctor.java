@@ -22,7 +22,7 @@ import static org.hibernate.annotations.FetchMode.SELECT;
 @Table(name = "doctor")
 @Data
 @EqualsAndHashCode(of = {"id"})
-@ToString(of = {"id", "username"})
+@ToString(of = {"id", "username", "password", "email", "firstName", "surname", "position", "experience", "doctorPicture"})
 public class Doctor implements UserDetails, Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

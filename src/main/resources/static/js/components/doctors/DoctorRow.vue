@@ -1,6 +1,5 @@
 <template>
-    <div class="container m-5">
-        <h1> {{ $t('listDoctors.listDoctors') }}</h1>
+    <div>
         <label class="col-form-label"> {{ doctor.firstName }} </label>
         <label class="col-form-label"> {{ doctor.surname }} </label>
         <div>

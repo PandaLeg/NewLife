@@ -1,78 +1,61 @@
 <template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-    <div>
+    <div id="app">
         <nav-bar :profileClinic="profileClinic" :profileDoctor="profileDoctor" :profilePatient="profilePatient">
 
         </nav-bar>
-        <div v-if="!profileClinic && !profileDoctor && !profilePatient">
-
-        </div>
-        <div v-else>
+        <v-app id="inspire">
             <div v-if="(profileDoctor || profileClinic || profilePatient) && $route.path === '/'">
-                <b-carousel
-                        id="carousel-1"
-                        :interval="4000"
-                        controls
-                        indicators
-                        background="#ababab"
-                        style="text-shadow: 1px 1px 2px #333;"
+                <v-flex xs12>
+                <v-carousel
+                        cycle
+                        height="600"
+                        style="width: 100%;"
+                        show-arrows-on-hover
                 >
-                    <!-- Text slides with image -->
-                    <b-carousel-slide>
-                        <template v-slot:img>
-                            <img
-                                    class="d-block img-fluid w-100 h-25"
-                                    width="1024"
-                                    height="480"
-                                    src="https://picsum.photos/1024/480/?image=52"
-                            >
-                        </template>
-                        <h1>Hello world!</h1>
-                    </b-carousel-slide>
-
-                    <!-- Slides with image only -->
-                    <b-carousel-slide>
-                        <template v-slot:img>
-                            <img
-                                    class="d-block img-fluid w-100 h-25"
-                                    width="1024"
-                                    height="480"
-                                    src="https://picsum.photos/1024/480/?image=55"
-                                    alt="image slot"
-                            >
-                        </template>
-                    </b-carousel-slide>
-
-                    <!-- Slides with img slot -->
-                    <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-                    <b-carousel-slide width="1024"
-                                      height="480">
-                        <template v-slot:img>
-                            <img
-                                    class="d-block img-fluid w-100 h-25"
-                                    width="1024"
-                                    height="480"
-                                    src="https://picsum.photos/1024/480/?image=58"
-                                    alt="image slot"
-                            >
-                        </template>
-                    </b-carousel-slide>
-                </b-carousel>
+                    <v-carousel-item
+                            v-for="(item,i) in items"
+                            :key="i"
+                            :src="item.src"
+                    >
+                    </v-carousel-item>
+                </v-carousel>
+                </v-flex>
             </div>
-        </div>
-        <router-view></router-view>
+            <v-main>
+                <router-view></router-view>
+            </v-main>
+        </v-app>
     </div>
 </template>
 
 <script>
-    import { mapState } from 'vuex'
+    import {mapState} from 'vuex'
     import MessagesList from 'components/main/MessagesList.vue'
     import NavBar from 'components/navbar/NavBar.vue'
 
     export default {
         name: 'Main',
-        components:{
+        components: {
             MessagesList,
             NavBar
+        },
+        data() {
+            return {
+                items: [
+                    {
+                        src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
+                    },
+                    {
+                        src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
+                    },
+                    {
+                        src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
+                    },
+                    {
+                        src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
+                    },
+                ]
+            }
         },
         created() {
             console.log(this.profileClinic, this.profileDoctor, this.profilePatient);
@@ -83,6 +66,5 @@
     }
 </script>
 
-<style>
-
+<style scoped>
 </style>
