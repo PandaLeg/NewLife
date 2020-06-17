@@ -17,7 +17,7 @@
 
 <script>
     import ClinicRow from './ClinicRow.vue'
-
+    import authHeader from "../../services/auth-header";
     export default {
         data() {
             return {
@@ -29,7 +29,7 @@
             ClinicRow
         },
         created() {
-            this.fetchListClinics()
+            this.fetchListClinics();
         },
         methods: {
             fetchListClinics() {

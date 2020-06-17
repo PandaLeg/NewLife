@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { auth } from './auth.module'
 import clinicApi from 'api/clinicProfile'
 import doctorApi from 'api/doctorProfile'
 import patientApi from 'api/patientProfile'
@@ -11,6 +12,7 @@ import listPatientsApi from 'api/listPatients'
 import messagesApi from 'api/messages'
 
 Vue.use(Vuex);
+
 
 function deleteRequest(state, request) {
     const deletionIndex = state.requests.findIndex(item => item.id === request.id);
@@ -466,6 +468,7 @@ export default new Vuex.Store({
                     console.log(result)
                 }
             }
-        }
+        },
+        auth
     }
 })

@@ -129,6 +129,12 @@
                 this.idPatient = this.profilePatient.id;
             }
         },
+        computed: {
+            currentUser() {
+                console.log(this.$store.state.auth.user);
+                return this.$store.state.auth.user;
+            },
+        },
         methods: {
             allClinic() {
                 this.$router.push("/clinics")
