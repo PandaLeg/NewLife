@@ -2,9 +2,6 @@
     <v-layout>
         <v-row>
             <v-col cols="12" sm="12" offset-sm="12">
-                <div v-if="error" class="error">
-                    {{ error }}
-                </div>
                 <v-row>
                     <v-col cols="12" sm="12" offset-sm="12">
                         <clinic-row v-for="clinic in listClinics" :key="clinic.id" :clinic="clinic"></clinic-row>
@@ -17,7 +14,7 @@
 
 <script>
     import ClinicRow from './ClinicRow.vue'
-    import authHeader from "../../services/auth-header";
+
     export default {
         data() {
             return {
@@ -33,13 +30,10 @@
         },
         methods: {
             fetchListClinics() {
-                this.$resource('/hospitals').get().then(result =>
-                        result.json().then(data => {
-                            this.listClinics = data;
-                        })
-                    , response => {
-                        this.error = response.error
-                    })
+                this.$resource('/hospitals').get().then(result => {
+                        this.listClinics = result.data;
+                    }
+                )
             }
         }
     }

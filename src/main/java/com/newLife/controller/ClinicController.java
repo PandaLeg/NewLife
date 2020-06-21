@@ -1,10 +1,7 @@
 package com.newLife.controller;
 
 
-import com.newLife.domain.Clinic;
-import com.newLife.domain.Doctor;
-import com.newLife.domain.Patient;
-import com.newLife.domain.Request;
+import com.newLife.domain.*;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
@@ -21,9 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class ClinicController {
@@ -53,7 +49,18 @@ public class ClinicController {
 
     @GetMapping("/hospitals")
     public List<Clinic> getAllClinic() {
-        return clinicRepo.findAll();
+        List<Clinic> clinics = new LinkedList<>();
+        for(Clinic clinic : clinicRepo.findAll()){
+            if(!clinic.getUsername().equals("admin")) {
+                clinics.add(clinic);
+            }
+        }
+        return clinics;
+    }
+
+    @GetMapping("/clinic-roles/{id}")
+    public Set<Role> getAllRoles(@PathVariable("id") Clinic clinic){
+        return clinic.getRoles();
     }
 
     @GetMapping("/list-requests")
@@ -226,5 +233,21 @@ public class ClinicController {
             @AuthenticationPrincipal Patient patient
     ) {
         clinicService.cancelBindingFromClinic(clinic, doctor, patient);
+    }
+
+    @PutMapping("/set-role-clinic/{id}")
+    public Clinic setRole(
+            @PathVariable(value = "id") Clinic clinic,
+            @RequestBody Map<String, Object> roles
+    ){
+        clinic.getRoles().clear();
+
+        clinic.getRoles().add(Role.CLINIC);
+
+        if(roles.get("adminRole").equals(true)){
+            clinic.getRoles().add(Role.ADMIN);
+        }
+
+        return clinicRepo.save(clinic);
     }
 }

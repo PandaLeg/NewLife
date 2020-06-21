@@ -236,9 +236,9 @@
                 };
                 const result = await patientApi.sendMessage(message);
                 if(this.title !== '' && this.description !== ''){
-                    this.dialog = false;
                     this.title = '';
                     this.description = '';
+                    this.dialog = false;
                 }
                 console.log(result);
             }

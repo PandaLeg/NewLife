@@ -8,7 +8,7 @@
                 <v-col md="4">
                     <v-text-field
                             v-model="username"
-                            :counter="3"
+                            :counter="20"
                             :rules="usernameRules"
                             :label="$t('registrationClinic.username')"
                             clearable
@@ -73,7 +73,7 @@
                 username: '',
                 usernameRules: [
                     v => !!v || this.$i18n.t('registrationClinic.usernameEmpty'),
-                    v => (v && v.length >= 3) || this.$i18n.t('registrationClinic.usernameLess'),
+                    v => (v && v.length >= 3 && v.length <= 20) || this.$i18n.t('registrationClinic.usernameLess'),
                 ],
                 password: '',
                 passwordRules: [
@@ -119,7 +119,7 @@
                         this.nameClinic = "";
                         this.address = "";
                         this.city = "";
-                        this.$router.push('/login');
+                        this.$router.push('/authenticate');
                     }, result => {
                         console.log(result);
                     })

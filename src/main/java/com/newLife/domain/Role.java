@@ -3,7 +3,7 @@ package com.newLife.domain;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    Clinic, Doctor, Patient;
+    CLINIC, DOCTOR, PATIENT, ADMIN;
 
     @Override
     public String getAuthority() {

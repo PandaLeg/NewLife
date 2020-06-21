@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import { auth } from './auth.module'
 import clinicApi from 'api/clinicProfile'
 import doctorApi from 'api/doctorProfile'
 import patientApi from 'api/patientProfile'
@@ -468,7 +467,6 @@ export default new Vuex.Store({
                     console.log(result)
                 }
             }
-        },
-        auth
+        }
     }
 })

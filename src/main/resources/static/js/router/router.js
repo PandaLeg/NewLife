@@ -9,6 +9,7 @@ import Requests from 'pages/Request.vue'
 import ListDoctors from 'pages/ListDoctors.vue'
 import ListPatients from 'pages/ListPatients.vue'
 import Messages from 'pages/Messages.vue'
+import Users from 'pages/Users.vue'
 import ClinicProfile from 'pages/ClinicProfile.vue'
 import DoctorProfile from 'pages/DoctorProfile.vue'
 import PatientProfile from 'pages/PatientProfile.vue'
@@ -23,7 +24,7 @@ Vue.use(VueRouter);
 
 const routes = [
     {path: '/', component: MessagesList},
-    {path: '/login', component: Login, name: 'login'},
+    {path: '/authenticate', component: Login, name: 'login'},
     {path: '/registration-clinic/:name_reg',component: Registration, name: 'registrationClinic', props: true},
     {path: '/registration-doctor/:name_reg',component: Registration, name: 'registrationDoctor', props: true},
     {path: '/registration-patient/:name_reg',component: Registration, name: 'registrationPatient', props: true},
@@ -32,6 +33,7 @@ const routes = [
     {path: '/doctors-list', component: ListDoctors},
     {path: '/patients-list', component: ListPatients},
     {path: '/messages-list', component: Messages},
+    {path: '/users', component: Users},
     {path: '/clinic-profile/:idProfileClinic', component: ClinicProfile, name: 'clinicProfile', props: true},
     {path: '/doctor-profile/:idProfileDoctor', component: DoctorProfile, name: 'doctorProfile', props: true},
     {path: '/patient-profile/:idProfilePatient', component: PatientProfile, name: 'patientProfile', props: true},

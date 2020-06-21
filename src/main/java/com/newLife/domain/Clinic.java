@@ -6,6 +6,7 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
@@ -29,7 +30,7 @@ public class Clinic implements UserDetails, Serializable {
     private Long id;
 
     @NotBlank(message = "username can't be empty!")
-    @Length(min = 3)
+    @Length(min = 3, max = 20)
     @JsonView(Views.FullClinic.class)
     private String username;
     @NotBlank(message = "password can't be empty!")
@@ -76,12 +77,6 @@ public class Clinic implements UserDetails, Serializable {
     )
     private Set<Doctor> doctors = new HashSet<>();
 
-    /*@JoinTable(
-            name = "clinic_patients",
-            // Тобишь тут мы выступаем в роли кого-то(doctor), на кого подписываются(patient)
-            joinColumns = { @JoinColumn(name = "clinic_id") },
-            inverseJoinColumns = { @JoinColumn(name = "patient_id") }
-    )*/
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonIdentityReference
     @JsonIdentityInfo(
@@ -105,11 +100,6 @@ public class Clinic implements UserDetails, Serializable {
         this.city = city;
         this.clinicPicture = clinicPicture;
     }
-
-    boolean checkBindingDoctorToClinic(Doctor doctor){
-        return doctors.contains(doctor);
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -9,7 +9,7 @@
                     <v-col md="4">
                         <v-text-field
                                 v-model="username"
-                                :counter="3"
+                                :counter="20"
                                 :rules="usernameRules"
                                 :label="$t('registrationPatient.username')"
                                 clearable
@@ -67,7 +67,7 @@
                 username: '',
                 usernameRules: [
                     v => !!v || this.$i18n.t('registrationPatient.usernameEmpty'),
-                    v => (v && v.length >= 3) || this.$i18n.t('registrationPatient.usernameLess')
+                    v => (v && v.length >= 3 && v.length <= 20) || this.$i18n.t('registrationPatient.usernameLess')
                 ],
                 password: '',
                 passwordRules: [
@@ -93,8 +93,10 @@
         methods: {
             savePatient() {
                 this.$refs.form.validate();
-                let patient = {username: this.username, password: this.password, email: this.email,
-                    firstName: this.firstName, surname: this.surname};
+                let patient = {
+                    username: this.username, password: this.password, email: this.email,
+                    firstName: this.firstName, surname: this.surname
+                };
 
                 this.$resource('/registration-patient').save({}, patient).then(result =>
                     result.json().then(data => {
@@ -104,7 +106,7 @@
                         this.email = "";
                         this.firstName = "";
                         this.surname = "";
-                        this.$router.push('/login');
+                        this.$router.push('/authenticate');
                     }, result => {
                         console.log(result);
                     })
@@ -118,7 +120,8 @@
     body {
 
     }
-    #container{
+
+    #container {
         margin-left: 550px;
     }
 </style>

@@ -1,10 +1,7 @@
 package com.newLife.controller;
 
 
-import com.newLife.domain.Clinic;
-import com.newLife.domain.Doctor;
-import com.newLife.domain.Patient;
-import com.newLife.domain.Request;
+import com.newLife.domain.*;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.service.DoctorService;
@@ -14,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -36,10 +34,14 @@ public class DoctorController {
     }
 
     @GetMapping("/doctors")
-    public List<Doctor> getAllClinic() {
+    public List<Doctor> getAllDoctor() {
         return doctorRepo.findAll();
     }
 
+    @GetMapping("/doctor-roles/{id}")
+    public Set<Role> getAllRoles(@PathVariable("id") Doctor doctor){
+        return doctor.getRoles();
+    }
     @GetMapping("/affiliation-to-clinic/{id}")
     public Doctor affiliationToClinic(
             @PathVariable("id") Doctor doctor,
@@ -120,8 +122,8 @@ public class DoctorController {
         }
         if (clinic != null) {
             Clinic currentClinic = clinicRepo.findByUsername(clinic.getUsername());
-            for(Doctor doc : currentClinic.getDoctors()){
-                if(doc.getId().equals(doctor.getId())){
+            for (Doctor doc : currentClinic.getDoctors()) {
+                if (doc.getId().equals(doctor.getId())) {
                     return true;
                 }
             }
@@ -136,5 +138,21 @@ public class DoctorController {
             @AuthenticationPrincipal Patient patient,
             @AuthenticationPrincipal Clinic clinic) {
         doctorService.cancelBinding(doctor, patient, clinic);
+    }
+
+    @PutMapping("/set-role-doctor/{id}")
+    public Doctor setRole(
+            @PathVariable("id") Doctor doctor,
+            @RequestBody Map<String, Object> roles
+    ) {
+        doctor.getRoles().clear();
+
+        doctor.getRoles().add(Role.DOCTOR);
+
+        if(roles.get("adminRole").equals(true)){
+            doctor.getRoles().add(Role.ADMIN);
+        }
+
+        return doctorRepo.save(doctor);
     }
 }

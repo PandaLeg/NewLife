@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 import 'api/resource'
-import './services/auth.service'
 import Main from 'pages/Main.vue'
 import '@babel/polyfill'
 import store from 'store/store'

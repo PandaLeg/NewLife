@@ -1,21 +1,21 @@
 package com.newLife.controller;
 
-import com.newLife.domain.*;
+import com.newLife.domain.Clinic;
+import com.newLife.domain.Doctor;
+import com.newLife.domain.Patient;
+import com.newLife.domain.Role;
 import com.newLife.repo.ChildRepo;
 import com.newLife.repo.ClinicRepo;
 import com.newLife.repo.DoctorRepo;
 import com.newLife.repo.PatientRepo;
 import com.newLife.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -29,29 +29,18 @@ public class RegistrationController {
     private final PasswordEncoder passwordEncoder;
     private final PatientRepo patientRepo;
     private final ChildRepo childRepo;
-    private final JwtUtil jwtUtil;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     public RegistrationController(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PasswordEncoder passwordEncoder,
-                                  PatientRepo patientRepo, ChildRepo childRepo, JwtUtil jwtUtil) {
+                                  PatientRepo patientRepo, ChildRepo childRepo) {
         this.clinicRepo = clinicRepo;
         this.doctorRepo = doctorRepo;
         this.passwordEncoder = passwordEncoder;
         this.patientRepo = patientRepo;
         this.childRepo = childRepo;
-        this.jwtUtil = jwtUtil;
     }
 
-
-    @GetMapping("/welcome")
-    public String welcome() {
-        return "Welcome to me";
-    }
-
-    @RequestMapping(value = "/authenticate",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    /*@RequestMapping(value = "/authenticate",method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         Authentication authenticate = null;
         try {
@@ -66,7 +55,7 @@ public class RegistrationController {
         UserDetails userDetails = (UserDetails) authenticate.getPrincipal();
         System.out.println(jwt);
         return jwt;
-    }
+    }*/
 
     @PostMapping("/registration-clinic")
     public Clinic addClinic(@Valid @RequestBody Clinic clinic) {
@@ -85,7 +74,7 @@ public class RegistrationController {
         }
         clinic.setActive(true);
         clinic.setLastVisit(LocalDateTime.now());
-        clinic.setRoles(Collections.singleton(Role.Clinic));
+        clinic.setRoles(Collections.singleton(Role.CLINIC));
         clinic.setPassword(passwordEncoder.encode(clinic.getPassword()));
 
         return clinicRepo.save(clinic);
@@ -108,7 +97,7 @@ public class RegistrationController {
         }
         doctor.setActive(true);
         doctor.setLastVisit(LocalDateTime.now());
-        doctor.setRoles(Collections.singleton(Role.Doctor));
+        doctor.setRoles(Collections.singleton(Role.DOCTOR));
         doctor.setPassword(passwordEncoder.encode(doctor.getPassword()));
 
         return doctorRepo.save(doctor);
@@ -131,7 +120,7 @@ public class RegistrationController {
         }
         patient.setActive(true);
         patient.setLastVisit(LocalDateTime.now());
-        patient.setRoles(Collections.singleton(Role.Patient));
+        patient.setRoles(Collections.singleton(Role.PATIENT));
         patient.setPassword(passwordEncoder.encode(patient.getPassword()));
         return patientRepo.save(patient);
     }

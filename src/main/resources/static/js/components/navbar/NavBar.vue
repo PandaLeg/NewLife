@@ -5,7 +5,9 @@
 
             <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
             <b-collapse id="nav-collapse" is-nav>
-                <b-navbar-nav>
+                <b-navbar-nav v-if="(profileClinic && profileClinic.username != 'admin')
+                 || (profileDoctor && profileDoctor.username != 'admin') ||
+                 (profilePatient && profilePatient.username != 'admin')">
                     <b-nav-item href="/">{{ $t('navBar.home') }}</b-nav-item>
                     <b-nav-item v-if="profileClinic || profileDoctor || profilePatient" @click="allClinic">
                         {{ $t('navBar.clinic') }}
@@ -30,6 +32,12 @@
                     </b-nav-item>
                 </b-navbar-nav>
 
+                <b-navbar-nav v-if="(profileClinic && profileClinic.username === 'admin')">
+                    <b-nav-item href="/">{{ $t('navBar.home') }}</b-nav-item>
+                    <b-nav-item @click="allUsers">
+                        Пользователи
+                    </b-nav-item>
+                </b-navbar-nav>
                 <!-- Right aligned nav items -->
                 <b-navbar-nav class="ml-auto" v-if="profileClinic || profileDoctor || profilePatient">
 
@@ -129,13 +137,10 @@
                 this.idPatient = this.profilePatient.id;
             }
         },
-        computed: {
-            currentUser() {
-                console.log(this.$store.state.auth.user);
-                return this.$store.state.auth.user;
-            },
-        },
         methods: {
+            checkRole() {
+                return this.profileClinic.checkRole();
+            },
             allClinic() {
                 this.$router.push("/clinics")
             },
@@ -151,24 +156,22 @@
             allMessages() {
                 this.$router.push("/messages-list")
             },
-            showClinicProfile()
-            {
+            allUsers() {
+                this.$router.push("/users")
+            },
+            showClinicProfile() {
                 this.$router.push({name: 'clinicProfile', params: {idProfileClinic: this.idClinic}})
             },
-            showDoctorProfile()
-            {
+            showDoctorProfile() {
                 this.$router.push({name: 'doctorProfile', params: {idProfileDoctor: this.idDoctor}})
             },
-            showPatientProfile()
-            {
+            showPatientProfile() {
                 this.$router.push({name: 'patientProfile', params: {idProfilePatient: this.idPatient}})
             },
-            editingProfile()
-            {
+            editingProfile() {
                 this.$router.push("/edit-profile")
             },
-            updateVisit()
-            {
+            updateVisit() {
                 if (this.profileClinic != null) {
                     this.$resource('/update-visit-clinic/{id}').update({id: this.profileClinic.id}, {})
                         .then()
@@ -180,12 +183,10 @@
                         .then()
                 }
             },
-            formAddChild()
-            {
+            formAddChild() {
                 this.$router.push('/add-child')
             },
-            stateChild()
-            {
+            stateChild() {
                 this.$router.push('/state')
             }
         }

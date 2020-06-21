@@ -23,21 +23,12 @@ public class UserService implements UserDetailsService {
     private final ClinicRepo clinicRepo;
     private final DoctorRepo doctorRepo;
     private final PatientRepo patientRepo;
-    private final ObjectWriter clinicWriter;
-    private final ObjectWriter doctorWriter;
-    private final ObjectWriter patientWriter;
+
     @Autowired
-    public UserService(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PatientRepo patientRepo, ObjectMapper clinicWriter,
-                       ObjectMapper doctorWriter, ObjectMapper patientWriter) {
+    public UserService(ClinicRepo clinicRepo, DoctorRepo doctorRepo, PatientRepo patientRepo) {
         this.clinicRepo = clinicRepo;
         this.doctorRepo = doctorRepo;
         this.patientRepo = patientRepo;
-        this.clinicWriter = clinicWriter
-                .setConfig(clinicWriter.getSerializationConfig()).writerWithView(Views.FullClinic.class);
-        this.doctorWriter = doctorWriter
-                .setConfig(doctorWriter.getSerializationConfig()).writerWithView(Views.FullDoctor.class);
-        this.patientWriter = patientWriter
-                .setConfig(patientWriter.getSerializationConfig()).writerWithView(Views.FullPatient.class);
     }
 
 
@@ -71,7 +62,7 @@ public class UserService implements UserDetailsService {
             Doctor doctorFromDb = doctorRepo.findByUsername(doctor.getUsername());
             /*String serializedDoctor = doctorWriter.writeValueAsString(doctorFromDb);*/
             data.put("profileDoctor", doctorFromDb);
-        } else if(patient != null) {
+        } else if (patient != null) {
             Patient patientFromDb = patientRepo.findByUsername(patient.getUsername());
             /*String serializedPatient = patientWriter.writeValueAsString(patientFromDb);*/
             data.put("profilePatient", patientFromDb);
@@ -81,4 +72,6 @@ public class UserService implements UserDetailsService {
             data.put("profilePatient", null);
         }
     }
+
+
 }

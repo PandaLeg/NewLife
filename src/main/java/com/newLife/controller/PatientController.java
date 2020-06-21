@@ -8,11 +8,13 @@ import com.newLife.repo.PatientRepo;
 import com.newLife.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -46,6 +48,12 @@ public class PatientController {
     @GetMapping("/patients")
     public List<Patient> getAllPatients() {
         return patientRepo.findAll();
+    }
+
+
+    @GetMapping("/patient-roles/{id}")
+    public Set<Role> getAllRoles(@PathVariable("id") Patient patient){
+        return patient.getRoles();
     }
 
     @GetMapping("/child-patient-list")
@@ -170,4 +178,19 @@ public class PatientController {
         return patientRepo.save(patient);
     }
 
+    @PutMapping("/set-role-patient/{id}")
+    public Patient setRoles(
+            @PathVariable("id") Patient patient,
+            @RequestBody Map<String, Object> roles
+    ){
+        patient.getRoles().clear();
+
+        patient.getRoles().add(Role.PATIENT);
+
+        if(roles.get("adminRole").equals(true)){
+            patient.getRoles().add(Role.ADMIN);
+        }
+
+        return patientRepo.save(patient);
+    }
 }

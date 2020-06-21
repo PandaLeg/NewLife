@@ -30,7 +30,7 @@ public class Doctor implements UserDetails, Serializable {
     private Long id;
 
     @NotBlank(message = "username can't be empty!")
-    @Length(min = 3)
+    @Length(min = 3, max = 20)
     @JsonView(Views.FullDoctor.class)
     private String username;
     @NotBlank(message = "password can't be empty!")
